@@ -153,7 +153,7 @@
     <div class="eyebrow">Our shared calendar</div>
     <div class="names">Anja &amp; Drake</div>
     <div class="sub">Our plans, ideas, and time together.</div>
-    <div class="hrow"><span class="today" id="todayPill">Michigan</span><span class="fri" id="friPill">Sauna: every Friday at 10:00</span></div>
+    <div class="hrow"><span class="today" id="todayPill">Michigan</span><span class="fri" id="friPill">Sauna: Friday morning</span><span class="fri" id="churchPill">Church: every Sunday</span></div>
   </header>
 
   <div class="legend" id="legend"></div>
@@ -392,7 +392,8 @@
 
   var today=miToday();
   document.getElementById('todayPill').innerHTML='<span class="pillicon">'+icon('pin')+'</span>Michigan · '+DAYNAMES[today.getDay()]+", "+today.getDate()+" "+MONTHS[today.getMonth()];
-  document.getElementById('friPill').innerHTML='<span class="pillicon">'+icon('steam')+'</span>Sauna: every Friday at 10:00';
+  document.getElementById('friPill').innerHTML='<span class="pillicon">'+icon('steam')+'</span>Sauna: Friday morning';
+  document.getElementById('churchPill').innerHTML='<span class="pillicon">'+icon('church')+'</span>Church: every Sunday';
 
   function itemsFor(d){
     var out=[];
