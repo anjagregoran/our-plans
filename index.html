@@ -77,12 +77,23 @@
   .dots{display:flex;gap:3px;margin-top:4px;flex-wrap:wrap;justify-content:center;}
   .dots i{width:6px;height:6px;border-radius:50%;display:block;}
   .bucket{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
-  .bcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);position:relative;}
-  .bcard .btop{display:flex;align-items:center;gap:10px;}
-  .bcard .bttl{font-weight:700;}
-  .bcard .bmeta{font-size:12.5px;color:var(--soft);margin-top:9px;}
-  .bcard .bbtn{margin-top:12px;display:inline-flex;gap:6px;}
-  .bbtn button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 12px;font-size:12.5px;cursor:pointer;}
+  .bcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);position:relative;transition:opacity .2s;}
+  .bcard .star{position:absolute;top:14px;right:14px;}
+  .bcard .bhead{display:flex;align-items:center;gap:13px;padding-right:22px;}
+  .bcard .bmed{width:42px;height:42px;border-radius:13px;display:inline-grid;place-items:center;flex:0 0 auto;}
+  .bcard .bmed .sym{width:23px;height:23px;}
+  .bcard .bttl{font-weight:700;font-size:15px;line-height:1.25;}
+  .bcard .bmeta{font-size:12.5px;color:var(--soft);margin-top:12px;}
+  .bcard.done{opacity:.68;}
+  .bcard.done .bttl{text-decoration:line-through;color:var(--soft);}
+  .bcard .brow{margin-top:15px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .chk{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:12.5px;color:var(--soft);user-select:none;}
+  .chk .box{width:21px;height:21px;border-radius:7px;border:1.6px solid var(--line);background:var(--bg);display:inline-grid;place-items:center;transition:all .15s;}
+  .chk .box .sym{width:13px;height:13px;stroke:#fff;opacity:0;transition:opacity .15s;}
+  .chk.on{color:var(--cat-grocery);font-weight:600;}
+  .chk.on .box{background:var(--cat-grocery);border-color:var(--cat-grocery);}
+  .chk.on .box .sym{opacity:1;}
+  .brow button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 12px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;}
   .addbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);}
   .addbar select,.addbar input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font-size:13.5px;font-family:var(--body);}
   .addbar input[type=text]{flex:1;min-width:160px;}
@@ -228,8 +239,13 @@
     sun:'<circle cx="12" cy="12" r="3.8"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/>',
     moon:'<path d="M20 14.4A8 8 0 1 1 9.6 4 6.4 6.4 0 0 0 20 14.4z"/>',
     check:'<path d="M5 12.5l4.4 4.4L19 7.3"/>',
-    lang:'<path d="M4 5h16v10.5H9.5L5.5 19v-3.5H4z"/><path d="M8.5 10h7M9.5 12.6h5"/>'
+    lang:'<path d="M4 5h16v10.5H9.5L5.5 19v-3.5H4z"/><path d="M8.5 10h7M9.5 12.6h5"/>',
+    bike:'<circle cx="5.5" cy="16.5" r="3"/><circle cx="18.5" cy="16.5" r="3"/><path d="M5.5 16.5l4.3-7.5h6"/><path d="M9.8 9l3.4 7.5"/><path d="M15 6.8h2.4l1.1 9.7"/>',
+    wave:'<circle cx="17.5" cy="6.8" r="2.6"/><path d="M3 14.5c1.6 0 1.6 1.4 3.2 1.4S7.8 14.5 9.4 14.5s1.6 1.4 3.2 1.4 1.6-1.4 3.2-1.4 1.6 1.4 3.2 1.4"/><path d="M3 18.3c1.6 0 1.6 1.4 3.2 1.4S7.8 18.3 9.4 18.3s1.6 1.4 3.2 1.4 1.6-1.4 3.2-1.4 1.6 1.4 3.2 1.4"/>',
+    croissant:'<path d="M5 8.5h11v5.5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><path d="M16 10h2.3a2 2 0 0 1 0 4H16"/><path d="M7.6 3.6c0 1-.9 1-.9 2s.9 1 .9 2"/><path d="M11.3 3.6c0 1-.9 1-.9 2s.9 1 .9 2"/>',
+    city:'<path d="M3.5 20h17"/><path d="M6 20V9.3l4-2.2V20"/><path d="M13.5 20V4.8l4.6 2.7V20"/><path d="M7.3 12.3h1.4M7.3 15.4h1.4M15 10.4h1.7M15 13.4h1.7M15 16.4h1.7"/>'
   };
+  var BUCKET_ICONS={b1:"bike",b2:"wave",b3:"croissant",b4:"city"};
   function icon(n){return '<svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[n]||'')+'</svg>';}
   var RECURRING=[
     {cat:"routine",title:"Sauna",weekday:5,time:"10:00"},
@@ -243,10 +259,10 @@
     {cat:"work",title:"Anja: school",weekday:5,time:"10:00-14:00"}
   ];
   var SEED_BUCKET=[
-    {id:"b1",cat:"dates",title:"Biking Day",star:true},
-    {id:"b2",cat:"dates",title:"Beach Day At Lake Michigan",star:true},
-    {id:"b3",cat:"dates",title:"Kalamazoo Bakery Trip + Brunch",star:false},
-    {id:"b4",cat:"dates",title:"Detroit Bakery Trip",star:false}
+    {id:"b1",cat:"dates",title:"Biking Day",icon:"bike",star:true,done:false},
+    {id:"b2",cat:"dates",title:"Beach Day At Lake Michigan",icon:"wave",star:true,done:false},
+    {id:"b3",cat:"dates",title:"Kalamazoo Bakery Trip + Brunch",icon:"croissant",star:false,done:false},
+    {id:"b4",cat:"dates",title:"Detroit Bakery Trip",icon:"city",star:false,done:false}
   ];
   var REWARDS=["Home-Cooked Meal","Coffee Made By Anja","Homemade Dessert","Breakfast In Bed","Movie Night Pick","Control Of The Remote","Winner Of Next Argument","No-Questions-Asked Favor"];
   // --- Croatian weekend word sets (rotates weekly) ---
@@ -556,16 +572,22 @@
   document.getElementById('prevM').onclick=function(){calM--;if(calM<0){calM=11;calY--;}renderCal();};
   document.getElementById('nextM').onclick=function(){calM++;if(calM>11){calM=0;calY++;}renderCal();};
 
+  function bucketMed(b){var n=b.icon||BUCKET_ICONS[b.id]||(CATS[b.cat]||CATS.dates).svg; var c=(CATS[b.cat]||CATS.dates).color;
+    return '<span class="bmed" style="background:color-mix(in srgb,'+c+' 16%, transparent);color:'+c+'">'+icon(n)+'</span>';}
   function renderBucket(){
     var el=document.getElementById('bucket'); el.innerHTML="";
     bucket.forEach(function(b){
-      var div=document.createElement('div'); div.className="bcard";
-      div.innerHTML='<div class="btop">'+catIcon(b.cat)+'<span class="bttl">'+esc(b.title)+'</span>'+
-        '<span class="star '+(b.star?'on':'')+'" data-star="'+b.id+'" title="Mark as special">'+icon('star')+'</span></div>'+
+      var div=document.createElement('div'); div.className="bcard"+(b.done?" done":"");
+      div.innerHTML='<span class="star '+(b.star?'on':'')+'" data-star="'+b.id+'" title="Mark as special">'+icon('star')+'</span>'+
+        '<div class="bhead">'+bucketMed(b)+'<span class="bttl">'+esc(b.title)+'</span></div>'+
         (b.date?'<div class="bmeta"><span class="metaicon">'+icon('calendar')+'</span>'+b.date+'</div>':'<div class="bmeta">Not scheduled yet</div>')+
-        '<div class="bbtn"><button data-sched="'+b.id+'"><span class="bicon">'+icon('calendar')+'</span>Schedule</button></div>';
+        '<div class="brow">'+
+          '<span class="chk '+(b.done?'on':'')+'" data-done="'+b.id+'" title="Tick when you\'ve done it"><span class="box">'+icon('check')+'</span>'+(b.done?'Done':'Mark done')+'</span>'+
+          '<button data-sched="'+b.id+'"><span class="bicon">'+icon('calendar')+'</span>Schedule</button>'+
+        '</div>';
       el.appendChild(div);
     });
+    el.querySelectorAll('[data-done]').forEach(function(x){x.onclick=function(){var id=x.getAttribute('data-done');bucket.forEach(function(b){if(b.id===id)b.done=!b.done;});save("op_bucket",bucket);renderBucket();};});
     el.querySelectorAll('[data-star]').forEach(function(x){x.onclick=function(){var id=x.getAttribute('data-star');bucket.forEach(function(b){if(b.id===id)b.star=!b.star;});save("op_bucket",bucket);renderBucket();};});
     el.querySelectorAll('[data-sched]').forEach(function(x){x.onclick=function(){
       var id=x.getAttribute('data-sched'); var b=bucket.filter(function(z){return z.id===id;})[0]; if(!b)return;
