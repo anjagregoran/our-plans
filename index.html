@@ -471,7 +471,7 @@
         var done=it.done?" done":"";
         h+='<div class="item'+done+'">'+catIcon(it.cat)+
            '<div class="txt"><div class="t1">'+esc(it.title)+(it.star?' <span class="ministar">'+icon('star')+'</span>':'')+'</div>'+
-           (it.time?'<div class="t2">'+it.time+(it.recurring?' · every week':'')+'</div>':(it.recurring?'<div class="t2">every week</div>':''))+'</div>';
+           (it.time?'<div class="t2">'+it.time+'</div>':'')+'</div>';
         if(!it.recurring && it.id){ h+='<span class="check" data-done="'+it.id+'">'+(it.done?icon('check'):'')+'</span>'; }
         h+='</div>';
       });
