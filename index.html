@@ -47,12 +47,12 @@
   .wordgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 30px;}
   .day{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 13px;box-shadow:var(--shadow);min-width:0;}
   .day.today{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
-  .day .dhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
-  .day .dname{font-weight:700;font-size:15.5px;letter-spacing:.01em;}
-  .day .ddate{color:var(--soft);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;}
-  .item{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);}
+  .day .dhead{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--line);}
+  .day .dname{font-weight:700;font-size:14.5px;letter-spacing:.01em;}
+  .day .ddate{color:var(--soft);font-size:11px;text-transform:uppercase;letter-spacing:.1em;}
+  .item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-top:1px solid var(--line);}
   .item:first-of-type{border-top:0;}
-  .item .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;color:#fff;flex:0 0 auto;}
+  .item .ic{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:#fff;flex:0 0 auto;}
   .item .txt{flex:1;min-width:0;}
   .item .t1{font-weight:600;}
   .item .t2{font-size:12.5px;color:var(--soft);margin-top:1px;}
@@ -115,6 +115,13 @@
   .labelstar{width:13px;height:13px;color:var(--cat-church);vertical-align:-2px;}
   .gotchk{display:inline-grid;place-items:center;vertical-align:-2px;}
   .gotchk .sym{width:12px;height:12px;stroke:currentColor;}
+  .reward{margin-top:18px;padding:16px 18px;border:1px solid var(--accent-soft);background:color-mix(in srgb,var(--accent) 7%, transparent);border-radius:14px;}
+  .rtitle{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--accent);}
+  .rsub{color:var(--ink);font-size:14px;margin-top:4px;}
+  .rlist{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .rbtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;}
+  .rbtn:hover{border-color:var(--accent);color:var(--accent);}
+  .rchange{margin-top:10px;border:0;background:none;color:var(--accent);font-size:12.5px;font-weight:600;cursor:pointer;text-decoration:underline;padding:0;}
   /* Croatian learn */
   .learn{padding:18px;background:linear-gradient(180deg,var(--panel),var(--panel));}
   .lhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:4px;}
@@ -225,6 +232,7 @@
     {id:"b3",cat:"dates",title:"Kalamazoo Bakery Trip + Brunch",star:false},
     {id:"b4",cat:"dates",title:"Detroit Bakery Trip",star:false}
   ];
+  var REWARDS=["Home-Cooked Meal","Coffee Made By Anja","Homemade Dessert","Breakfast In Bed","Movie Night Pick","Control Of The Remote","Winner Of Next Argument","No-Questions-Asked Favor"];
   // --- Croatian weekend word sets (rotates weekly) ---
   var SETS=[
     {theme:"Verbs",words:[
@@ -474,10 +482,26 @@
          '</div><button class="wgot'+(state[i]?' on':'')+'" data-got="'+i+'">'+(state[i]?'Got it <span class="gotchk">'+icon('check')+'</span>':'Got it')+'</button></div>';
     });
     h+='</div><div class="lfoot"><span>Learned this set: '+gotCount+' / 5</span><span>Total words learned: '+totalLearned()+'</span></div>';
+    if(gotCount>=5){
+      var chosen=load("op_reward_"+id,null);
+      h+='<div class="reward"><div class="rtitle">Reward unlocked for Drake</div>';
+      if(chosen){
+        h+='<div class="rsub">You chose: <b>'+esc(chosen)+'</b> from Anja</div><button class="rchange" data-rchange="1">Change reward</button>';
+      }else{
+        h+='<div class="rsub">All 5 done this weekend. Pick your gift from Anja:</div><div class="rlist">';
+        REWARDS.forEach(function(r){ h+='<button class="rbtn" data-reward="'+esc(r)+'">'+esc(r)+'</button>'; });
+        h+='</div>';
+      }
+      h+='</div>';
+    }
     el.innerHTML=h;
     el.querySelectorAll('[data-got]').forEach(function(x){
       x.onclick=function(){var i=+x.getAttribute('data-got');state[i]=!state[i];save("op_learn_"+id,state);renderLearn();};
     });
+    el.querySelectorAll('[data-reward]').forEach(function(x){
+      x.onclick=function(){save("op_reward_"+id,x.getAttribute('data-reward'));renderLearn();};
+    });
+    var rc=el.querySelector('[data-rchange]'); if(rc){rc.onclick=function(){try{localStorage.removeItem("op_reward_"+id);}catch(e){} renderLearn();};}
   }
   function loadWeather(){
     try{
