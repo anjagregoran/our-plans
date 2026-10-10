@@ -34,7 +34,7 @@
   h2.section{font-size:12.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--soft);font-weight:700;
     margin:42px 2px 16px;padding-bottom:10px;border-bottom:1px solid var(--line);position:relative;}
   h2.section::after{content:"";position:absolute;left:0;bottom:-1px;width:40px;height:2px;background:var(--accent);}
-  .legend{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 2px;}
+  .legend{display:flex;flex-wrap:wrap;gap:9px;margin:28px 0 2px;}
   .chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);
     color:var(--ink);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;user-select:none;}
   .chip .dot{width:9px;height:9px;border-radius:50%;}
@@ -45,6 +45,8 @@
   .toggle:hover{border-color:var(--accent);}
   .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin-top:14px;}
   .week[hidden]{display:none;}
+  .learn[hidden]{display:none;}
+  .learnbar{margin-top:14px;}
   .wordgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 30px;}
   .day{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 13px;box-shadow:var(--shadow);min-width:0;}
   .day.today{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
@@ -169,8 +171,8 @@
   <div class="weekbar"><button class="toggle" id="weekToggle">Show this week</button></div>
   <div class="week" id="week" hidden></div>
 
-  <h2 class="section">Croatian this weekend</h2>
-  <div class="card learn" id="learn"></div>
+  <div class="learnbar"><button class="toggle" id="learnToggle">Croatian this weekend</button></div>
+  <div class="card learn" id="learn" hidden></div>
 
   <h2 class="section">Add a plan</h2>
   <div class="addbar">
@@ -589,6 +591,12 @@
     else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Show this week';}
   };
   document.getElementById('weekToggle').innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Show this week';
+  document.getElementById('learnToggle').onclick=function(){
+    var w=document.getElementById('learn');
+    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Hide Croatian';}
+    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian this weekend';}
+  };
+  document.getElementById('learnToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian this weekend';
 
   renderLegend();renderWeek();renderLearn();renderCal();renderBucket();loadWeather();
 })();
