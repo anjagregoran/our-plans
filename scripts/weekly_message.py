@@ -115,7 +115,7 @@ def week_events(d):
             ed = datetime.date.fromisoformat(e["date"])
         except Exception:
             continue
-        if d <= ed <= d + datetime.timedelta(days=7):
+        if d <= ed <= d + datetime.timedelta(days=8):
             out.append((ed, e))
     out.sort(key=lambda x: x[0])
     return out
