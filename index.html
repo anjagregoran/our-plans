@@ -82,9 +82,9 @@
   .gday.tdy{border-color:var(--accent);box-shadow:0 0 0 1.5px var(--accent);}
   .gday.tdy .dnum{color:var(--accent);}
   .evs{display:flex;flex-direction:column;gap:3px;min-width:0;}
-  .ev{display:flex;align-items:center;gap:4px;font-size:10.5px;line-height:1.2;border-radius:6px;padding:2px 6px;background:color-mix(in srgb,var(--c) 15%, transparent);color:var(--ink);min-width:0;}
+  .ev{display:flex;align-items:flex-start;gap:4px;font-size:10.5px;line-height:1.25;border-radius:6px;padding:3px 6px;background:color-mix(in srgb,var(--c) 15%, transparent);color:var(--ink);min-width:0;}
   .ev .etime{color:var(--soft);font-variant-numeric:tabular-nums;flex:0 0 auto;}
-  .ev .etxt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ev .etxt{white-space:normal;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
   .ev.more{background:transparent;color:var(--soft);padding:0 6px;font-weight:600;}
   @media(max-width:600px){.gday{min-height:70px;padding:5px 4px 6px;}.ev{font-size:9px;padding:2px 4px;gap:3px;}.ev .etime{display:none;}}
   .bucket{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
@@ -226,8 +226,6 @@
     <button class="pbtn" id="aAdd">Add</button>
   </div>
 
-  <div class="cols2">
-  <div>
   <h2 class="section">Calendar</h2>
   <div class="card cal">
     <div class="calhead">
@@ -238,12 +236,13 @@
     <div class="grid" id="grid"></div>
   </div>
 
-  </div>
+  <div class="cols2">
   <div>
   <h2 class="section">Date bucket list</h2>
   <div class="bucket" id="bucket"></div>
-
-  <h2 class="section" style="margin-top:28px;">Healthy grocery list</h2>
+  </div>
+  <div>
+  <h2 class="section">Healthy grocery list</h2>
   <div class="card grocard">
     <div class="gadd">
       <input id="gInput" type="text" placeholder="Add a food (e.g. olive oil)" autocomplete="off" />
@@ -658,12 +657,12 @@
       var html='<span class="dnum">'+d.getDate()+'</span>';
       if(its.length){
         html+='<div class="evs">';
-        its.slice(0,3).forEach(function(it){
+        its.slice(0,6).forEach(function(it){
           var c=(CATS[it.cat]||CATS.dates).color;
           var tm=(it.time&&!it.special)?('<span class="etime">'+esc(it.time.split("-")[0])+'</span>'):'';
           html+='<span class="ev" style="--c:'+c+'">'+tm+'<span class="etxt">'+esc(it.title)+'</span></span>';
         });
-        if(its.length>3){ html+='<span class="ev more">+'+(its.length-3)+' more</span>'; }
+        if(its.length>6){ html+='<span class="ev more">+'+(its.length-6)+' more</span>'; }
         html+='</div>';
       }
       cell.innerHTML=html;
