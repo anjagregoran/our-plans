@@ -84,6 +84,31 @@
   .topbar{display:flex;justify-content:flex-end;margin-bottom:14px;}
   .themebtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer;}
   .note{font-size:12.5px;color:var(--soft);margin-top:12px;line-height:1.55;}
+  /* custom symbols + editorial type */
+  :root{ --serif:"Hoefler Text","Baskerville","Didot",Georgia,"Times New Roman",serif; }
+  .sym{display:block;}
+  .ic{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto;}
+  .ic .sym{width:17px;height:17px;}
+  .chip .ci{display:inline-grid;place-items:center;width:17px;height:17px;margin-right:1px;}
+  .chip .ci .sym{width:16px;height:16px;}
+  .pillicon{display:inline-grid;place-items:center;width:15px;height:15px;vertical-align:-3px;margin-right:7px;color:var(--accent);}
+  .pillicon .sym{width:15px;height:15px;}
+  .star{display:inline-grid;place-items:center;line-height:0;cursor:pointer;}
+  .star .sym{width:18px;height:18px;stroke:var(--soft);fill:none;transition:all .15s;}
+  .star.on .sym{stroke:var(--cat-church);fill:var(--cat-church);}
+  .ministar{display:inline-grid;place-items:center;vertical-align:-3px;}
+  .ministar .sym{width:13px;height:13px;stroke:var(--cat-church);fill:var(--cat-church);}
+  .check .sym{width:14px;height:14px;stroke:var(--cat-grocery);}
+  .metaicon{display:inline-grid;place-items:center;width:14px;height:14px;vertical-align:-3px;margin-right:6px;color:var(--soft);}
+  .metaicon .sym{width:14px;height:14px;}
+  .bicon{display:inline-grid;place-items:center;width:15px;height:15px;vertical-align:-3px;margin-right:6px;}
+  .bicon .sym{width:15px;height:15px;}
+  .licon{display:inline-grid;place-items:center;width:22px;height:22px;flex:0 0 auto;}
+  .licon .sym{width:21px;height:21px;}
+  header.hero .names{font-family:var(--serif);font-weight:600;letter-spacing:0;}
+  .calhead .mtitle{font-family:var(--serif);font-weight:600;}
+  .word .whr{font-family:var(--serif);font-weight:600;}
+  .labelstar{width:13px;height:13px;color:var(--cat-church);vertical-align:-2px;}
   /* Croatian learn */
   .learn{padding:18px;background:linear-gradient(180deg,var(--panel),var(--panel));}
   .lhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:4px;}
@@ -116,18 +141,18 @@
 </style>
 
 <div class="wrap">
-  <div class="topbar"><button class="themebtn" id="themebtn">🌙 Theme</button></div>
+  <div class="topbar"><button class="themebtn" id="themebtn">Theme</button></div>
 
   <header class="hero">
     <div class="eyebrow">Our shared calendar</div>
     <div class="names">Anja &amp; Drake</div>
     <div class="sub">Our plans, ideas, and time together.</div>
-    <div class="hrow"><span class="today" id="todayPill">📍 Michigan</span><span class="fri" id="friPill">🧖 Sauna: every Friday at 10:00</span></div>
+    <div class="hrow"><span class="today" id="todayPill">Michigan</span><span class="fri" id="friPill">Sauna: every Friday at 10:00</span></div>
   </header>
 
   <div class="legend" id="legend"></div>
 
-  <div class="weekbar"><button class="toggle" id="weekToggle">📅 Show this week</button></div>
+  <div class="weekbar"><button class="toggle" id="weekToggle">Show this week</button></div>
   <div class="week" id="week" hidden></div>
 
   <h2 class="section">Croatian this weekend</h2>
@@ -139,7 +164,7 @@
     <input type="text" id="aTitle" placeholder="What are you planning? (e.g. Movie night)"/>
     <input type="date" id="aDate"/>
     <input type="time" id="aTime"/>
-    <label><input type="checkbox" id="aStar"/> ⭐ special</label>
+    <label><input type="checkbox" id="aStar"/> <svg class="labelstar" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z"/></svg> Special</label>
     <button class="pbtn" id="aAdd">Add</button>
   </div>
 
@@ -161,12 +186,27 @@
 <script>
 (function(){
   var CATS={
-    work:{name:"Work",icon:"💼",color:"var(--cat-work)"},
-    dates:{name:"Dates",icon:"💗",color:"var(--cat-dates)"},
-    church:{name:"Church (Sun)",icon:"⛪",color:"var(--cat-church)"},
-    grocery:{name:"Healthy Grocery",icon:"🥗",color:"var(--cat-grocery)"},
-    routine:{name:"Routines",icon:"🧖",color:"var(--cat-routine)"}
+    work:{name:"Work",svg:"work",color:"var(--cat-work)"},
+    dates:{name:"Dates",svg:"heart",color:"var(--cat-dates)"},
+    church:{name:"Church",svg:"church",color:"var(--cat-church)"},
+    grocery:{name:"Healthy Grocery",svg:"leaf",color:"var(--cat-grocery)"},
+    routine:{name:"Routines",svg:"steam",color:"var(--cat-routine)"}
   };
+  var ICONS={
+    work:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12.5h18"/>',
+    heart:'<path d="M12 20s-6.8-4.2-6.8-9A3.8 3.8 0 0 1 12 8.2 3.8 3.8 0 0 1 18.8 11c0 4.8-6.8 9-6.8 9z"/>',
+    church:'<path d="M12 2.5v5"/><path d="M9.8 4.7h4.4"/><path d="M12 7.5l6 4.2V20H6v-8.3l6-4.2z"/><path d="M10.2 20v-3.6h3.6V20"/>',
+    leaf:'<path d="M20 4.2C9.4 4.2 4.4 9 4.4 15c0 3 2 5 4.9 5 5.9 0 10.8-6 10.7-15.8z"/><path d="M8.5 20c2-6 5.2-9.2 10.2-12"/>',
+    steam:'<path d="M8 3.6c0 1.9-1.8 1.9-1.8 3.8S8 9.3 8 11.2"/><path d="M12 2.8c0 1.9-1.8 1.9-1.8 3.8S12 8.5 12 10.4"/><path d="M16 3.6c0 1.9-1.8 1.9-1.8 3.8S16 9.3 16 11.2"/><path d="M4.8 20.2h14.4"/><path d="M6.4 16.4h11.2a1.6 1.6 0 0 1 1.6 1.6v2.2H4.8V18a1.6 1.6 0 0 1 1.6-1.6z"/>',
+    star:'<path d="M12 3.6l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z"/>',
+    calendar:'<rect x="3.5" y="5" width="17" height="15" rx="2.2"/><path d="M3.5 9.5h17"/><path d="M8 3.5v3M16 3.5v3"/>',
+    pin:'<path d="M12 21c4-5 6.8-7.9 6.8-11A6.8 6.8 0 1 0 5.2 10c0 3.1 2.8 6 6.8 11z"/><circle cx="12" cy="10" r="2.2"/>',
+    sun:'<circle cx="12" cy="12" r="3.8"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"/>',
+    moon:'<path d="M20 14.4A8 8 0 1 1 9.6 4 6.4 6.4 0 0 0 20 14.4z"/>',
+    check:'<path d="M5 12.5l4.4 4.4L19 7.3"/>',
+    lang:'<path d="M4 5h16v10.5H9.5L5.5 19v-3.5H4z"/><path d="M8.5 10h7M9.5 12.6h5"/>'
+  };
+  function icon(n){return '<svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[n]||'')+'</svg>';}
   var RECURRING=[
     {cat:"routine",title:"Sauna",weekday:5,time:"10:00"},
     {cat:"church",title:"Church",weekday:0,time:""},
@@ -255,70 +295,70 @@
 
   var GENERAL=SETS; // general rotation pool
   var SEASONAL={
-    christmas:{theme:"Christmas 🎄",words:[
+    christmas:{theme:"Christmas",words:[
       {hr:"Božić",say:"BOH-zheech",en:"Christmas",exHr:"Sretan Božić!",exEn:"Merry Christmas!"},
       {hr:"snijeg",say:"SNYEG",en:"snow",exHr:"Pada snijeg.",exEn:"It's snowing."},
       {hr:"poklon",say:"POH-klon",en:"gift",exHr:"Imam poklon za tebe.",exEn:"I have a gift for you."},
       {hr:"zvijezda",say:"ZVYEZ-dah",en:"star",exHr:"Zvijezda na vrhu.",exEn:"A star on top."},
       {hr:"drvce",say:"DURV-tseh",en:"Christmas tree",exHr:"Kitimo drvce.",exEn:"We're decorating the tree."}
     ]},
-    newyear:{theme:"New Year 🎆",words:[
+    newyear:{theme:"New Year",words:[
       {hr:"Nova godina",say:"NOH-vah GOH-dee-nah",en:"New Year",exHr:"Sretna Nova godina!",exEn:"Happy New Year!"},
       {hr:"vatromet",say:"VAH-troh-met",en:"fireworks",exHr:"Gledamo vatromet.",exEn:"We're watching the fireworks."},
       {hr:"ponoć",say:"POH-noch",en:"midnight",exHr:"Vidimo se u ponoć.",exEn:"See you at midnight."},
       {hr:"želja",say:"ZHEH-lyah",en:"wish",exHr:"Zaželi želju.",exEn:"Make a wish."},
       {hr:"čestitati",say:"ches-TEE-tah-tee",en:"to congratulate",exHr:"Čestitam!",exEn:"Congratulations!"}
     ]},
-    valentine:{theme:"Valentine's 💘",words:[
+    valentine:{theme:"Valentine's",words:[
       {hr:"ljubav",say:"LYOO-bahv",en:"love",exHr:"Moja ljubav.",exEn:"My love."},
       {hr:"ruža",say:"ROO-zhah",en:"rose",exHr:"Ruža za tebe.",exEn:"A rose for you."},
       {hr:"srce",say:"SUR-tseh",en:"heart",exHr:"Ti si moje srce.",exEn:"You are my heart."},
       {hr:"poljubac",say:"POH-lyoo-bats",en:"kiss",exHr:"Daj mi poljubac.",exEn:"Give me a kiss."},
       {hr:"Volim te",say:"VOH-leem teh",en:"I love you",exHr:"Volim te najviše.",exEn:"I love you the most."}
     ]},
-    easter:{theme:"Easter 🐣",words:[
+    easter:{theme:"Easter",words:[
       {hr:"Uskrs",say:"OOS-kurs",en:"Easter",exHr:"Sretan Uskrs!",exEn:"Happy Easter!"},
       {hr:"jaje",say:"YAH-yeh",en:"egg",exHr:"Bojimo jaja.",exEn:"We're dyeing eggs."},
       {hr:"zec",say:"ZETS",en:"bunny, rabbit",exHr:"Uskrsni zec.",exEn:"The Easter bunny."},
       {hr:"proljeće",say:"proh-LYEH-cheh",en:"spring",exHr:"Stiglo je proljeće.",exEn:"Spring has arrived."},
       {hr:"cvijet",say:"TSVYET",en:"flower",exHr:"Prvi cvijet.",exEn:"The first flower."}
     ]},
-    halloween:{theme:"Halloween 🎃",words:[
+    halloween:{theme:"Halloween",words:[
       {hr:"bundeva",say:"BOON-deh-vah",en:"pumpkin",exHr:"Režemo bundevu.",exEn:"We're carving a pumpkin."},
       {hr:"vještica",say:"VYESH-tee-tsah",en:"witch",exHr:"Zla vještica.",exEn:"An evil witch."},
       {hr:"strašno",say:"STRASH-noh",en:"scary",exHr:"Baš strašno!",exEn:"So scary!"},
       {hr:"kostim",say:"KOS-teem",en:"costume",exHr:"Super kostim!",exEn:"Great costume!"},
       {hr:"noć",say:"NOCH",en:"night",exHr:"Strašna noć.",exEn:"A scary night."}
     ]},
-    sunny:{theme:"Sunny weekend ☀️",words:[
+    sunny:{theme:"Sunny weekend",words:[
       {hr:"sunce",say:"SOON-tseh",en:"sun",exHr:"Sunce sja.",exEn:"The sun is shining."},
       {hr:"vedro",say:"VEH-droh",en:"clear (sky)",exHr:"Danas je vedro.",exEn:"It's clear today."},
       {hr:"toplo",say:"TOH-ploh",en:"warm",exHr:"Vani je toplo.",exEn:"It's warm outside."},
       {hr:"cvijet",say:"TSVYET",en:"flower",exHr:"Beremo cvijeće.",exEn:"We're picking flowers."},
       {hr:"lijepo vrijeme",say:"LYEH-poh VRYEH-meh",en:"nice weather",exHr:"Kakvo lijepo vrijeme!",exEn:"What nice weather!"}
     ]},
-    winter:{theme:"Winter ❄️",words:[
+    winter:{theme:"Winter",words:[
       {hr:"zima",say:"ZEE-mah",en:"winter",exHr:"Volim zimu.",exEn:"I love winter."},
       {hr:"snijeg",say:"SNYEG",en:"snow",exHr:"Pada snijeg.",exEn:"It's snowing."},
       {hr:"hladno",say:"HLAHD-noh",en:"cold",exHr:"Vani je hladno.",exEn:"It's cold outside."},
       {hr:"led",say:"LED",en:"ice",exHr:"Klizav led.",exEn:"Slippery ice."},
       {hr:"rukavice",say:"roo-kah-VEE-tseh",en:"gloves",exHr:"Gdje su mi rukavice?",exEn:"Where are my gloves?"}
     ]},
-    spring:{theme:"Spring 🌷",words:[
+    spring:{theme:"Spring",words:[
       {hr:"proljeće",say:"proh-LYEH-cheh",en:"spring",exHr:"Volim proljeće.",exEn:"I love spring."},
       {hr:"cvijet",say:"TSVYET",en:"flower",exHr:"Prvi cvijet.",exEn:"The first flower."},
       {hr:"kiša",say:"KEE-shah",en:"rain",exHr:"Pada kiša.",exEn:"It's raining."},
       {hr:"ptica",say:"PTEE-tsah",en:"bird",exHr:"Ptica pjeva.",exEn:"A bird is singing."},
       {hr:"zeleno",say:"ZEH-leh-noh",en:"green",exHr:"Sve je zeleno.",exEn:"Everything is green."}
     ]},
-    summer:{theme:"Summer 🏖️",words:[
+    summer:{theme:"Summer",words:[
       {hr:"ljeto",say:"LYEH-toh",en:"summer",exHr:"Toplo ljeto.",exEn:"A warm summer."},
       {hr:"more",say:"MOH-reh",en:"sea",exHr:"Idemo na more.",exEn:"We're going to the seaside."},
       {hr:"plivati",say:"PLEE-vah-tee",en:"to swim",exHr:"Idemo plivati.",exEn:"Let's go swimming."},
       {hr:"vrućina",say:"vroo-CHEE-nah",en:"heat",exHr:"Velika vrućina.",exEn:"A real heatwave."},
       {hr:"odmor",say:"OD-mor",en:"vacation, rest",exHr:"Trebam odmor.",exEn:"I need a vacation."}
     ]},
-    autumn:{theme:"Autumn 🍂",words:[
+    autumn:{theme:"Autumn",words:[
       {hr:"jesen",say:"YEH-sen",en:"autumn, fall",exHr:"Stigla je jesen.",exEn:"Autumn has arrived."},
       {hr:"lišće",say:"LEESH-cheh",en:"leaves",exHr:"Žuto lišće.",exEn:"Yellow leaves."},
       {hr:"kiša",say:"KEE-shah",en:"rain",exHr:"Hladna kiša.",exEn:"Cold rain."},
@@ -345,7 +385,8 @@
   var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
 
   var today=miToday();
-  document.getElementById('todayPill').textContent="📍 Michigan · "+DAYNAMES[today.getDay()]+", "+today.getDate()+" "+MONTHS[today.getMonth()];
+  document.getElementById('todayPill').innerHTML='<span class="pillicon">'+icon('pin')+'</span>Michigan · '+DAYNAMES[today.getDay()]+", "+today.getDate()+" "+MONTHS[today.getMonth()];
+  document.getElementById('friPill').innerHTML='<span class="pillicon">'+icon('steam')+'</span>Sauna: every Friday at 10:00';
 
   function itemsFor(d){
     var out=[];
@@ -354,7 +395,9 @@
     out.sort(function(a,b){return (a.time||"99")<(b.time||"99")?-1:1;});
     return out;
   }
-  function catIcon(cat){var c=CATS[cat]||CATS.dates;return '<span class="ic" style="background:'+c.color+'">'+c.icon+'</span>';}
+  function catIcon(cat){var c=CATS[cat]||CATS.dates;
+    return '<span class="ic" style="background:color-mix(in srgb,'+c.color+' 15%, transparent);color:'+c.color+'">'+icon(c.svg)+'</span>';}
+  function starSym(on){return '<span class="star'+(on?' on':'')+'">'+icon('star')+'</span>';}
   function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 
   function renderLegend(){
@@ -362,7 +405,7 @@
     Object.keys(CATS).forEach(function(k){
       var c=CATS[k];
       var b=document.createElement('button'); b.className="chip"+(filters[k]?"":" off");
-      b.innerHTML='<span class="dot" style="background:'+c.color+'"></span>'+c.icon+" "+c.name;
+      b.innerHTML='<span class="ci" style="color:'+c.color+'">'+icon(c.svg)+'</span>'+c.name;
       b.onclick=function(){filters[k]=!filters[k];renderLegend();renderWeek();renderCal();};
       el.appendChild(b);
     });
@@ -374,13 +417,13 @@
       var d=addDays(mon,i); var items=itemsFor(d);
       var div=document.createElement('div'); div.className="day"+(iso(d)===iso(today)?" today":"");
       var h='<div class="dhead"><span class="dname">'+DAYNAMES[d.getDay()]+'</span><span class="ddate">'+d.getDate()+" "+MONTHS[d.getMonth()].slice(0,3)+'</span></div>';
-      if(items.length===0){h+='<div class="empty">Free 🤍</div>';}
+      if(items.length===0){h+='<div class="empty">Free</div>';}
       items.forEach(function(it){
         var done=it.done?" done":"";
         h+='<div class="item'+done+'">'+catIcon(it.cat)+
-           '<div class="txt"><div class="t1">'+esc(it.title)+(it.star?' ⭐':'')+'</div>'+
+           '<div class="txt"><div class="t1">'+esc(it.title)+(it.star?' <span class="ministar">'+icon('star')+'</span>':'')+'</div>'+
            (it.time?'<div class="t2">'+it.time+(it.recurring?' · every week':'')+'</div>':(it.recurring?'<div class="t2">every week</div>':''))+'</div>';
-        if(!it.recurring && it.id){ h+='<span class="check" data-done="'+it.id+'">'+(it.done?'✓':'')+'</span>'; }
+        if(!it.recurring && it.id){ h+='<span class="check" data-done="'+it.id+'">'+(it.done?icon('check'):'')+'</span>'; }
         h+='</div>';
       });
       div.innerHTML=h; el.appendChild(div);
@@ -413,7 +456,7 @@
     var id=currentSetId(today); var set=getSet(id);
     var state=load("op_learn_"+id,[false,false,false,false,false]);
     var el=document.getElementById('learn'); var gotCount=state.filter(function(b){return b;}).length;
-    var h='<div class="lhead"><span class="ltitle">🇭🇷 Croatian this weekend</span><span class="ltheme">'+esc(set.theme)+'</span></div>'+
+    var h='<div class="lhead"><span class="licon" style="color:var(--accent)">'+icon('lang')+'</span><span class="ltitle">Croatian this weekend</span><span class="ltheme">'+esc(set.theme)+'</span></div>'+
           '<div class="lsub">Five words for Drake, picked for the season and the weather. A fresh set every weekend.</div>'+
           '<div class="pbar"><i style="width:'+(gotCount/5*100)+'%"></i></div><div class="wordgrid">';
     set.words.forEach(function(w,i){
@@ -469,9 +512,9 @@
     bucket.forEach(function(b){
       var div=document.createElement('div'); div.className="bcard";
       div.innerHTML='<div class="btop">'+catIcon(b.cat)+'<span class="bttl">'+esc(b.title)+'</span>'+
-        '<span class="star '+(b.star?'on':'')+'" data-star="'+b.id+'" title="Mark as special">⭐</span></div>'+
-        (b.date?'<div class="bmeta">📅 '+b.date+'</div>':'<div class="bmeta">Not scheduled yet</div>')+
-        '<div class="bbtn"><button data-sched="'+b.id+'">📅 Schedule</button></div>';
+        '<span class="star '+(b.star?'on':'')+'" data-star="'+b.id+'" title="Mark as special">'+icon('star')+'</span></div>'+
+        (b.date?'<div class="bmeta"><span class="metaicon">'+icon('calendar')+'</span>'+b.date+'</div>':'<div class="bmeta">Not scheduled yet</div>')+
+        '<div class="bbtn"><button data-sched="'+b.id+'"><span class="bicon">'+icon('calendar')+'</span>Schedule</button></div>';
       el.appendChild(div);
     });
     el.querySelectorAll('[data-star]').forEach(function(x){x.onclick=function(){var id=x.getAttribute('data-star');bucket.forEach(function(b){if(b.id===id)b.star=!b.star;});save("op_bucket",bucket);renderBucket();};});
@@ -488,7 +531,7 @@
   Object.keys(CATS).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=CATS[k].icon+" "+CATS[k].name;sel.appendChild(o);});
   document.getElementById('aAdd').onclick=function(){
     var t=document.getElementById('aTitle').value.trim(); var dt=document.getElementById('aDate').value;
-    if(!t||!dt){alert("Add a title and a date 🙂");return;}
+    if(!t||!dt){alert("Add a title and a date");return;}
     plans.push({id:"p"+Date.now(),cat:sel.value,title:t,date:dt,time:document.getElementById('aTime').value,star:document.getElementById('aStar').checked,done:false});
     save("op_plans",plans);
     document.getElementById('aTitle').value="";document.getElementById('aStar').checked=false;
@@ -500,19 +543,20 @@
     var cur=document.documentElement.getAttribute('data-theme');
     var next=cur==='dark'?'light':'dark';
     document.documentElement.setAttribute('data-theme',next);
-    tb.textContent=next==='dark'?'☀️ Theme':'🌙 Theme';
+    tb.innerHTML='<span class="pillicon">'+icon(next==='dark'?'sun':'moon')+'</span>Theme';
     try{localStorage.setItem('op_theme',next);}catch(e){}
   };
   try{var st=localStorage.getItem('op_theme'); if(!st){st='light';}
     document.documentElement.setAttribute('data-theme',st);
-    tb.textContent=st==='dark'?'☀️ Theme':'🌙 Theme';
+    tb.innerHTML='<span class="pillicon">'+icon(st==='dark'?'sun':'moon')+'</span>Theme';
   }catch(e){document.documentElement.setAttribute('data-theme','light');}
 
   document.getElementById('weekToggle').onclick=function(){
     var w=document.getElementById('week');
-    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.textContent='📅 Hide this week';}
-    else{w.setAttribute('hidden','');this.textContent='📅 Show this week';}
+    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Hide this week';}
+    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Show this week';}
   };
+  document.getElementById('weekToggle').innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Show this week';
 
   renderLegend();renderWeek();renderLearn();renderCal();renderBucket();loadWeather();
 })();
