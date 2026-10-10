@@ -20,12 +20,16 @@
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.62;font-size:16.5px;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:1060px;margin:0 auto;padding:22px 20px 90px;}
-  header.hero{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:38px 30px;text-align:center;box-shadow:var(--shadow);}
-  .eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:11.5px;color:var(--accent);font-weight:700;}
-  header.hero .names{font-family:var(--disp);font-size:36px;font-weight:700;letter-spacing:-.01em;margin-top:10px;color:var(--ink);}
-  header.hero .sub{color:var(--soft);margin-top:6px;font-size:15px;}
-  .hrow{margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
-  .today,.fri{background:var(--bg);border:1px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;}
+  header.hero{position:relative;border-radius:20px;overflow:hidden;min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;
+    padding:30px 32px;color:#fff;box-shadow:var(--shadow);text-align:left;background-color:#87614d;
+    background-image:linear-gradient(to top,rgba(38,25,19,.66),rgba(38,25,19,.12) 52%,rgba(38,25,19,.04)),url('hero.jpg');
+    background-size:cover,cover;background-position:center,center 35%;background-repeat:no-repeat;}
+  .eyebrow{text-transform:uppercase;letter-spacing:.24em;font-size:11.5px;color:rgba(255,255,255,.88);font-weight:700;}
+  header.hero .names{font-family:var(--serif);font-size:44px;font-weight:600;letter-spacing:0;margin-top:8px;color:#fff;line-height:1.04;}
+  header.hero .sub{color:rgba(255,255,255,.9);margin-top:8px;font-size:15px;}
+  .hrow{margin-top:20px;display:flex;gap:10px;justify-content:flex-start;flex-wrap:wrap;}
+  .today,.fri{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;}
+  .hrow .pillicon{color:#fff;}
   h2.section{font-size:12.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--soft);font-weight:700;
     margin:42px 2px 16px;padding-bottom:10px;border-bottom:1px solid var(--line);position:relative;}
   h2.section::after{content:"";position:absolute;left:0;bottom:-1px;width:40px;height:2px;background:var(--accent);}
@@ -109,6 +113,8 @@
   .calhead .mtitle{font-family:var(--serif);font-weight:600;}
   .word .whr{font-family:var(--serif);font-weight:600;}
   .labelstar{width:13px;height:13px;color:var(--cat-church);vertical-align:-2px;}
+  .gotchk{display:inline-grid;place-items:center;vertical-align:-2px;}
+  .gotchk .sym{width:12px;height:12px;stroke:currentColor;}
   /* Croatian learn */
   .learn{padding:18px;background:linear-gradient(180deg,var(--panel),var(--panel));}
   .lhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:4px;}
@@ -464,7 +470,7 @@
          '<div><span class="whr">'+esc(w.hr)+'</span><span class="wsay">'+esc(w.say)+'</span></div>'+
          '<div class="wen">'+esc(w.en)+'</div>'+
          '<div class="wex"><b>'+esc(w.exHr)+'</b> <span>'+esc(w.exEn)+'</span></div>'+
-         '</div><button class="wgot'+(state[i]?' on':'')+'" data-got="'+i+'">'+(state[i]?'Got it ✓':'Got it')+'</button></div>';
+         '</div><button class="wgot'+(state[i]?' on':'')+'" data-got="'+i+'">'+(state[i]?'Got it <span class="gotchk">'+icon('check')+'</span>':'Got it')+'</button></div>';
     });
     h+='</div><div class="lfoot"><span>Learned this set: '+gotCount+' / 5</span><span>Total words learned: '+totalLearned()+'</span></div>';
     el.innerHTML=h;
