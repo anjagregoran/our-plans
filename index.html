@@ -1,0 +1,501 @@
+<style>
+  :root{
+    --bg:#fbf6ef; --panel:#ffffff; --ink:#24222e; --soft:#6f6a7a; --line:#ece4da;
+    --coral:#e0714f; --gold:#c6912f; --sage:#5f8f63; --indigo:#45507f; --teal:#3b8688; --berry:#cf5b86;
+    --cat-work:#45507f; --cat-dates:#cf5b86; --cat-church:#c6912f; --cat-grocery:#5f8f63; --cat-routine:#3b8688;
+    --shadow:0 8px 28px rgba(40,30,50,.10);
+    --disp:"Avenir Next","Trebuchet MS","Segoe UI",system-ui,sans-serif;
+    --body:"Avenir Next","Segoe UI",system-ui,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#15141c; --panel:#201e2a; --ink:#efe9f2; --soft:#a79fb3; --line:#2f2c3b;
+      --shadow:0 10px 30px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#15141c; --panel:#201e2a; --ink:#efe9f2; --soft:#a79fb3; --line:#2f2c3b;
+    --shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.5;}
+  .wrap{max-width:860px;margin:0 auto;padding:22px 18px 80px;}
+  header.hero{position:relative;background:linear-gradient(135deg,var(--indigo),var(--berry) 60%,var(--coral));
+    border-radius:20px;padding:26px 24px;color:#fff;box-shadow:var(--shadow);overflow:hidden;}
+  header.hero .names{font-family:var(--disp);font-size:30px;font-weight:800;letter-spacing:.3px;}
+  header.hero .sub{opacity:.92;margin-top:2px;font-size:14.5px;}
+  header.hero .today{margin-top:14px;display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.16);
+    padding:7px 13px;border-radius:999px;font-size:13.5px;font-weight:600;}
+  .fri{margin-top:12px;font-size:13.5px;background:rgba(0,0,0,.14);display:inline-block;padding:7px 12px;border-radius:12px;}
+  h2.section{font-family:var(--disp);font-size:19px;margin:26px 2px 10px;letter-spacing:.2px;}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 2px;}
+  .chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--panel);
+    color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;cursor:pointer;user-select:none;}
+  .chip .dot{width:10px;height:10px;border-radius:50%;}
+  .chip.off{opacity:.38;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);}
+  .week{display:grid;gap:10px;}
+  .day{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;}
+  .day.today{border-color:var(--berry);box-shadow:0 0 0 2px rgba(207,91,134,.25);}
+  .day .dhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+  .day .dname{font-weight:700;}
+  .day .ddate{color:var(--soft);font-size:12.5px;}
+  .item{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px dashed var(--line);}
+  .item:first-of-type{border-top:0;}
+  .item .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:15px;color:#fff;flex:0 0 auto;}
+  .item .txt{flex:1;min-width:0;}
+  .item .t1{font-weight:600;}
+  .item .t2{font-size:12px;color:var(--soft);}
+  .item.done .t1{text-decoration:line-through;color:var(--soft);}
+  .star{cursor:pointer;font-size:15px;filter:grayscale(1);opacity:.5;}
+  .star.on{filter:none;opacity:1;}
+  .check{cursor:pointer;width:20px;height:20px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;color:var(--sage);}
+  .empty{color:var(--soft);font-size:13px;font-style:italic;padding:4px 0;}
+  .cal{padding:14px;}
+  .calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .calhead button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;width:34px;height:34px;font-size:16px;cursor:pointer;}
+  .calhead .mtitle{font-family:var(--disp);font-weight:700;font-size:16px;}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+  .gday,.glabel{aspect-ratio:1/1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:5px 2px 2px;font-size:12.5px;cursor:pointer;border:1px solid transparent;}
+  .glabel{aspect-ratio:auto;cursor:default;color:var(--soft);font-weight:700;font-size:11px;justify-content:center;padding:4px 0;}
+  .gday:hover{background:var(--bg);border-color:var(--line);}
+  .gday.other{opacity:.3;}
+  .gday.tdy{background:var(--berry);color:#fff;}
+  .dots{display:flex;gap:3px;margin-top:3px;flex-wrap:wrap;justify-content:center;}
+  .dots i{width:6px;height:6px;border-radius:50%;display:block;}
+  .bucket{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
+  .bcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow);position:relative;}
+  .bcard .btop{display:flex;align-items:center;gap:9px;}
+  .bcard .bttl{font-weight:700;}
+  .bcard .bmeta{font-size:12px;color:var(--soft);margin-top:7px;}
+  .bcard .bbtn{margin-top:10px;display:inline-flex;gap:6px;}
+  .bbtn button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:6px 10px;font-size:12.5px;cursor:pointer;}
+  .addbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:var(--shadow);}
+  .addbar select,.addbar input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:8px 10px;font-size:13px;font-family:var(--body);}
+  .addbar input[type=text]{flex:1;min-width:150px;}
+  .addbar .pbtn{background:var(--berry);color:#fff;border:0;font-weight:700;padding:9px 14px;border-radius:10px;cursor:pointer;}
+  .addbar label{font-size:12.5px;color:var(--soft);display:inline-flex;gap:5px;align-items:center;}
+  .topbar{display:flex;justify-content:flex-end;margin-bottom:10px;}
+  .themebtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:pointer;}
+  .note{font-size:12.5px;color:var(--soft);margin-top:8px;}
+  /* Croatian learn */
+  .learn{padding:18px;background:linear-gradient(180deg,var(--panel),var(--panel));}
+  .lhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:4px;}
+  .lhead .ltitle{font-family:var(--disp);font-weight:800;font-size:18px;}
+  .ltheme{background:var(--berry);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;}
+  .lsub{color:var(--soft);font-size:12.5px;margin:2px 0 12px;}
+  .pbar{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin:8px 0 16px;}
+  .pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--berry),var(--coral));width:0;transition:width .25s;}
+  .word{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line);}
+  .word:first-of-type{border-top:0;}
+  .word .wnum{width:24px;height:24px;border-radius:50%;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--soft);flex:0 0 auto;margin-top:2px;}
+  .word .wbody{flex:1;min-width:0;}
+  .word .whr{font-size:18px;font-weight:800;}
+  .word .wsay{color:var(--teal);font-size:12.5px;font-style:italic;margin-left:8px;font-weight:600;}
+  .word .wen{color:var(--soft);font-size:13.5px;margin-top:1px;}
+  .word .wex{margin-top:5px;font-size:13px;}
+  .word .wex b{font-weight:600;}
+  .word .wex span{color:var(--soft);}
+  .word .wgot{flex:0 0 auto;cursor:pointer;border:1.5px solid var(--line);background:var(--bg);color:var(--soft);
+    border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;white-space:nowrap;margin-top:2px;}
+  .word .wgot.on{background:var(--sage);border-color:var(--sage);color:#fff;}
+  .lfoot{margin-top:14px;font-size:12.5px;color:var(--soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+  @media(max-width:560px){header.hero .names{font-size:24px;} .word .whr{font-size:16px;}}
+</style>
+
+<div class="wrap">
+  <div class="topbar"><button class="themebtn" id="themebtn">🌙 Theme</button></div>
+
+  <header class="hero">
+    <div class="names">Anja &amp; Drake</div>
+    <div class="sub">Our plans, ideas, and time together.</div>
+    <div class="today" id="todayPill">📍 Michigan</div>
+    <div class="fri" id="friPill">🧖 Sauna: every Friday at 10:00</div>
+  </header>
+
+  <div class="legend" id="legend"></div>
+
+  <h2 class="section">This week</h2>
+  <div class="week" id="week"></div>
+
+  <h2 class="section">Croatian this weekend</h2>
+  <div class="card learn" id="learn"></div>
+
+  <h2 class="section">Add a plan</h2>
+  <div class="addbar">
+    <select id="aCat"></select>
+    <input type="text" id="aTitle" placeholder="What are you planning? (e.g. Movie night)"/>
+    <input type="date" id="aDate"/>
+    <input type="time" id="aTime"/>
+    <label><input type="checkbox" id="aStar"/> ⭐ special</label>
+    <button class="pbtn" id="aAdd">Add</button>
+  </div>
+
+  <h2 class="section">Calendar</h2>
+  <div class="card cal">
+    <div class="calhead">
+      <button id="prevM">‹</button>
+      <div class="mtitle" id="mtitle"></div>
+      <button id="nextM">›</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <h2 class="section">Date bucket list</h2>
+  <div class="bucket" id="bucket"></div>
+  <p class="note">Changes save on this device for now. When we move it to GitHub, the plans will be shared between you and Drake, and you'll get an automatic weekly message.</p>
+</div>
+
+<script>
+(function(){
+  var CATS={
+    work:{name:"Work",icon:"💼",color:"var(--cat-work)"},
+    dates:{name:"Dates",icon:"💗",color:"var(--cat-dates)"},
+    church:{name:"Church (Sun)",icon:"⛪",color:"var(--cat-church)"},
+    grocery:{name:"Healthy Grocery",icon:"🥗",color:"var(--cat-grocery)"},
+    routine:{name:"Routines",icon:"🧖",color:"var(--cat-routine)"}
+  };
+  var RECURRING=[
+    {cat:"routine",title:"Sauna",weekday:5,time:"10:00"},
+    {cat:"church",title:"Church",weekday:0,time:""},
+    {cat:"work",title:"Drake: call",weekday:3,time:""},
+    {cat:"work",title:"Drake: call",weekday:4,time:""}
+  ];
+  var SEED_BUCKET=[
+    {id:"b1",cat:"dates",title:"Biking Day",star:true},
+    {id:"b2",cat:"dates",title:"Beach Day At Lake Michigan",star:true},
+    {id:"b3",cat:"dates",title:"Kalamazoo Bakery Trip + Brunch",star:false},
+    {id:"b4",cat:"dates",title:"Detroit Bakery Trip",star:false}
+  ];
+  // --- Croatian weekend word sets (rotates weekly) ---
+  var SETS=[
+    {theme:"Verbs",words:[
+      {hr:"putovati",say:"poo-TOH-vah-tee",en:"to travel",exHr:"Volim putovati s tobom.",exEn:"I love travelling with you."},
+      {hr:"kuhati",say:"KOO-hah-tee",en:"to cook",exHr:"Večeras ja kuham.",exEn:"Tonight I'm cooking."},
+      {hr:"voziti",say:"VOH-zee-tee",en:"to drive",exHr:"Znaš li voziti?",exEn:"Do you know how to drive?"},
+      {hr:"smijati se",say:"SMEE-yah-tee seh",en:"to laugh",exHr:"Stalno se smijemo.",exEn:"We're always laughing."},
+      {hr:"nedostajati",say:"neh-doh-STAH-yah-tee",en:"to miss (someone)",exHr:"Nedostaješ mi.",exEn:"I miss you."}
+    ]},
+    {theme:"Adjectives",words:[
+      {hr:"lijep",say:"LYEP",en:"beautiful",exHr:"Kakav lijep dan!",exEn:"What a beautiful day!"},
+      {hr:"sretan",say:"SREH-tahn",en:"happy",exHr:"Tako sam sretna s tobom.",exEn:"I'm so happy with you."},
+      {hr:"umoran",say:"OO-moh-rahn",en:"tired",exHr:"Danas sam jako umoran.",exEn:"I'm very tired today."},
+      {hr:"gladan",say:"GLAH-dahn",en:"hungry",exHr:"Jesi li gladan?",exEn:"Are you hungry?"},
+      {hr:"drag",say:"DRAHG",en:"dear, sweet",exHr:"Jako si mi drag.",exEn:"You're very dear to me."}
+    ]},
+    {theme:"Emotions",words:[
+      {hr:"uzbuđen",say:"ooz-BOO-jen",en:"excited",exHr:"Uzbuđena sam za vikend.",exEn:"I'm excited for the weekend."},
+      {hr:"ponosan",say:"POH-noh-sahn",en:"proud",exHr:"Ponosan sam na tebe.",exEn:"I'm proud of you."},
+      {hr:"nervozan",say:"nehr-VOH-zahn",en:"nervous",exHr:"Malo sam nervozna.",exEn:"I'm a little nervous."},
+      {hr:"zaljubljen",say:"zah-LYOOB-lyen",en:"in love",exHr:"Zaljubljen sam u tebe.",exEn:"I'm in love with you."},
+      {hr:"miran",say:"MEE-rahn",en:"calm",exHr:"Osjećam se mirno.",exEn:"I feel calm."}
+    ]},
+    {theme:"Food & coffee",words:[
+      {hr:"kava",say:"KAH-vah",en:"coffee",exHr:"Idemo na kavu?",exEn:"Shall we go for coffee?"},
+      {hr:"kolač",say:"KOH-lahch",en:"cake, pastry",exHr:"Ovaj kolač je odličan.",exEn:"This pastry is excellent."},
+      {hr:"kruh",say:"KROOH",en:"bread",exHr:"Volim svježi kruh.",exEn:"I love fresh bread."},
+      {hr:"sladoled",say:"SLAH-doh-led",en:"ice cream",exHr:"Želiš li sladoled?",exEn:"Do you want ice cream?"},
+      {hr:"voda",say:"VOH-dah",en:"water",exHr:"Mogu li dobiti vodu?",exEn:"Can I get some water?"}
+    ]},
+    {theme:"Outdoors",words:[
+      {hr:"jezero",say:"YEH-zeh-roh",en:"lake",exHr:"Idemo na jezero.",exEn:"Let's go to the lake."},
+      {hr:"plaža",say:"PLAH-zhah",en:"beach",exHr:"Vidimo se na plaži.",exEn:"See you at the beach."},
+      {hr:"sunce",say:"SOON-tseh",en:"sun",exHr:"Sunce sja.",exEn:"The sun is shining."},
+      {hr:"bicikl",say:"BEE-tseekl",en:"bicycle",exHr:"Vozimo bicikl.",exEn:"Let's ride bikes."},
+      {hr:"šuma",say:"SHOO-mah",en:"forest",exHr:"Šetnja kroz šumu.",exEn:"A walk through the forest."}
+    ]},
+    {theme:"Love words",words:[
+      {hr:"poljubac",say:"POH-lyoo-bats",en:"kiss",exHr:"Daj mi poljubac.",exEn:"Give me a kiss."},
+      {hr:"zagrljaj",say:"ZAH-gur-lyai",en:"hug",exHr:"Treba mi zagrljaj.",exEn:"I need a hug."},
+      {hr:"srce",say:"SUR-tseh",en:"heart",exHr:"Ti si moje srce.",exEn:"You are my heart."},
+      {hr:"zajedno",say:"ZAH-yed-noh",en:"together",exHr:"Bolji smo zajedno.",exEn:"We're better together."},
+      {hr:"zauvijek",say:"ZAH-oo-vyek",en:"forever",exHr:"Ti i ja, zauvijek.",exEn:"You and me, forever."}
+    ]},
+    {theme:"More verbs",words:[
+      {hr:"spavati",say:"SPAH-vah-tee",en:"to sleep",exHr:"Idem spavati.",exEn:"I'm going to sleep."},
+      {hr:"raditi",say:"RAH-dee-tee",en:"to work",exHr:"Moram raditi danas.",exEn:"I have to work today."},
+      {hr:"učiti",say:"OO-chee-tee",en:"to learn, study",exHr:"Učim hrvatski.",exEn:"I'm learning Croatian."},
+      {hr:"pjevati",say:"PYEH-vah-tee",en:"to sing",exHr:"Voliš li pjevati?",exEn:"Do you like to sing?"},
+      {hr:"plesati",say:"PLEH-sah-tee",en:"to dance",exHr:"Plešeš li?",exEn:"Do you dance?"}
+    ]},
+    {theme:"Time words",words:[
+      {hr:"danas",say:"DAH-nahs",en:"today",exHr:"Što radimo danas?",exEn:"What are we doing today?"},
+      {hr:"sutra",say:"SOO-trah",en:"tomorrow",exHr:"Vidimo se sutra.",exEn:"See you tomorrow."},
+      {hr:"vikend",say:"VEE-kend",en:"weekend",exHr:"Sretan vikend!",exEn:"Happy weekend!"},
+      {hr:"jutro",say:"YOO-troh",en:"morning",exHr:"Dobro jutro, ljubavi.",exEn:"Good morning, love."},
+      {hr:"večer",say:"VEH-cher",en:"evening",exHr:"Dobra večer.",exEn:"Good evening."}
+    ]},
+    {theme:"More adjectives",words:[
+      {hr:"velik",say:"VEH-leek",en:"big",exHr:"Veliki zagrljaj!",exEn:"A big hug!"},
+      {hr:"malen",say:"MAH-len",en:"small",exHr:"Mali grad, velika ljubav.",exEn:"Small town, big love."},
+      {hr:"brz",say:"BURZ",en:"fast",exHr:"Brz auto.",exEn:"A fast car."},
+      {hr:"spor",say:"SPOR",en:"slow",exHr:"Spor, miran dan.",exEn:"A slow, calm day."},
+      {hr:"topao",say:"TOH-pah-oh",en:"warm",exHr:"Topao zagrljaj.",exEn:"A warm hug."}
+    ]},
+    {theme:"Around town",words:[
+      {hr:"grad",say:"GRAHD",en:"city, town",exHr:"Volim ovaj grad.",exEn:"I love this town."},
+      {hr:"trgovina",say:"tur-GOH-vee-nah",en:"store, shop",exHr:"Idem u trgovinu.",exEn:"I'm going to the store."},
+      {hr:"crkva",say:"TSURK-vah",en:"church",exHr:"Idemo u crkvu.",exEn:"We're going to church."},
+      {hr:"kuća",say:"KOO-chah",en:"house, home",exHr:"Idemo kući.",exEn:"Let's go home."},
+      {hr:"auto",say:"OW-toh",en:"car",exHr:"Idemo autom.",exEn:"Let's go by car."}
+    ]}
+  ];
+
+  var GENERAL=SETS; // general rotation pool
+  var SEASONAL={
+    christmas:{theme:"Christmas 🎄",words:[
+      {hr:"Božić",say:"BOH-zheech",en:"Christmas",exHr:"Sretan Božić!",exEn:"Merry Christmas!"},
+      {hr:"snijeg",say:"SNYEG",en:"snow",exHr:"Pada snijeg.",exEn:"It's snowing."},
+      {hr:"poklon",say:"POH-klon",en:"gift",exHr:"Imam poklon za tebe.",exEn:"I have a gift for you."},
+      {hr:"zvijezda",say:"ZVYEZ-dah",en:"star",exHr:"Zvijezda na vrhu.",exEn:"A star on top."},
+      {hr:"drvce",say:"DURV-tseh",en:"Christmas tree",exHr:"Kitimo drvce.",exEn:"We're decorating the tree."}
+    ]},
+    newyear:{theme:"New Year 🎆",words:[
+      {hr:"Nova godina",say:"NOH-vah GOH-dee-nah",en:"New Year",exHr:"Sretna Nova godina!",exEn:"Happy New Year!"},
+      {hr:"vatromet",say:"VAH-troh-met",en:"fireworks",exHr:"Gledamo vatromet.",exEn:"We're watching the fireworks."},
+      {hr:"ponoć",say:"POH-noch",en:"midnight",exHr:"Vidimo se u ponoć.",exEn:"See you at midnight."},
+      {hr:"želja",say:"ZHEH-lyah",en:"wish",exHr:"Zaželi želju.",exEn:"Make a wish."},
+      {hr:"čestitati",say:"ches-TEE-tah-tee",en:"to congratulate",exHr:"Čestitam!",exEn:"Congratulations!"}
+    ]},
+    valentine:{theme:"Valentine's 💘",words:[
+      {hr:"ljubav",say:"LYOO-bahv",en:"love",exHr:"Moja ljubav.",exEn:"My love."},
+      {hr:"ruža",say:"ROO-zhah",en:"rose",exHr:"Ruža za tebe.",exEn:"A rose for you."},
+      {hr:"srce",say:"SUR-tseh",en:"heart",exHr:"Ti si moje srce.",exEn:"You are my heart."},
+      {hr:"poljubac",say:"POH-lyoo-bats",en:"kiss",exHr:"Daj mi poljubac.",exEn:"Give me a kiss."},
+      {hr:"Volim te",say:"VOH-leem teh",en:"I love you",exHr:"Volim te najviše.",exEn:"I love you the most."}
+    ]},
+    easter:{theme:"Easter 🐣",words:[
+      {hr:"Uskrs",say:"OOS-kurs",en:"Easter",exHr:"Sretan Uskrs!",exEn:"Happy Easter!"},
+      {hr:"jaje",say:"YAH-yeh",en:"egg",exHr:"Bojimo jaja.",exEn:"We're dyeing eggs."},
+      {hr:"zec",say:"ZETS",en:"bunny, rabbit",exHr:"Uskrsni zec.",exEn:"The Easter bunny."},
+      {hr:"proljeće",say:"proh-LYEH-cheh",en:"spring",exHr:"Stiglo je proljeće.",exEn:"Spring has arrived."},
+      {hr:"cvijet",say:"TSVYET",en:"flower",exHr:"Prvi cvijet.",exEn:"The first flower."}
+    ]},
+    halloween:{theme:"Halloween 🎃",words:[
+      {hr:"bundeva",say:"BOON-deh-vah",en:"pumpkin",exHr:"Režemo bundevu.",exEn:"We're carving a pumpkin."},
+      {hr:"vještica",say:"VYESH-tee-tsah",en:"witch",exHr:"Zla vještica.",exEn:"An evil witch."},
+      {hr:"strašno",say:"STRASH-noh",en:"scary",exHr:"Baš strašno!",exEn:"So scary!"},
+      {hr:"kostim",say:"KOS-teem",en:"costume",exHr:"Super kostim!",exEn:"Great costume!"},
+      {hr:"noć",say:"NOCH",en:"night",exHr:"Strašna noć.",exEn:"A scary night."}
+    ]},
+    sunny:{theme:"Sunny weekend ☀️",words:[
+      {hr:"sunce",say:"SOON-tseh",en:"sun",exHr:"Sunce sja.",exEn:"The sun is shining."},
+      {hr:"vedro",say:"VEH-droh",en:"clear (sky)",exHr:"Danas je vedro.",exEn:"It's clear today."},
+      {hr:"toplo",say:"TOH-ploh",en:"warm",exHr:"Vani je toplo.",exEn:"It's warm outside."},
+      {hr:"cvijet",say:"TSVYET",en:"flower",exHr:"Beremo cvijeće.",exEn:"We're picking flowers."},
+      {hr:"lijepo vrijeme",say:"LYEH-poh VRYEH-meh",en:"nice weather",exHr:"Kakvo lijepo vrijeme!",exEn:"What nice weather!"}
+    ]},
+    winter:{theme:"Winter ❄️",words:[
+      {hr:"zima",say:"ZEE-mah",en:"winter",exHr:"Volim zimu.",exEn:"I love winter."},
+      {hr:"snijeg",say:"SNYEG",en:"snow",exHr:"Pada snijeg.",exEn:"It's snowing."},
+      {hr:"hladno",say:"HLAHD-noh",en:"cold",exHr:"Vani je hladno.",exEn:"It's cold outside."},
+      {hr:"led",say:"LED",en:"ice",exHr:"Klizav led.",exEn:"Slippery ice."},
+      {hr:"rukavice",say:"roo-kah-VEE-tseh",en:"gloves",exHr:"Gdje su mi rukavice?",exEn:"Where are my gloves?"}
+    ]},
+    spring:{theme:"Spring 🌷",words:[
+      {hr:"proljeće",say:"proh-LYEH-cheh",en:"spring",exHr:"Volim proljeće.",exEn:"I love spring."},
+      {hr:"cvijet",say:"TSVYET",en:"flower",exHr:"Prvi cvijet.",exEn:"The first flower."},
+      {hr:"kiša",say:"KEE-shah",en:"rain",exHr:"Pada kiša.",exEn:"It's raining."},
+      {hr:"ptica",say:"PTEE-tsah",en:"bird",exHr:"Ptica pjeva.",exEn:"A bird is singing."},
+      {hr:"zeleno",say:"ZEH-leh-noh",en:"green",exHr:"Sve je zeleno.",exEn:"Everything is green."}
+    ]},
+    summer:{theme:"Summer 🏖️",words:[
+      {hr:"ljeto",say:"LYEH-toh",en:"summer",exHr:"Toplo ljeto.",exEn:"A warm summer."},
+      {hr:"more",say:"MOH-reh",en:"sea",exHr:"Idemo na more.",exEn:"We're going to the seaside."},
+      {hr:"plivati",say:"PLEE-vah-tee",en:"to swim",exHr:"Idemo plivati.",exEn:"Let's go swimming."},
+      {hr:"vrućina",say:"vroo-CHEE-nah",en:"heat",exHr:"Velika vrućina.",exEn:"A real heatwave."},
+      {hr:"odmor",say:"OD-mor",en:"vacation, rest",exHr:"Trebam odmor.",exEn:"I need a vacation."}
+    ]},
+    autumn:{theme:"Autumn 🍂",words:[
+      {hr:"jesen",say:"YEH-sen",en:"autumn, fall",exHr:"Stigla je jesen.",exEn:"Autumn has arrived."},
+      {hr:"lišće",say:"LEESH-cheh",en:"leaves",exHr:"Žuto lišće.",exEn:"Yellow leaves."},
+      {hr:"kiša",say:"KEE-shah",en:"rain",exHr:"Hladna kiša.",exEn:"Cold rain."},
+      {hr:"vjetar",say:"VYEH-tar",en:"wind",exHr:"Puše vjetar.",exEn:"The wind is blowing."},
+      {hr:"oblak",say:"OH-blahk",en:"cloud",exHr:"Siv oblak.",exEn:"A grey cloud."}
+    ]}
+  };
+  var weather={sunny:false,loaded:false};
+  function load(k,f){try{var v=JSON.parse(localStorage.getItem(k));return v||f;}catch(e){return f;}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  var plans=load("op_plans",[]);
+  var bucket=load("op_bucket",SEED_BUCKET);
+  var filters={}; Object.keys(CATS).forEach(function(k){filters[k]=true;});
+
+  function miToday(){
+    try{
+      var s=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Detroit',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+      var p=s.split('-').map(Number); return new Date(p[0],p[1]-1,p[2]);
+    }catch(e){var d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
+  }
+  function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+  function addDays(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);}
+  var DAYNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+  var today=miToday();
+  document.getElementById('todayPill').textContent="📍 Michigan · "+DAYNAMES[today.getDay()]+", "+today.getDate()+" "+MONTHS[today.getMonth()];
+
+  function itemsFor(d){
+    var out=[];
+    RECURRING.forEach(function(r){ if(d.getDay()===r.weekday && filters[r.cat]) out.push({cat:r.cat,title:r.title,time:r.time,recurring:true}); });
+    plans.forEach(function(p){ if(p.date===iso(d) && filters[p.cat]) out.push(p); });
+    out.sort(function(a,b){return (a.time||"99")<(b.time||"99")?-1:1;});
+    return out;
+  }
+  function catIcon(cat){var c=CATS[cat]||CATS.dates;return '<span class="ic" style="background:'+c.color+'">'+c.icon+'</span>';}
+  function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
+
+  function renderLegend(){
+    var el=document.getElementById('legend'); el.innerHTML="";
+    Object.keys(CATS).forEach(function(k){
+      var c=CATS[k];
+      var b=document.createElement('button'); b.className="chip"+(filters[k]?"":" off");
+      b.innerHTML='<span class="dot" style="background:'+c.color+'"></span>'+c.icon+" "+c.name;
+      b.onclick=function(){filters[k]=!filters[k];renderLegend();renderWeek();renderCal();};
+      el.appendChild(b);
+    });
+  }
+  function renderWeek(){
+    var el=document.getElementById('week'); el.innerHTML="";
+    var off=(today.getDay()+6)%7; var mon=addDays(today,-off);
+    for(var i=0;i<7;i++){
+      var d=addDays(mon,i); var items=itemsFor(d);
+      var div=document.createElement('div'); div.className="day"+(iso(d)===iso(today)?" today":"");
+      var h='<div class="dhead"><span class="dname">'+DAYNAMES[d.getDay()]+'</span><span class="ddate">'+d.getDate()+" "+MONTHS[d.getMonth()].slice(0,3)+'</span></div>';
+      if(items.length===0){h+='<div class="empty">Free 🤍</div>';}
+      items.forEach(function(it){
+        var done=it.done?" done":"";
+        h+='<div class="item'+done+'">'+catIcon(it.cat)+
+           '<div class="txt"><div class="t1">'+esc(it.title)+(it.star?' ⭐':'')+'</div>'+
+           (it.time?'<div class="t2">'+it.time+(it.recurring?' · every week':'')+'</div>':(it.recurring?'<div class="t2">every week</div>':''))+'</div>';
+        if(!it.recurring && it.id){ h+='<span class="check" data-done="'+it.id+'">'+(it.done?'✓':'')+'</span>'; }
+        h+='</div>';
+      });
+      div.innerHTML=h; el.appendChild(div);
+    }
+    el.querySelectorAll('[data-done]').forEach(function(x){
+      x.onclick=function(){var id=x.getAttribute('data-done');plans.forEach(function(p){if(p.id===id)p.done=!p.done;});save("op_plans",plans);renderWeek();};
+    });
+  }
+
+  // ---- Croatian weekend learn (seasonal / holiday / weather aware) ----
+  function weekNumber(d){var start=new Date(2026,0,1);return Math.floor((d-start)/(7*24*3600*1000));}
+  function seasonKey(d){var m=d.getMonth()+1;if(m===12||m<=2)return"winter";if(m<=5)return"spring";if(m<=8)return"summer";return"autumn";}
+  function holidayKey(d){var m=d.getMonth()+1,day=d.getDate();
+    if(m===12&&day>=10&&day<=26)return"christmas";
+    if((m===12&&day>=27)||(m===1&&day<=6))return"newyear";
+    if(m===10&&day>=24)return"halloween";
+    if(m===2&&day>=7&&day<=16)return"valentine";
+    if((m===3&&day>=25)||(m===4&&day<=22))return"easter";
+    return null;}
+  function allSetIds(){var ids=[];GENERAL.forEach(function(_,i){ids.push("gen"+i);});Object.keys(SEASONAL).forEach(function(k){ids.push(k);});return ids;}
+  function getSet(id){return id.indexOf("gen")===0?GENERAL[+id.slice(3)]:SEASONAL[id];}
+  function currentSetId(d){
+    var hk=holidayKey(d); if(hk)return hk;
+    if(weather.sunny)return"sunny";
+    var pool=[];GENERAL.forEach(function(_,i){pool.push("gen"+i);});pool.push(seasonKey(d));
+    return pool[((weekNumber(d)%pool.length)+pool.length)%pool.length];
+  }
+  function totalLearned(){var n=0;allSetIds().forEach(function(id){load("op_learn_"+id,[]).forEach(function(b){if(b)n++;});});return n;}
+  function renderLearn(){
+    var id=currentSetId(today); var set=getSet(id);
+    var state=load("op_learn_"+id,[false,false,false,false,false]);
+    var el=document.getElementById('learn'); var gotCount=state.filter(function(b){return b;}).length;
+    var h='<div class="lhead"><span class="ltitle">🇭🇷 Croatian this weekend</span><span class="ltheme">'+esc(set.theme)+'</span></div>'+
+          '<div class="lsub">Five words for Drake, picked for the season and the weather. A fresh set every weekend.</div>'+
+          '<div class="pbar"><i style="width:'+(gotCount/5*100)+'%"></i></div>';
+    set.words.forEach(function(w,i){
+      h+='<div class="word"><div class="wnum">'+(i+1)+'</div><div class="wbody">'+
+         '<div><span class="whr">'+esc(w.hr)+'</span><span class="wsay">'+esc(w.say)+'</span></div>'+
+         '<div class="wen">'+esc(w.en)+'</div>'+
+         '<div class="wex"><b>'+esc(w.exHr)+'</b> <span>'+esc(w.exEn)+'</span></div>'+
+         '</div><button class="wgot'+(state[i]?' on':'')+'" data-got="'+i+'">'+(state[i]?'Got it ✓':'Got it')+'</button></div>';
+    });
+    h+='<div class="lfoot"><span>Learned this set: '+gotCount+' / 5</span><span>Total words learned: '+totalLearned()+'</span></div>';
+    el.innerHTML=h;
+    el.querySelectorAll('[data-got]').forEach(function(x){
+      x.onclick=function(){var i=+x.getAttribute('data-got');state[i]=!state[i];save("op_learn_"+id,state);renderLearn();};
+    });
+  }
+  function loadWeather(){
+    try{
+      var url="https://api.open-meteo.com/v1/forecast?latitude=42.03&longitude=-85.82&daily=weather_code&timezone=America%2FDetroit&forecast_days=10";
+      fetch(url).then(function(r){return r.json();}).then(function(j){
+        if(!j||!j.daily)return; var t=j.daily.time,c=j.daily.weather_code;
+        for(var i=0;i<t.length;i++){
+          var p=t[i].split('-').map(Number); var dd=new Date(p[0],p[1]-1,p[2]); var wd=dd.getDay();
+          if((wd===6||wd===0)&&dd>=today&&(c[i]===0||c[i]===1)){weather.sunny=true;break;}
+          if(wd===0&&dd>today) break;
+        }
+        weather.loaded=true; renderLearn();
+      }).catch(function(){});
+    }catch(e){}
+  }
+
+  var calY=today.getFullYear(), calM=today.getMonth();
+  function renderCal(){
+    document.getElementById('mtitle').textContent=MONTHS[calM]+" "+calY;
+    var grid=document.getElementById('grid'); grid.innerHTML="";
+    ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function(n){var l=document.createElement('div');l.className="glabel";l.textContent=n;grid.appendChild(l);});
+    var first=new Date(calY,calM,1); var startOff=(first.getDay()+6)%7;
+    var start=addDays(first,-startOff);
+    for(var i=0;i<42;i++){
+      var d=addDays(start,i);
+      var cell=document.createElement('div');
+      var other=d.getMonth()!==calM?" other":""; var tdy=iso(d)===iso(today)?" tdy":"";
+      cell.className="gday"+other+tdy; cell.innerHTML='<span>'+d.getDate()+'</span>';
+      var its=itemsFor(d); if(its.length){var dd='<div class="dots">';its.slice(0,4).forEach(function(it){dd+='<i style="background:'+(CATS[it.cat]||CATS.dates).color+'"></i>';});dd+='</div>';cell.innerHTML+=dd;}
+      (function(dateStr){cell.onclick=function(){document.getElementById('aDate').value=dateStr;document.getElementById('aTitle').focus();};})(iso(d));
+      grid.appendChild(cell);
+    }
+  }
+  document.getElementById('prevM').onclick=function(){calM--;if(calM<0){calM=11;calY--;}renderCal();};
+  document.getElementById('nextM').onclick=function(){calM++;if(calM>11){calM=0;calY++;}renderCal();};
+
+  function renderBucket(){
+    var el=document.getElementById('bucket'); el.innerHTML="";
+    bucket.forEach(function(b){
+      var div=document.createElement('div'); div.className="bcard";
+      div.innerHTML='<div class="btop">'+catIcon(b.cat)+'<span class="bttl">'+esc(b.title)+'</span>'+
+        '<span class="star '+(b.star?'on':'')+'" data-star="'+b.id+'" title="Mark as special">⭐</span></div>'+
+        (b.date?'<div class="bmeta">📅 '+b.date+'</div>':'<div class="bmeta">Not scheduled yet</div>')+
+        '<div class="bbtn"><button data-sched="'+b.id+'">📅 Schedule</button></div>';
+      el.appendChild(div);
+    });
+    el.querySelectorAll('[data-star]').forEach(function(x){x.onclick=function(){var id=x.getAttribute('data-star');bucket.forEach(function(b){if(b.id===id)b.star=!b.star;});save("op_bucket",bucket);renderBucket();};});
+    el.querySelectorAll('[data-sched]').forEach(function(x){x.onclick=function(){
+      var id=x.getAttribute('data-sched'); var b=bucket.filter(function(z){return z.id===id;})[0]; if(!b)return;
+      var dt=prompt("Date (YYYY-MM-DD):", iso(today)); if(!dt)return;
+      b.date=dt; save("op_bucket",bucket);
+      plans.push({id:"p"+Date.now(),cat:b.cat,title:b.title,date:dt,time:"",star:b.star,done:false}); save("op_plans",plans);
+      renderBucket();renderWeek();renderCal();
+    };});
+  }
+
+  var sel=document.getElementById('aCat');
+  Object.keys(CATS).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=CATS[k].icon+" "+CATS[k].name;sel.appendChild(o);});
+  document.getElementById('aAdd').onclick=function(){
+    var t=document.getElementById('aTitle').value.trim(); var dt=document.getElementById('aDate').value;
+    if(!t||!dt){alert("Add a title and a date 🙂");return;}
+    plans.push({id:"p"+Date.now(),cat:sel.value,title:t,date:dt,time:document.getElementById('aTime').value,star:document.getElementById('aStar').checked,done:false});
+    save("op_plans",plans);
+    document.getElementById('aTitle').value="";document.getElementById('aStar').checked=false;
+    renderWeek();renderCal();
+  };
+
+  var tb=document.getElementById('themebtn');
+  tb.onclick=function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var next=cur==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',next);
+    tb.textContent=next==='dark'?'☀️ Theme':'🌙 Theme';
+    try{localStorage.setItem('op_theme',next);}catch(e){}
+  };
+  try{var st=localStorage.getItem('op_theme'); if(!st){st='light';}
+    document.documentElement.setAttribute('data-theme',st);
+    tb.textContent=st==='dark'?'☀️ Theme':'🌙 Theme';
+  }catch(e){document.documentElement.setAttribute('data-theme','light');}
+
+  renderLegend();renderWeek();renderLearn();renderCal();renderBucket();loadWeather();
+})();
+</script>
