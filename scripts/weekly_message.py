@@ -17,14 +17,14 @@ SEASONAL = data.get("seasonal", {})
 EVENTS = load_json("events.json", [])
 
 VERSES = [
-    ("I can do all things through Christ who strengthens me.", "Philippians 4:13"),
-    ("This is the day that the Lord has made. Let us rejoice and be glad in it.", "Psalm 118:24"),
-    ("Be strong and courageous. Do not be afraid, for the Lord your God is with you wherever you go.", "Joshua 1:9"),
-    ("Give thanks in everything, for this is God's will for you.", "1 Thessalonians 5:18"),
-    ("Commit your work to the Lord, and your plans will be established.", "Proverbs 16:3"),
-    ("Love is patient and kind.", "1 Corinthians 13:4"),
-    ("Trust in the Lord with all your heart, and do not lean on your own understanding.", "Proverbs 3:5"),
-    ("The Lord is my shepherd; I shall not want.", "Psalm 23:1"),
+    ("I can do all things through Christ which strengtheneth me.", "Philippians 4:13 (KJV)"),
+    ("This is the day which the LORD hath made; we will rejoice and be glad in it.", "Psalm 118:24 (KJV)"),
+    ("Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.", "Joshua 1:9 (KJV)"),
+    ("In every thing give thanks: for this is the will of God in Christ Jesus concerning you.", "1 Thessalonians 5:18 (KJV)"),
+    ("Commit thy works unto the LORD, and thy thoughts shall be established.", "Proverbs 16:3 (KJV)"),
+    ("Charity suffereth long, and is kind.", "1 Corinthians 13:4 (KJV)"),
+    ("Trust in the LORD with all thine heart; and lean not unto thine own understanding.", "Proverbs 3:5 (KJV)"),
+    ("The LORD is my shepherd; I shall not want.", "Psalm 23:1 (KJV)"),
 ]
 REMINDERS = [
     "Take a few minutes together to look at the week and breathe.",
@@ -126,7 +126,7 @@ def build_message(d):
     rem = REMINDERS[week_number(d) % len(REMINDERS)]
     st = current_set(fc, d)
     L = []
-    L.append("Hey Drake, happy Sunday! \U0001f49b Get ready for the week ahead.")
+    L.append("Hey Drake and Anja, happy Sunday! \U0001f49b Get ready for the week ahead by looking at everything you have planned.")
     L.append("")
     L.append("\U0001f4d6 Verse of the week:")
     L.append('"' + v + '" - ' + ref)
@@ -138,8 +138,8 @@ def build_message(d):
         L.append(wl)
     L.append("")
     L.append("\U0001f4c5 This week:")
-    L.append("\U0001f4de Wed & Thu: Drake's calls")
-    L.append("\U0001f9d6 Fri morning: sauna")
+    L.append("\U0001f4de Wed & Thu: Drake\u2019s work calls")
+    L.append("\U0001f9d6 Fri: sauna in the morning")
     L.append("⛪ Sun: church")
     for ed, e in week_events(d):
         label = DOW[ed.weekday()] + " " + str(ed.day) + " " + MON[ed.month - 1]
