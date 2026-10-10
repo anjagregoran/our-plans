@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Sunday WhatsApp for Anja & Drake: greeting, Bible verse, reminder, weather, the week's plans, 5 Croatian words.
+# Sunday WhatsApp for Anja & Drake. Sent as TWO messages (plans, then Croatian) so nothing is truncated.
 import json, os, time, datetime, urllib.parse, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -120,11 +120,9 @@ def week_events(d):
     out.sort(key=lambda x: x[0])
     return out
 
-def build_message(d):
-    fc = fetch_forecast(d)
+def build_main(d, fc):
     v, ref = VERSES[week_number(d) % len(VERSES)]
     rem = REMINDERS[week_number(d) % len(REMINDERS)]
-    st = current_set(fc, d)
     L = []
     L.append("Hey Drake and Anja, happy Sunday! \U0001f49b Get ready for the week ahead by looking at everything you have planned.")
     L.append("")
@@ -134,11 +132,10 @@ def build_message(d):
     L.append("\U0001f33f Reminder: " + rem)
     wl = weather_line(fc, d)
     if wl:
-        L.append("")
-        L.append(wl)
+        L.append(""); L.append(wl)
     L.append("")
     L.append("\U0001f4c5 This week:")
-    L.append("\U0001f4de Wed & Thu: Drake\u2019s work calls")
+    L.append("\U0001f4de Wed & Thu: Drake’s work calls")
     L.append("\U0001f9d6 Fri: sauna in the morning")
     L.append("⛪ Sun: church")
     for ed, e in week_events(d):
@@ -147,12 +144,18 @@ def build_message(d):
         em = e.get("emoji", "•")
         L.append(f"{em} {label}: {e['title']}{tail}")
     L.append("")
+    L.append("\U0001f4f2 Full calendar: https://anjagregoran.github.io/our-plans/")
+    return "\n".join(L)
+
+def build_croatian(d, fc):
+    st = current_set(fc, d)
+    L = []
     L.append("\U0001f1ed\U0001f1f7 Croatian this weekend (" + st["theme"] + "):")
+    L.append("Five little words for Drake \U0001f49b")
     for i, w in enumerate(st["words"], 1):
+        L.append("")
         L.append(f"{i}. {w['hr']} = {w['en']}  ({w['say']})")
         L.append(f"   {w['exHr']}  /  {w['exEn']}")
-    L.append("")
-    L.append("\U0001f4f2 Full calendar: https://anjagregoran.github.io/our-plans/")
     return "\n".join(L)
 
 def send(phone, key, text):
@@ -161,17 +164,25 @@ def send(phone, key, text):
     q = urllib.parse.urlencode({"phone": phone, "text": text, "apikey": key})
     try:
         with urllib.request.urlopen("https://api.callmebot.com/whatsapp.php?" + q, timeout=30) as r:
-            print("sent to", phone, "->", r.read().decode("utf-8", "ignore")[:100])
+            print("sent to", phone, "->", r.read().decode("utf-8", "ignore")[:90])
     except Exception as e:
         print("error sending to", phone, ":", e)
 
 def main():
     d = michigan_today()
-    msg = build_message(d)
-    print("----- message -----\n" + msg + "\n-------------------")
-    send(os.environ.get("ANJA_PHONE"), os.environ.get("ANJA_KEY"), msg)
-    time.sleep(6)
-    send(os.environ.get("DRAKE_PHONE"), os.environ.get("DRAKE_KEY"), msg)
+    fc = fetch_forecast(d)
+    m1 = build_main(d, fc)
+    m2 = build_croatian(d, fc)
+    print("----- message 1 -----\n" + m1 + "\n----- message 2 -----\n" + m2 + "\n---------------------")
+    recipients = [
+        (os.environ.get("ANJA_PHONE"), os.environ.get("ANJA_KEY")),
+        (os.environ.get("DRAKE_PHONE"), os.environ.get("DRAKE_KEY")),
+    ]
+    for phone, key in recipients:
+        send(phone, key, m1)
+        time.sleep(6)
+        send(phone, key, m2)
+        time.sleep(6)
 
 if __name__ == "__main__":
     main()
