@@ -1,0 +1,806 @@
+{
+ "general": [
+  {
+   "theme": "Verbs",
+   "words": [
+    {
+     "hr": "putovati",
+     "say": "poo-TOH-vah-tee",
+     "en": "to travel",
+     "exHr": "Volim putovati s tobom.",
+     "exEn": "I love travelling with you."
+    },
+    {
+     "hr": "kuhati",
+     "say": "KOO-hah-tee",
+     "en": "to cook",
+     "exHr": "Večeras ja kuham.",
+     "exEn": "Tonight I'm cooking."
+    },
+    {
+     "hr": "voziti",
+     "say": "VOH-zee-tee",
+     "en": "to drive",
+     "exHr": "Znaš li voziti?",
+     "exEn": "Do you know how to drive?"
+    },
+    {
+     "hr": "smijati se",
+     "say": "SMEE-yah-tee seh",
+     "en": "to laugh",
+     "exHr": "Stalno se smijemo.",
+     "exEn": "We're always laughing."
+    },
+    {
+     "hr": "nedostajati",
+     "say": "neh-doh-STAH-yah-tee",
+     "en": "to miss (someone)",
+     "exHr": "Nedostaješ mi.",
+     "exEn": "I miss you."
+    }
+   ]
+  },
+  {
+   "theme": "Adjectives",
+   "words": [
+    {
+     "hr": "lijep",
+     "say": "LYEP",
+     "en": "beautiful",
+     "exHr": "Kakav lijep dan!",
+     "exEn": "What a beautiful day!"
+    },
+    {
+     "hr": "sretan",
+     "say": "SREH-tahn",
+     "en": "happy",
+     "exHr": "Tako sam sretna s tobom.",
+     "exEn": "I'm so happy with you."
+    },
+    {
+     "hr": "umoran",
+     "say": "OO-moh-rahn",
+     "en": "tired",
+     "exHr": "Danas sam jako umoran.",
+     "exEn": "I'm very tired today."
+    },
+    {
+     "hr": "gladan",
+     "say": "GLAH-dahn",
+     "en": "hungry",
+     "exHr": "Jesi li gladan?",
+     "exEn": "Are you hungry?"
+    },
+    {
+     "hr": "drag",
+     "say": "DRAHG",
+     "en": "dear, sweet",
+     "exHr": "Jako si mi drag.",
+     "exEn": "You're very dear to me."
+    }
+   ]
+  },
+  {
+   "theme": "Emotions",
+   "words": [
+    {
+     "hr": "uzbuđen",
+     "say": "ooz-BOO-jen",
+     "en": "excited",
+     "exHr": "Uzbuđena sam za vikend.",
+     "exEn": "I'm excited for the weekend."
+    },
+    {
+     "hr": "ponosan",
+     "say": "POH-noh-sahn",
+     "en": "proud",
+     "exHr": "Ponosan sam na tebe.",
+     "exEn": "I'm proud of you."
+    },
+    {
+     "hr": "nervozan",
+     "say": "nehr-VOH-zahn",
+     "en": "nervous",
+     "exHr": "Malo sam nervozna.",
+     "exEn": "I'm a little nervous."
+    },
+    {
+     "hr": "zaljubljen",
+     "say": "zah-LYOOB-lyen",
+     "en": "in love",
+     "exHr": "Zaljubljen sam u tebe.",
+     "exEn": "I'm in love with you."
+    },
+    {
+     "hr": "miran",
+     "say": "MEE-rahn",
+     "en": "calm",
+     "exHr": "Osjećam se mirno.",
+     "exEn": "I feel calm."
+    }
+   ]
+  },
+  {
+   "theme": "Food & coffee",
+   "words": [
+    {
+     "hr": "kava",
+     "say": "KAH-vah",
+     "en": "coffee",
+     "exHr": "Idemo na kavu?",
+     "exEn": "Shall we go for coffee?"
+    },
+    {
+     "hr": "kolač",
+     "say": "KOH-lahch",
+     "en": "cake, pastry",
+     "exHr": "Ovaj kolač je odličan.",
+     "exEn": "This pastry is excellent."
+    },
+    {
+     "hr": "kruh",
+     "say": "KROOH",
+     "en": "bread",
+     "exHr": "Volim svježi kruh.",
+     "exEn": "I love fresh bread."
+    },
+    {
+     "hr": "sladoled",
+     "say": "SLAH-doh-led",
+     "en": "ice cream",
+     "exHr": "Želiš li sladoled?",
+     "exEn": "Do you want ice cream?"
+    },
+    {
+     "hr": "voda",
+     "say": "VOH-dah",
+     "en": "water",
+     "exHr": "Mogu li dobiti vodu?",
+     "exEn": "Can I get some water?"
+    }
+   ]
+  },
+  {
+   "theme": "Outdoors",
+   "words": [
+    {
+     "hr": "jezero",
+     "say": "YEH-zeh-roh",
+     "en": "lake",
+     "exHr": "Idemo na jezero.",
+     "exEn": "Let's go to the lake."
+    },
+    {
+     "hr": "plaža",
+     "say": "PLAH-zhah",
+     "en": "beach",
+     "exHr": "Vidimo se na plaži.",
+     "exEn": "See you at the beach."
+    },
+    {
+     "hr": "sunce",
+     "say": "SOON-tseh",
+     "en": "sun",
+     "exHr": "Sunce sja.",
+     "exEn": "The sun is shining."
+    },
+    {
+     "hr": "bicikl",
+     "say": "BEE-tseekl",
+     "en": "bicycle",
+     "exHr": "Vozimo bicikl.",
+     "exEn": "Let's ride bikes."
+    },
+    {
+     "hr": "šuma",
+     "say": "SHOO-mah",
+     "en": "forest",
+     "exHr": "Šetnja kroz šumu.",
+     "exEn": "A walk through the forest."
+    }
+   ]
+  },
+  {
+   "theme": "Love words",
+   "words": [
+    {
+     "hr": "poljubac",
+     "say": "POH-lyoo-bats",
+     "en": "kiss",
+     "exHr": "Daj mi poljubac.",
+     "exEn": "Give me a kiss."
+    },
+    {
+     "hr": "zagrljaj",
+     "say": "ZAH-gur-lyai",
+     "en": "hug",
+     "exHr": "Treba mi zagrljaj.",
+     "exEn": "I need a hug."
+    },
+    {
+     "hr": "srce",
+     "say": "SUR-tseh",
+     "en": "heart",
+     "exHr": "Ti si moje srce.",
+     "exEn": "You are my heart."
+    },
+    {
+     "hr": "zajedno",
+     "say": "ZAH-yed-noh",
+     "en": "together",
+     "exHr": "Bolji smo zajedno.",
+     "exEn": "We're better together."
+    },
+    {
+     "hr": "zauvijek",
+     "say": "ZAH-oo-vyek",
+     "en": "forever",
+     "exHr": "Ti i ja, zauvijek.",
+     "exEn": "You and me, forever."
+    }
+   ]
+  },
+  {
+   "theme": "More verbs",
+   "words": [
+    {
+     "hr": "spavati",
+     "say": "SPAH-vah-tee",
+     "en": "to sleep",
+     "exHr": "Idem spavati.",
+     "exEn": "I'm going to sleep."
+    },
+    {
+     "hr": "raditi",
+     "say": "RAH-dee-tee",
+     "en": "to work",
+     "exHr": "Moram raditi danas.",
+     "exEn": "I have to work today."
+    },
+    {
+     "hr": "učiti",
+     "say": "OO-chee-tee",
+     "en": "to learn, study",
+     "exHr": "Učim hrvatski.",
+     "exEn": "I'm learning Croatian."
+    },
+    {
+     "hr": "pjevati",
+     "say": "PYEH-vah-tee",
+     "en": "to sing",
+     "exHr": "Voliš li pjevati?",
+     "exEn": "Do you like to sing?"
+    },
+    {
+     "hr": "plesati",
+     "say": "PLEH-sah-tee",
+     "en": "to dance",
+     "exHr": "Plešeš li?",
+     "exEn": "Do you dance?"
+    }
+   ]
+  },
+  {
+   "theme": "Time words",
+   "words": [
+    {
+     "hr": "danas",
+     "say": "DAH-nahs",
+     "en": "today",
+     "exHr": "Što radimo danas?",
+     "exEn": "What are we doing today?"
+    },
+    {
+     "hr": "sutra",
+     "say": "SOO-trah",
+     "en": "tomorrow",
+     "exHr": "Vidimo se sutra.",
+     "exEn": "See you tomorrow."
+    },
+    {
+     "hr": "vikend",
+     "say": "VEE-kend",
+     "en": "weekend",
+     "exHr": "Sretan vikend!",
+     "exEn": "Happy weekend!"
+    },
+    {
+     "hr": "jutro",
+     "say": "YOO-troh",
+     "en": "morning",
+     "exHr": "Dobro jutro, ljubavi.",
+     "exEn": "Good morning, love."
+    },
+    {
+     "hr": "večer",
+     "say": "VEH-cher",
+     "en": "evening",
+     "exHr": "Dobra večer.",
+     "exEn": "Good evening."
+    }
+   ]
+  },
+  {
+   "theme": "More adjectives",
+   "words": [
+    {
+     "hr": "velik",
+     "say": "VEH-leek",
+     "en": "big",
+     "exHr": "Veliki zagrljaj!",
+     "exEn": "A big hug!"
+    },
+    {
+     "hr": "malen",
+     "say": "MAH-len",
+     "en": "small",
+     "exHr": "Mali grad, velika ljubav.",
+     "exEn": "Small town, big love."
+    },
+    {
+     "hr": "brz",
+     "say": "BURZ",
+     "en": "fast",
+     "exHr": "Brz auto.",
+     "exEn": "A fast car."
+    },
+    {
+     "hr": "spor",
+     "say": "SPOR",
+     "en": "slow",
+     "exHr": "Spor, miran dan.",
+     "exEn": "A slow, calm day."
+    },
+    {
+     "hr": "topao",
+     "say": "TOH-pah-oh",
+     "en": "warm",
+     "exHr": "Topao zagrljaj.",
+     "exEn": "A warm hug."
+    }
+   ]
+  },
+  {
+   "theme": "Around town",
+   "words": [
+    {
+     "hr": "grad",
+     "say": "GRAHD",
+     "en": "city, town",
+     "exHr": "Volim ovaj grad.",
+     "exEn": "I love this town."
+    },
+    {
+     "hr": "trgovina",
+     "say": "tur-GOH-vee-nah",
+     "en": "store, shop",
+     "exHr": "Idem u trgovinu.",
+     "exEn": "I'm going to the store."
+    },
+    {
+     "hr": "crkva",
+     "say": "TSURK-vah",
+     "en": "church",
+     "exHr": "Idemo u crkvu.",
+     "exEn": "We're going to church."
+    },
+    {
+     "hr": "kuća",
+     "say": "KOO-chah",
+     "en": "house, home",
+     "exHr": "Idemo kući.",
+     "exEn": "Let's go home."
+    },
+    {
+     "hr": "auto",
+     "say": "OW-toh",
+     "en": "car",
+     "exHr": "Idemo autom.",
+     "exEn": "Let's go by car."
+    }
+   ]
+  }
+ ],
+ "seasonal": {
+  "christmas": {
+   "theme": "Christmas",
+   "words": [
+    {
+     "hr": "Božić",
+     "say": "BOH-zheech",
+     "en": "Christmas",
+     "exHr": "Sretan Božić!",
+     "exEn": "Merry Christmas!"
+    },
+    {
+     "hr": "snijeg",
+     "say": "SNYEG",
+     "en": "snow",
+     "exHr": "Pada snijeg.",
+     "exEn": "It's snowing."
+    },
+    {
+     "hr": "poklon",
+     "say": "POH-klon",
+     "en": "gift",
+     "exHr": "Imam poklon za tebe.",
+     "exEn": "I have a gift for you."
+    },
+    {
+     "hr": "zvijezda",
+     "say": "ZVYEZ-dah",
+     "en": "star",
+     "exHr": "Zvijezda na vrhu.",
+     "exEn": "A star on top."
+    },
+    {
+     "hr": "drvce",
+     "say": "DURV-tseh",
+     "en": "Christmas tree",
+     "exHr": "Kitimo drvce.",
+     "exEn": "We're decorating the tree."
+    }
+   ]
+  },
+  "newyear": {
+   "theme": "New Year",
+   "words": [
+    {
+     "hr": "Nova godina",
+     "say": "NOH-vah GOH-dee-nah",
+     "en": "New Year",
+     "exHr": "Sretna Nova godina!",
+     "exEn": "Happy New Year!"
+    },
+    {
+     "hr": "vatromet",
+     "say": "VAH-troh-met",
+     "en": "fireworks",
+     "exHr": "Gledamo vatromet.",
+     "exEn": "We're watching the fireworks."
+    },
+    {
+     "hr": "ponoć",
+     "say": "POH-noch",
+     "en": "midnight",
+     "exHr": "Vidimo se u ponoć.",
+     "exEn": "See you at midnight."
+    },
+    {
+     "hr": "želja",
+     "say": "ZHEH-lyah",
+     "en": "wish",
+     "exHr": "Zaželi želju.",
+     "exEn": "Make a wish."
+    },
+    {
+     "hr": "čestitati",
+     "say": "ches-TEE-tah-tee",
+     "en": "to congratulate",
+     "exHr": "Čestitam!",
+     "exEn": "Congratulations!"
+    }
+   ]
+  },
+  "valentine": {
+   "theme": "Valentine's",
+   "words": [
+    {
+     "hr": "ljubav",
+     "say": "LYOO-bahv",
+     "en": "love",
+     "exHr": "Moja ljubav.",
+     "exEn": "My love."
+    },
+    {
+     "hr": "ruža",
+     "say": "ROO-zhah",
+     "en": "rose",
+     "exHr": "Ruža za tebe.",
+     "exEn": "A rose for you."
+    },
+    {
+     "hr": "srce",
+     "say": "SUR-tseh",
+     "en": "heart",
+     "exHr": "Ti si moje srce.",
+     "exEn": "You are my heart."
+    },
+    {
+     "hr": "poljubac",
+     "say": "POH-lyoo-bats",
+     "en": "kiss",
+     "exHr": "Daj mi poljubac.",
+     "exEn": "Give me a kiss."
+    },
+    {
+     "hr": "Volim te",
+     "say": "VOH-leem teh",
+     "en": "I love you",
+     "exHr": "Volim te najviše.",
+     "exEn": "I love you the most."
+    }
+   ]
+  },
+  "easter": {
+   "theme": "Easter",
+   "words": [
+    {
+     "hr": "Uskrs",
+     "say": "OOS-kurs",
+     "en": "Easter",
+     "exHr": "Sretan Uskrs!",
+     "exEn": "Happy Easter!"
+    },
+    {
+     "hr": "jaje",
+     "say": "YAH-yeh",
+     "en": "egg",
+     "exHr": "Bojimo jaja.",
+     "exEn": "We're dyeing eggs."
+    },
+    {
+     "hr": "zec",
+     "say": "ZETS",
+     "en": "bunny, rabbit",
+     "exHr": "Uskrsni zec.",
+     "exEn": "The Easter bunny."
+    },
+    {
+     "hr": "proljeće",
+     "say": "proh-LYEH-cheh",
+     "en": "spring",
+     "exHr": "Stiglo je proljeće.",
+     "exEn": "Spring has arrived."
+    },
+    {
+     "hr": "cvijet",
+     "say": "TSVYET",
+     "en": "flower",
+     "exHr": "Prvi cvijet.",
+     "exEn": "The first flower."
+    }
+   ]
+  },
+  "halloween": {
+   "theme": "Halloween",
+   "words": [
+    {
+     "hr": "bundeva",
+     "say": "BOON-deh-vah",
+     "en": "pumpkin",
+     "exHr": "Režemo bundevu.",
+     "exEn": "We're carving a pumpkin."
+    },
+    {
+     "hr": "vještica",
+     "say": "VYESH-tee-tsah",
+     "en": "witch",
+     "exHr": "Zla vještica.",
+     "exEn": "An evil witch."
+    },
+    {
+     "hr": "strašno",
+     "say": "STRASH-noh",
+     "en": "scary",
+     "exHr": "Baš strašno!",
+     "exEn": "So scary!"
+    },
+    {
+     "hr": "kostim",
+     "say": "KOS-teem",
+     "en": "costume",
+     "exHr": "Super kostim!",
+     "exEn": "Great costume!"
+    },
+    {
+     "hr": "noć",
+     "say": "NOCH",
+     "en": "night",
+     "exHr": "Strašna noć.",
+     "exEn": "A scary night."
+    }
+   ]
+  },
+  "sunny": {
+   "theme": "Sunny weekend",
+   "words": [
+    {
+     "hr": "sunce",
+     "say": "SOON-tseh",
+     "en": "sun",
+     "exHr": "Sunce sja.",
+     "exEn": "The sun is shining."
+    },
+    {
+     "hr": "vedro",
+     "say": "VEH-droh",
+     "en": "clear (sky)",
+     "exHr": "Danas je vedro.",
+     "exEn": "It's clear today."
+    },
+    {
+     "hr": "toplo",
+     "say": "TOH-ploh",
+     "en": "warm",
+     "exHr": "Vani je toplo.",
+     "exEn": "It's warm outside."
+    },
+    {
+     "hr": "cvijet",
+     "say": "TSVYET",
+     "en": "flower",
+     "exHr": "Beremo cvijeće.",
+     "exEn": "We're picking flowers."
+    },
+    {
+     "hr": "lijepo vrijeme",
+     "say": "LYEH-poh VRYEH-meh",
+     "en": "nice weather",
+     "exHr": "Kakvo lijepo vrijeme!",
+     "exEn": "What nice weather!"
+    }
+   ]
+  },
+  "winter": {
+   "theme": "Winter",
+   "words": [
+    {
+     "hr": "zima",
+     "say": "ZEE-mah",
+     "en": "winter",
+     "exHr": "Volim zimu.",
+     "exEn": "I love winter."
+    },
+    {
+     "hr": "snijeg",
+     "say": "SNYEG",
+     "en": "snow",
+     "exHr": "Pada snijeg.",
+     "exEn": "It's snowing."
+    },
+    {
+     "hr": "hladno",
+     "say": "HLAHD-noh",
+     "en": "cold",
+     "exHr": "Vani je hladno.",
+     "exEn": "It's cold outside."
+    },
+    {
+     "hr": "led",
+     "say": "LED",
+     "en": "ice",
+     "exHr": "Klizav led.",
+     "exEn": "Slippery ice."
+    },
+    {
+     "hr": "rukavice",
+     "say": "roo-kah-VEE-tseh",
+     "en": "gloves",
+     "exHr": "Gdje su mi rukavice?",
+     "exEn": "Where are my gloves?"
+    }
+   ]
+  },
+  "spring": {
+   "theme": "Spring",
+   "words": [
+    {
+     "hr": "proljeće",
+     "say": "proh-LYEH-cheh",
+     "en": "spring",
+     "exHr": "Volim proljeće.",
+     "exEn": "I love spring."
+    },
+    {
+     "hr": "cvijet",
+     "say": "TSVYET",
+     "en": "flower",
+     "exHr": "Prvi cvijet.",
+     "exEn": "The first flower."
+    },
+    {
+     "hr": "kiša",
+     "say": "KEE-shah",
+     "en": "rain",
+     "exHr": "Pada kiša.",
+     "exEn": "It's raining."
+    },
+    {
+     "hr": "ptica",
+     "say": "PTEE-tsah",
+     "en": "bird",
+     "exHr": "Ptica pjeva.",
+     "exEn": "A bird is singing."
+    },
+    {
+     "hr": "zeleno",
+     "say": "ZEH-leh-noh",
+     "en": "green",
+     "exHr": "Sve je zeleno.",
+     "exEn": "Everything is green."
+    }
+   ]
+  },
+  "summer": {
+   "theme": "Summer",
+   "words": [
+    {
+     "hr": "ljeto",
+     "say": "LYEH-toh",
+     "en": "summer",
+     "exHr": "Toplo ljeto.",
+     "exEn": "A warm summer."
+    },
+    {
+     "hr": "more",
+     "say": "MOH-reh",
+     "en": "sea",
+     "exHr": "Idemo na more.",
+     "exEn": "We're going to the seaside."
+    },
+    {
+     "hr": "plivati",
+     "say": "PLEE-vah-tee",
+     "en": "to swim",
+     "exHr": "Idemo plivati.",
+     "exEn": "Let's go swimming."
+    },
+    {
+     "hr": "vrućina",
+     "say": "vroo-CHEE-nah",
+     "en": "heat",
+     "exHr": "Velika vrućina.",
+     "exEn": "A real heatwave."
+    },
+    {
+     "hr": "odmor",
+     "say": "OD-mor",
+     "en": "vacation, rest",
+     "exHr": "Trebam odmor.",
+     "exEn": "I need a vacation."
+    }
+   ]
+  },
+  "autumn": {
+   "theme": "Autumn",
+   "words": [
+    {
+     "hr": "jesen",
+     "say": "YEH-sen",
+     "en": "autumn, fall",
+     "exHr": "Stigla je jesen.",
+     "exEn": "Autumn has arrived."
+    },
+    {
+     "hr": "lišće",
+     "say": "LEESH-cheh",
+     "en": "leaves",
+     "exHr": "Žuto lišće.",
+     "exEn": "Yellow leaves."
+    },
+    {
+     "hr": "kiša",
+     "say": "KEE-shah",
+     "en": "rain",
+     "exHr": "Hladna kiša.",
+     "exEn": "Cold rain."
+    },
+    {
+     "hr": "vjetar",
+     "say": "VYEH-tar",
+     "en": "wind",
+     "exHr": "Puše vjetar.",
+     "exEn": "The wind is blowing."
+    },
+    {
+     "hr": "oblak",
+     "say": "OH-blahk",
+     "en": "cloud",
+     "exHr": "Siv oblak.",
+     "exEn": "A grey cloud."
+    }
+   ]
+  }
+ }
+}
