@@ -534,7 +534,7 @@
   }
 
   var sel=document.getElementById('aCat');
-  Object.keys(CATS).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=CATS[k].icon+" "+CATS[k].name;sel.appendChild(o);});
+  Object.keys(CATS).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=CATS[k].name;sel.appendChild(o);});
   document.getElementById('aAdd').onclick=function(){
     var t=document.getElementById('aTitle').value.trim(); var dt=document.getElementById('aDate').value;
     if(!t||!dt){alert("Add a title and a date");return;}
