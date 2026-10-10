@@ -15,6 +15,7 @@ data = load_json("sets.json", {"general": [], "seasonal": {}})
 GENERAL = data.get("general", [])
 SEASONAL = data.get("seasonal", {})
 EVENTS = load_json("events.json", [])
+GROCERY = load_json("grocery.json", [])
 
 VERSES = [
     ("I can do all things through Christ which strengtheneth me.", "Philippians 4:13 (KJV)"),
@@ -42,6 +43,13 @@ def michigan_today():
         return datetime.datetime.now(ZoneInfo("America/Detroit")).date()
     except Exception:
         return datetime.date.today()
+
+def michigan_hour():
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.datetime.now(ZoneInfo("America/Detroit")).hour
+    except Exception:
+        return datetime.datetime.now().hour
 
 def week_number(d): return (d - datetime.date(2026, 1, 1)).days // 7
 def season_key(d):
@@ -144,6 +152,12 @@ def build_main(d, fc):
         tail = "  (maybe)" if e.get("maybe") else ""
         em = e.get("emoji", "•")
         L.append(f"{em} {label}: {e['title']}{tail}")
+    gl=[g.get("t") for g in GROCERY if g.get("t")]
+    if gl:
+        L.append("")
+        L.append("\U0001f6d2 Grocery list (Fresh Thyme or Sawall’s):")
+        for it in gl:
+            L.append("• " + it)
     L.append("")
     L.append("\U0001f4f2 Full calendar: https://anjagregoran.github.io/our-plans/")
     return "\n".join(L)
@@ -170,6 +184,12 @@ def send(phone, key, text):
         print("error sending to", phone, ":", e)
 
 def main():
+    # When run on a schedule (GATED=1), only actually send at 9am Michigan time.
+    # GitHub Actions fires at both 13:00 and 14:00 UTC on Sunday so one of them is
+    # always 9am Detroit whether it is daylight-saving time or not.
+    if os.environ.get("GATED") and michigan_hour() != 9:
+        print("Gated: Michigan hour is", michigan_hour(), "- only sends at 9am. Skipping.")
+        return
     d = michigan_today()
     fc = fetch_forecast(d)
     m1 = build_main(d, fc)
