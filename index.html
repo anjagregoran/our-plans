@@ -387,6 +387,7 @@
   function load(k,f){try{var v=JSON.parse(localStorage.getItem(k));return v||f;}catch(e){return f;}}
   function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
   var plans=load("op_plans",[]);
+  var fixedPlans=[];
   var bucket=load("op_bucket",SEED_BUCKET);
   var filters={}; Object.keys(CATS).forEach(function(k){filters[k]=true;});
 
@@ -410,6 +411,7 @@
     var out=[];
     RECURRING.forEach(function(r){ if(d.getDay()===r.weekday && filters[r.cat]) out.push({cat:r.cat,title:r.title,time:r.time,recurring:true}); });
     plans.forEach(function(p){ if(p.date===iso(d) && filters[p.cat]) out.push(p); });
+    fixedPlans.forEach(function(p){ if(p.date===iso(d) && filters[p.cat]) out.push(p); });
     out.sort(function(a,b){return (a.time||"99")<(b.time||"99")?-1:1;});
     return out;
   }
@@ -598,6 +600,14 @@
   };
   document.getElementById('learnToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian this weekend';
 
-  renderLegend();renderWeek();renderLearn();renderCal();renderBucket();loadWeather();
+  function loadEvents(){
+    try{
+      fetch('scripts/events.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(arr){
+        fixedPlans=(arr||[]).map(function(e,i){return {id:'ev'+i,cat:e.cat||'dates',title:e.title+(e.maybe?' (maybe)':''),date:e.date,star:false,done:false};});
+        renderWeek();renderCal();
+      }).catch(function(){});
+    }catch(e){}
+  }
+  renderLegend();renderWeek();renderLearn();renderCal();renderBucket();loadWeather();loadEvents();
 })();
 </script>
