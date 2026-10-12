@@ -146,6 +146,7 @@ def build_main(d, fc):
     L.append("\U0001f4de Wed & Thu: Drake’s work calls")
     L.append("\U0001f9d6 Fri: sauna in the morning")
     L.append("⛪ Sun: church")
+    L.append("\U0001f96c Sun: healthy grocery run after church")
     L.append("\U0001f4da Mon-Fri: Anja\u2019s school (10:00-14:00)")
     for ed, e in week_events(d):
         label = DOW[ed.weekday()] + " " + str(ed.day) + " " + MON[ed.month - 1]
