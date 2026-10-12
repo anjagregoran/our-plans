@@ -1,5 +1,5 @@
 [
-  {"date": "2026-10-16", "cat": "dates", "title": "Hang out with Gavin & Ethan", "maybe": true, "emoji": "🧑‍🤝‍🧑"},
-  {"date": "2026-10-17", "cat": "dates", "title": "Pumpkin picking", "maybe": false, "emoji": "🎃"},
-  {"date": "2026-10-18", "cat": "dates", "title": "Date with Drake", "maybe": true, "emoji": "💛"}
+  {"date": "2026-10-16", "cat": "dates", "title": "Hang out with Gavin & Ethan", "maybe": true, "emoji": "🧑‍🤝‍🧑", "icon": "people"},
+  {"date": "2026-10-17", "cat": "dates", "title": "Pumpkin picking", "maybe": false, "emoji": "🎃", "icon": "pumpkin"},
+  {"date": "2026-10-18", "cat": "dates", "title": "Date with Drake", "maybe": true, "emoji": "💛", "icon": "heart"}
 ]
