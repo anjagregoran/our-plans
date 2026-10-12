@@ -86,7 +86,15 @@
   .ev .etime{color:var(--soft);font-variant-numeric:tabular-nums;flex:0 0 auto;}
   .ev .etxt{white-space:normal;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
   .ev.more{background:transparent;color:var(--soft);padding:0 6px;font-weight:600;}
-  @media(max-width:600px){.gday{min-height:70px;padding:5px 4px 6px;}.ev{font-size:9px;padding:2px 4px;gap:3px;}.ev .etime{display:none;}}
+  @media(max-width:600px){
+    .gday{min-height:56px;padding:5px 4px 6px;gap:4px;}
+    .evs{flex-direction:row;flex-wrap:wrap;gap:4px;align-items:center;}
+    .ev{padding:0;background:transparent;gap:0;}
+    .ev .etime,.ev .etxt{display:none;}
+    .ev::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);display:block;}
+    .ev.more{font-size:9px;color:var(--soft);font-weight:600;}
+    .ev.more::before{display:none;}
+  }
   .bucket{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
   .bcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);position:relative;transition:opacity .2s;}
   .bcard .star{position:absolute;top:14px;right:14px;}
@@ -110,6 +118,7 @@
   .addbar input[type=text]{flex:1;min-width:160px;}
   .addbar .pbtn{background:var(--accent);color:#fff;border:0;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;letter-spacing:.02em;}
   .addbar label{font-size:12.5px;color:var(--soft);display:inline-flex;gap:5px;align-items:center;}
+  .addbar .totime{font-size:12.5px;color:var(--soft);}
   .topbar{display:flex;align-items:center;justify-content:flex-end;gap:9px;margin-bottom:14px;}
   .themebtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 14px;font-size:12.5px;cursor:pointer;}
   .seasonpill{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--ink);font-size:12px;font-weight:600;padding:7px 14px;border-radius:999px;}
@@ -130,6 +139,23 @@
   .gitem .gdel{color:var(--soft);cursor:pointer;font-size:19px;line-height:1;border:none;background:none;padding:2px 7px;opacity:.5;}
   .gitem .gdel:hover{opacity:1;color:var(--accent);}
   .grocempty{color:var(--soft);font-size:13.5px;padding:8px 4px;}
+  .modal{position:fixed;inset:0;background:rgba(40,28,20,.45);display:flex;align-items:center;justify-content:center;z-index:60;padding:20px;}
+  .modal[hidden]{display:none;}
+  .modal-card{background:var(--panel);border-radius:18px;box-shadow:var(--shadow);max-width:430px;width:100%;max-height:82vh;overflow:auto;padding:22px;}
+  .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:15px;}
+  .modal-date{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.25;color:var(--ink);}
+  .modal-x{border:none;background:none;color:var(--soft);font-size:26px;line-height:1;cursor:pointer;padding:0 2px;}
+  .modal-x:hover{color:var(--accent);}
+  .modal-body{display:flex;flex-direction:column;gap:9px;margin-bottom:17px;}
+  .mitem{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--line);}
+  .mitem .mtxt{flex:1;min-width:0;}
+  .mitem .mt1{font-weight:600;font-size:14.5px;}
+  .mitem .mt2{font-size:12px;color:var(--soft);margin-top:1px;}
+  .mitem .mdel{border:none;background:none;color:var(--soft);font-size:19px;cursor:pointer;padding:2px 6px;opacity:.5;flex:0 0 auto;}
+  .mitem .mdel:hover{opacity:1;color:var(--accent);}
+  .mfree{color:var(--soft);font-size:14.5px;padding:8px 2px;}
+  .modal-add{width:100%;border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:11px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;}
+  .modal-add:hover{filter:brightness(1.05);}
   .note{font-size:12.5px;color:var(--soft);margin-top:12px;line-height:1.55;}
   /* custom symbols + editorial type */
   :root{ --serif:"Hoefler Text","Baskerville","Didot",Georgia,"Times New Roman",serif; }
@@ -221,7 +247,9 @@
     <select id="aCat"></select>
     <input type="text" id="aTitle" placeholder="What are you planning? (e.g. Movie night)"/>
     <input type="date" id="aDate"/>
-    <input type="time" id="aTime"/>
+    <input type="time" id="aTime" title="Start time"/>
+    <span class="totime">to</span>
+    <input type="time" id="aTime2" title="End time (optional)"/>
     <label><input type="checkbox" id="aStar"/> <svg class="labelstar" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z"/></svg> Special</label>
     <button class="pbtn" id="aAdd">Add</button>
   </div>
@@ -253,6 +281,14 @@
   </div>
   </div>
   <p class="note">Changes save on this device for now. When we move it to GitHub, the plans will be shared between you and Drake, and you'll get an automatic weekly message.</p>
+</div>
+
+<div class="modal" id="dayModal" hidden>
+  <div class="modal-card">
+    <div class="modal-head"><span class="modal-date" id="mDate"></span><button class="modal-x" id="mClose" title="Close">&times;</button></div>
+    <div class="modal-body" id="mBody"></div>
+    <button class="modal-add" id="mAdd">+ Add a plan for this day</button>
+  </div>
 </div>
 
 <script>
@@ -507,6 +543,16 @@
     out.sort(function(a,b){return (a.time||"99")<(b.time||"99")?-1:1;});
     return out;
   }
+  function itemsAll(d){
+    var out=[];
+    specialFor(d).forEach(function(s){ out.push(s); });
+    RECURRING.forEach(function(r){ if(d.getDay()===r.weekday) out.push({cat:r.cat,title:r.title,time:r.time,recurring:true}); });
+    plans.forEach(function(p){ if(p.date===iso(d)) out.push(p); });
+    fixedPlans.forEach(function(p){ if(p.date===iso(d)) out.push(p); });
+    out.sort(function(a,b){return (a.time||"99")<(b.time||"99")?-1:1;});
+    return out;
+  }
+  function timeStr(it){ if(it.time && it.end) return it.time+" - "+it.end; return it.time||""; }
   function catIcon(cat){var c=CATS[cat]||CATS.dates;
     return '<span class="ic" style="background:color-mix(in srgb,'+c.color+' 15%, transparent);color:'+c.color+'">'+icon(c.svg)+'</span>';}
   function rowIcon(it){var c=(CATS[it.cat]||CATS.dates); var n=it.special?(it.sicon||c.svg):c.svg;
@@ -536,7 +582,7 @@
         var done=it.done?" done":"";
         h+='<div class="item'+done+'">'+rowIcon(it)+
            '<div class="txt"><div class="t1">'+esc(it.title)+(it.star?' <span class="ministar">'+icon('star')+'</span>':'')+'</div>'+
-           (it.time?'<div class="t2">'+it.time+'</div>':'')+'</div>';
+           (timeStr(it)?'<div class="t2">'+esc(timeStr(it))+'</div>':'')+'</div>';
         if(!it.recurring && it.id){ h+='<span class="check" data-done="'+it.id+'">'+(it.done?icon('check'):'')+'</span>'; }
         h+='</div>';
       });
@@ -667,7 +713,7 @@
         html+='</div>';
       }
       cell.innerHTML=html;
-      (function(dateStr){cell.onclick=function(){document.getElementById('aDate').value=dateStr;document.getElementById('aTitle').focus();};})(iso(d));
+      (function(dObj){cell.onclick=function(){openDay(dObj);};})(new Date(d));
       grid.appendChild(cell);
     }
   }
@@ -705,9 +751,10 @@
   document.getElementById('aAdd').onclick=function(){
     var t=document.getElementById('aTitle').value.trim(); var dt=document.getElementById('aDate').value;
     if(!t||!dt){alert("Add a title and a date");return;}
-    plans.push({id:"p"+Date.now(),cat:sel.value,title:t,date:dt,time:document.getElementById('aTime').value,star:document.getElementById('aStar').checked,done:false});
+    plans.push({id:"p"+Date.now(),cat:sel.value,title:t,date:dt,time:document.getElementById('aTime').value,end:document.getElementById('aTime2').value,star:document.getElementById('aStar').checked,done:false});
     save("op_plans",plans);
     document.getElementById('aTitle').value="";document.getElementById('aStar').checked=false;
+    document.getElementById('aTime').value="";document.getElementById('aTime2').value="";
     renderWeek();renderCal();
   };
 
@@ -745,6 +792,41 @@
       }).catch(function(){});
     }catch(e){}
   }
+  // ---- Day popup: tap a day to see the whole plan ----
+  var modalDate=null;
+  function openDay(d){
+    modalDate=iso(d);
+    document.getElementById('mDate').textContent=DAYNAMES[d.getDay()]+", "+d.getDate()+" "+MONTHS[d.getMonth()]+" "+d.getFullYear();
+    var its=itemsAll(d);
+    var body=document.getElementById('mBody'); body.innerHTML="";
+    if(!its.length){ body.innerHTML='<div class="mfree">Nothing planned yet. A free day ♡</div>'; }
+    else {
+      its.forEach(function(it){
+        var row=document.createElement('div'); row.className="mitem";
+        var sub=timeStr(it)||(it.recurring?"every week":"");
+        if(it.maybe) sub=(sub?sub+" ":"")+"(maybe)";
+        row.innerHTML=rowIcon(it)+'<div class="mtxt"><div class="mt1">'+esc(it.title)+'</div>'+(sub?'<div class="mt2">'+esc(sub)+'</div>':'')+'</div>';
+        if(!it.recurring && !it.special && it.id){
+          var del=document.createElement('button'); del.className="mdel"; del.innerHTML="×"; del.title="Remove";
+          (function(pid){del.onclick=function(){plans=plans.filter(function(p){return p.id!==pid;});save("op_plans",plans);openDay(d);renderWeek();renderCal();};})(it.id);
+          row.appendChild(del);
+        }
+        body.appendChild(row);
+      });
+    }
+    document.getElementById('dayModal').hidden=false;
+  }
+  function closeModal(){document.getElementById('dayModal').hidden=true;}
+  document.getElementById('mClose').onclick=closeModal;
+  document.getElementById('dayModal').onclick=function(e){if(e.target.id==='dayModal')closeModal();};
+  document.getElementById('mAdd').onclick=function(){
+    closeModal();
+    if(modalDate) document.getElementById('aDate').value=modalDate;
+    var f=document.getElementById('aTitle'); f.focus();
+    var bar=document.querySelector('.addbar'); if(bar) bar.scrollIntoView({behavior:'smooth',block:'center'});
+  };
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
   applySeason();
   renderLegend();renderWeek();renderLearn();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();
   (function(){var ab=document.getElementById('gAddBtn'); if(ab)ab.onclick=addGrocery;
