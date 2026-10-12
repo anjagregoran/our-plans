@@ -114,7 +114,11 @@
   .chk.on .box{background:var(--cat-grocery);border-color:var(--cat-grocery);}
   .chk.on .box .sym{opacity:1;}
   .brow button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;padding:7px 12px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;}
-  .addbar{display:flex;flex-wrap:wrap;gap:9px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);}
+  .addbar{display:flex;flex-direction:column;gap:14px;align-items:stretch;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);}
+  .addrow{display:flex;flex-wrap:wrap;gap:9px;align-items:center;}
+  .catpick{display:flex;flex-wrap:wrap;gap:8px;}
+  .catpick .chip{opacity:.5;transition:opacity .15s,background .15s,border-color .15s;}
+  .catpick .chip.sel{opacity:1;border-color:var(--cc);background:color-mix(in srgb,var(--cc) 14%, var(--panel));}
   .addbar select,.addbar input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font-size:13.5px;font-family:var(--body);}
   .addbar input[type=text]{flex:1;min-width:160px;}
   .addbar .pbtn{background:var(--accent);color:#fff;border:0;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;letter-spacing:.02em;}
@@ -245,7 +249,8 @@
 
   <h2 class="section">Add a plan</h2>
   <div class="addbar">
-    <select id="aCat"></select>
+    <div class="catpick" id="catpick"></div>
+    <div class="addrow">
     <input type="text" id="aTitle" placeholder="What are you planning? (e.g. Movie night)"/>
     <input type="date" id="aDate"/>
     <input type="time" id="aTime" title="Start time"/>
@@ -253,6 +258,7 @@
     <input type="time" id="aTime2" title="End time (optional)"/>
     <label><input type="checkbox" id="aStar"/> <svg class="labelstar" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6l2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z"/></svg> Special</label>
     <button class="pbtn" id="aAdd">Add</button>
+    </div>
   </div>
 
   <h2 class="section">Calendar</h2>
@@ -754,14 +760,23 @@
     };});
   }
 
-  var sel=document.getElementById('aCat');
-  Object.keys(CATS).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=CATS[k].name;o.style.color=CATS[k].color;o.style.fontWeight='600';sel.appendChild(o);});
-  function syncCatColor(){var c=(CATS[sel.value]||{}).color||'';sel.style.color=c;sel.style.fontWeight='700';}
-  sel.addEventListener('change',syncCatColor); syncCatColor();
+  var addCat=Object.keys(CATS)[0];
+  function renderCatPick(){
+    var el=document.getElementById('catpick'); if(!el)return; el.innerHTML="";
+    Object.keys(CATS).forEach(function(k){
+      var c=CATS[k];
+      var b=document.createElement('button'); b.type="button";
+      b.className="chip"+(addCat===k?" sel":"");
+      b.style.setProperty('--cc',c.color);
+      b.innerHTML='<span class="ci" style="color:'+c.color+'">'+icon(c.svg)+'</span>'+c.name;
+      b.onclick=function(){addCat=k;renderCatPick();};
+      el.appendChild(b);
+    });
+  }
   document.getElementById('aAdd').onclick=function(){
     var t=document.getElementById('aTitle').value.trim(); var dt=document.getElementById('aDate').value;
     if(!t||!dt){alert("Add a title and a date");return;}
-    plans.push({id:"p"+Date.now(),cat:sel.value,title:t,date:dt,time:document.getElementById('aTime').value,end:document.getElementById('aTime2').value,star:document.getElementById('aStar').checked,done:false});
+    plans.push({id:"p"+Date.now(),cat:addCat,title:t,date:dt,time:document.getElementById('aTime').value,end:document.getElementById('aTime2').value,star:document.getElementById('aStar').checked,done:false});
     save("op_plans",plans);
     document.getElementById('aTitle').value="";document.getElementById('aStar').checked=false;
     document.getElementById('aTime').value="";document.getElementById('aTime2').value="";
@@ -838,7 +853,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 
   applySeason();
-  renderLegend();renderWeek();renderLearn();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();
+  renderLegend();renderCatPick();renderWeek();renderLearn();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();
   (function(){var ab=document.getElementById('gAddBtn'); if(ab)ab.onclick=addGrocery;
     var gi=document.getElementById('gInput'); if(gi)gi.addEventListener('keydown',function(e){if(e.key==="Enter"){e.preventDefault();addGrocery();}});})();
 })();
