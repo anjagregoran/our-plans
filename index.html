@@ -3,7 +3,7 @@
   :root{
     --bg:#f5efe4; --panel:#fffdf8; --ink:#352e29; --soft:#8c8178; --line:#e7dccc;
     --accent:#b86a4b; --accent-soft:#e7cbb9;
-    --cat-work:#6f9fc4; --cat-dates:#d98aab; --cat-church:#c3a67a; --cat-grocery:#86b87d; --cat-routine:#a38fc6; --cat-events:#e0894a;
+    --cat-work:#6f9fc4; --cat-dates:#d98aab; --cat-church:#c3a67a; --cat-grocery:#86b87d; --cat-routine:#a38fc6; --cat-events:#e0894a; --gold:#d6a528;
     --shadow:0 12px 30px rgba(60,42,30,.10), 0 3px 8px rgba(60,42,30,.06);
     --disp:"Avenir Next","Optima","Segoe UI",system-ui,sans-serif;
     --body:"Avenir Next","Segoe UI",system-ui,Arial,sans-serif;
@@ -85,6 +85,9 @@
   .ev{display:flex;align-items:flex-start;gap:4px;font-size:10.5px;line-height:1.25;border-radius:6px;padding:3px 6px;background:color-mix(in srgb,var(--c) 15%, transparent);color:var(--ink);min-width:0;}
   .ev .evic{display:inline-grid;place-items:center;color:var(--c);flex:0 0 auto;}
   .ev .evic .sym{width:12px;height:12px;}
+  .ev.special{background:color-mix(in srgb,var(--gold) 20%, transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 65%, transparent);}
+  .ev .evstar{display:inline-grid;place-items:center;flex:0 0 auto;}
+  .ev .evstar .sym{width:11px;height:11px;fill:var(--gold);stroke:var(--gold);}
   .ev .etime{color:var(--soft);font-variant-numeric:tabular-nums;flex:0 0 auto;}
   .ev .etxt{white-space:normal;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
   .ev.more{background:transparent;color:var(--soft);padding:0 6px;font-weight:600;}
@@ -117,8 +120,9 @@
   .addbar{display:flex;flex-direction:column;gap:14px;align-items:stretch;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);}
   .addrow{display:flex;flex-wrap:wrap;gap:9px;align-items:center;}
   .catpick{display:flex;flex-wrap:wrap;gap:8px;}
-  .catpick .chip{opacity:.5;transition:opacity .15s,background .15s,border-color .15s;}
-  .catpick .chip.sel{opacity:1;border-color:var(--cc);background:color-mix(in srgb,var(--cc) 14%, var(--panel));}
+  .catpick .chip{transition:background .15s,border-color .15s,box-shadow .15s;}
+  .catpick .chip .ci{color:var(--cc);}
+  .catpick .chip.sel{border-color:var(--cc);background:color-mix(in srgb,var(--cc) 15%, var(--panel));box-shadow:inset 0 0 0 1px var(--cc);}
   .addbar select,.addbar input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font-size:13.5px;font-family:var(--body);}
   .addbar input[type=text]{flex:1;min-width:160px;}
   .addbar .pbtn{background:var(--accent);color:#fff;border:0;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;letter-spacing:.02em;}
@@ -173,9 +177,9 @@
   .pillicon .sym{width:15px;height:15px;}
   .star{display:inline-grid;place-items:center;line-height:0;cursor:pointer;}
   .star .sym{width:18px;height:18px;stroke:var(--soft);fill:none;transition:all .15s;}
-  .star.on .sym{stroke:var(--cat-church);fill:var(--cat-church);}
+  .star.on .sym{stroke:var(--gold);fill:var(--gold);}
   .ministar{display:inline-grid;place-items:center;vertical-align:-3px;}
-  .ministar .sym{width:13px;height:13px;stroke:var(--cat-church);fill:var(--cat-church);}
+  .ministar .sym{width:13px;height:13px;stroke:var(--gold);fill:var(--gold);}
   .check .sym{width:14px;height:14px;stroke:var(--cat-grocery);}
   .metaicon{display:inline-grid;place-items:center;width:14px;height:14px;vertical-align:-3px;margin-right:6px;color:var(--soft);}
   .metaicon .sym{width:14px;height:14px;}
@@ -239,13 +243,13 @@
     <div class="hrow"><span class="today" id="todayPill">Michigan</span><span class="fri" id="friPill">Sauna: Friday morning</span><span class="fri" id="churchPill">Church: every Sunday</span></div>
   </header>
 
-  <div class="legend" id="legend"></div>
 
   <div class="weekbar"><button class="toggle" id="weekToggle">Show this week</button></div>
   <div class="week" id="week" hidden></div>
 
-  <div class="learnbar"><button class="toggle" id="learnToggle">Croatian this weekend</button></div>
+  <div class="learnbar"><button class="toggle" id="learnToggle">Croatian this weekend</button><button class="toggle" id="engToggle">English for me</button></div>
   <div class="card learn" id="learn" hidden></div>
+  <div class="card learn" id="engcard" hidden></div>
 
   <h2 class="section">Add a plan</h2>
   <div class="addbar">
@@ -575,7 +579,7 @@
   function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 
   function renderLegend(){
-    var el=document.getElementById('legend'); el.innerHTML="";
+    var el=document.getElementById('legend'); if(!el)return; el.innerHTML="";
     Object.keys(CATS).forEach(function(k){
       var c=CATS[k];
       var b=document.createElement('button'); b.className="chip"+(filters[k]?"":" off");
@@ -662,6 +666,89 @@
     });
     var rc=el.querySelector('[data-rchange]'); if(rc){rc.onclick=function(){try{localStorage.removeItem("op_reward_"+id);}catch(e){} renderLearn();};}
   }
+
+  // ---- English for Anja (C1-C2 words, phrases, idioms; rotates weekly) ----
+  var ENG_SETS=[
+    {theme:"Sophisticated words",words:[
+      {term:"ubiquitous",say:"yoo-BIK-wi-tus",type:"adjective",mean:"found everywhere",ex:"Smartphones have become ubiquitous in daily life."},
+      {term:"meticulous",say:"muh-TIK-yuh-lus",type:"adjective",mean:"very careful and precise",ex:"She is meticulous about her planning."},
+      {term:"nuance",say:"NOO-ahns",type:"noun",mean:"a subtle difference in meaning",ex:"He understood the nuances of the argument."},
+      {term:"pragmatic",say:"prag-MAT-ik",type:"adjective",mean:"practical and sensible",ex:"Let's take a pragmatic approach to this."},
+      {term:"candid",say:"KAN-did",type:"adjective",mean:"honest and direct",ex:"I'll be candid with you about the cost."}
+    ]},
+    {theme:"Everyday idioms",words:[
+      {term:"to bite the bullet",say:"",type:"idiom",mean:"to force yourself to do something hard",ex:"I finally bit the bullet and booked the flight."},
+      {term:"the ball is in your court",say:"",type:"idiom",mean:"it is now your turn to act or decide",ex:"I've done my part, so the ball is in your court."},
+      {term:"to cut corners",say:"",type:"idiom",mean:"to do something cheaply or carelessly",ex:"They cut corners to finish on time."},
+      {term:"under the weather",say:"",type:"idiom",mean:"feeling slightly ill",ex:"I'm a little under the weather today."},
+      {term:"once in a blue moon",say:"",type:"idiom",mean:"very rarely",ex:"We eat out once in a blue moon."}
+    ]},
+    {theme:"Expressing opinions",words:[
+      {term:"I'm inclined to think",say:"",type:"phrase",mean:"I tend to believe (softly)",ex:"I'm inclined to think she's right about this."},
+      {term:"to play devil's advocate",say:"",type:"idiom",mean:"to argue the opposite to test an idea",ex:"Let me play devil's advocate for a second."},
+      {term:"it goes without saying",say:"",type:"phrase",mean:"it is so obvious it need not be said",ex:"It goes without saying that safety comes first."},
+      {term:"take it with a grain of salt",say:"",type:"idiom",mean:"treat it with healthy doubt",ex:"Take online reviews with a grain of salt."},
+      {term:"that's a slippery slope",say:"",type:"idiom",mean:"a small step leading to something bad",ex:"Skipping class is a slippery slope."}
+    ]},
+    {theme:"Advanced adjectives",words:[
+      {term:"eloquent",say:"EL-uh-kwuhnt",type:"adjective",mean:"fluent and persuasive in speech",ex:"She gave an eloquent, moving speech."},
+      {term:"resilient",say:"ri-ZIL-yuhnt",type:"adjective",mean:"able to recover quickly",ex:"Children are remarkably resilient."},
+      {term:"ambivalent",say:"am-BIV-uh-luhnt",type:"adjective",mean:"having mixed feelings",ex:"I'm ambivalent about moving away."},
+      {term:"immaculate",say:"i-MAK-yuh-lit",type:"adjective",mean:"perfectly clean or flawless",ex:"Her apartment is always immaculate."},
+      {term:"profound",say:"pruh-FOWND",type:"adjective",mean:"very deep or intense",ex:"The book had a profound effect on me."}
+    ]},
+    {theme:"Feelings & life idioms",words:[
+      {term:"to be over the moon",say:"",type:"idiom",mean:"extremely happy",ex:"She was over the moon about the news."},
+      {term:"to have a lot on your plate",say:"",type:"idiom",mean:"to be very busy",ex:"I have a lot on my plate this week."},
+      {term:"to hit the nail on the head",say:"",type:"idiom",mean:"to be exactly right",ex:"You hit the nail on the head there."},
+      {term:"to let the cat out of the bag",say:"",type:"idiom",mean:"to reveal a secret by accident",ex:"He let the cat out of the bag about the party."},
+      {term:"a blessing in disguise",say:"",type:"idiom",mean:"a good thing that first seemed bad",ex:"Losing that job was a blessing in disguise."}
+    ]},
+    {theme:"Academic & precise",words:[
+      {term:"cogent",say:"KOH-juhnt",type:"adjective",mean:"clear, logical and convincing",ex:"She made a cogent argument for change."},
+      {term:"scrutinize",say:"SKROO-tn-ize",type:"verb",mean:"to examine very closely",ex:"They scrutinized every line of the contract."},
+      {term:"discern",say:"di-SURN",type:"verb",mean:"to perceive or make out",ex:"It's hard to discern his true motives."},
+      {term:"compelling",say:"kuhm-PEL-ing",type:"adjective",mean:"convincing and captivating",ex:"It's a compelling, hard-to-put-down story."},
+      {term:"intricate",say:"IN-tri-kit",type:"adjective",mean:"very detailed and complex",ex:"The design is beautifully intricate."}
+    ]},
+    {theme:"Communication idioms",words:[
+      {term:"to beat around the bush",say:"",type:"idiom",mean:"to avoid the main point",ex:"Stop beating around the bush and tell me."},
+      {term:"to get it off your chest",say:"",type:"idiom",mean:"to share a worry and feel relief",ex:"I needed to get it off my chest."},
+      {term:"to see eye to eye",say:"",type:"idiom",mean:"to agree completely",ex:"We don't always see eye to eye."},
+      {term:"to read between the lines",say:"",type:"idiom",mean:"to understand the hidden meaning",ex:"Read between the lines of her message."},
+      {term:"to call it a day",say:"",type:"idiom",mean:"to stop working for now",ex:"We're tired, let's call it a day."}
+    ]},
+    {theme:"C2 nuance words",words:[
+      {term:"quintessential",say:"kwin-tuh-SEN-shuhl",type:"adjective",mean:"the most perfect example of",ex:"It was the quintessential summer day."},
+      {term:"juxtaposition",say:"juhk-stuh-puh-ZISH-uhn",type:"noun",mean:"two things placed together for contrast",ex:"I love the juxtaposition of old and new."},
+      {term:"serendipity",say:"ser-uhn-DIP-i-tee",type:"noun",mean:"a happy chance discovery",ex:"We met by pure serendipity."},
+      {term:"ephemeral",say:"ih-FEM-er-uhl",type:"adjective",mean:"lasting a very short time",ex:"Fame can be ephemeral."},
+      {term:"notwithstanding",say:"not-with-STAN-ding",type:"preposition",mean:"in spite of",ex:"Notwithstanding the rain, we went for a walk."}
+    ]}
+  ];
+  function engSetId(d){return ((weekNumber(d)%ENG_SETS.length)+ENG_SETS.length)%ENG_SETS.length;}
+  function engTotal(){var n=0;for(var i=0;i<ENG_SETS.length;i++){load("op_eng_"+i,[]).forEach(function(b){if(b)n++;});}return n;}
+  function renderEng(){
+    var idx=engSetId(today); var set=ENG_SETS[idx];
+    var state=load("op_eng_"+idx,[false,false,false,false,false]);
+    var el=document.getElementById('engcard'); if(!el)return;
+    var got=state.filter(function(b){return b;}).length;
+    var h='<div class="lhead"><span class="licon" style="color:var(--accent)">'+icon('lang')+'</span><span class="ltitle">English this week</span><span class="ltheme">'+esc(set.theme)+'</span></div>'+
+          '<div class="lsub">Five C1-C2 words, phrases and idioms for Anja. A fresh set every week.</div>'+
+          '<div class="pbar"><i style="width:'+(got/5*100)+'%"></i></div><div class="wordgrid">';
+    set.words.forEach(function(w,i){
+      h+='<div class="word"><div class="wnum">'+(i+1)+'</div><div class="wbody">'+
+         '<div><span class="whr">'+esc(w.term)+'</span>'+(w.say?'<span class="wsay">'+esc(w.say)+'</span>':'')+'</div>'+
+         '<div class="wen">'+esc(w.type)+' · '+esc(w.mean)+'</div>'+
+         '<div class="wex"><b>'+esc(w.ex)+'</b></div>'+
+         '</div><button class="wgot'+(state[i]?' on':'')+'" data-egot="'+i+'">'+(state[i]?'Got it <span class="gotchk">'+icon('check')+'</span>':'Got it')+'</button></div>';
+    });
+    h+='</div><div class="lfoot"><span>Learned this set: '+got+' / 5</span><span>Total learned: '+engTotal()+'</span></div>';
+    el.innerHTML=h;
+    el.querySelectorAll('[data-egot]').forEach(function(x){
+      x.onclick=function(){var i=+x.getAttribute('data-egot');state[i]=!state[i];save("op_eng_"+idx,state);renderEng();};
+    });
+  }
   function loadWeather(){
     try{
       var url="https://api.open-meteo.com/v1/forecast?latitude=42.03&longitude=-85.82&daily=weather_code&timezone=America%2FDetroit&forecast_days=10";
@@ -721,7 +808,8 @@
         its.slice(0,6).forEach(function(it){
           var c=(CATS[it.cat]||CATS.dates).color;
           var tm=(it.time&&!it.special)?('<span class="etime">'+esc(it.time.split("-")[0])+'</span>'):'';
-          html+='<span class="ev" style="--c:'+c+'"><span class="evic">'+icon(iconName(it))+'</span>'+tm+'<span class="etxt">'+esc(it.title)+'</span></span>';
+          var est=it.star?'<span class="evstar">'+icon('star')+'</span>':'';
+          html+='<span class="ev'+(it.star?' special':'')+'" style="--c:'+c+'">'+est+'<span class="evic">'+icon(iconName(it))+'</span>'+tm+'<span class="etxt">'+esc(it.title)+'</span></span>';
         });
         if(its.length>6){ html+='<span class="ev more">+'+(its.length-6)+' more</span>'; }
         html+='</div>';
@@ -808,6 +896,12 @@
     else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian this weekend';}
   };
   document.getElementById('learnToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian this weekend';
+  document.getElementById('engToggle').onclick=function(){
+    var w=document.getElementById('engcard');
+    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Hide English';}
+    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>English for me';}
+  };
+  document.getElementById('engToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>English for me';
 
   function loadEvents(){
     try{
@@ -830,7 +924,7 @@
         var row=document.createElement('div'); row.className="mitem";
         var sub=timeStr(it)||(it.recurring?"every week":"");
         if(it.maybe) sub=(sub?sub+" ":"")+"(maybe)";
-        row.innerHTML=rowIcon(it)+'<div class="mtxt"><div class="mt1">'+esc(it.title)+'</div>'+(sub?'<div class="mt2">'+esc(sub)+'</div>':'')+'</div>';
+        row.innerHTML=rowIcon(it)+'<div class="mtxt"><div class="mt1">'+esc(it.title)+(it.star?' <span class="ministar">'+icon('star')+'</span>':'')+'</div>'+(sub?'<div class="mt2">'+esc(sub)+'</div>':'')+'</div>';
         if(!it.recurring && !it.special && it.id){
           var del=document.createElement('button'); del.className="mdel"; del.innerHTML="×"; del.title="Remove";
           (function(pid){del.onclick=function(){plans=plans.filter(function(p){return p.id!==pid;});save("op_plans",plans);openDay(d);renderWeek();renderCal();};})(it.id);
@@ -853,7 +947,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 
   applySeason();
-  renderLegend();renderCatPick();renderWeek();renderLearn();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();
+  renderLegend();renderCatPick();renderWeek();renderLearn();renderEng();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();
   (function(){var ab=document.getElementById('gAddBtn'); if(ab)ab.onclick=addGrocery;
     var gi=document.getElementById('gInput'); if(gi)gi.addEventListener('keydown',function(e){if(e.key==="Enter"){e.preventDefault();addGrocery();}});})();
 })();
