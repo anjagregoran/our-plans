@@ -754,7 +754,9 @@
   }
 
   var sel=document.getElementById('aCat');
-  Object.keys(CATS).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=CATS[k].name;sel.appendChild(o);});
+  Object.keys(CATS).forEach(function(k){var o=document.createElement('option');o.value=k;o.textContent=CATS[k].name;o.style.color=CATS[k].color;o.style.fontWeight='600';sel.appendChild(o);});
+  function syncCatColor(){var c=(CATS[sel.value]||{}).color||'';sel.style.color=c;sel.style.fontWeight='700';}
+  sel.addEventListener('change',syncCatColor); syncCatColor();
   document.getElementById('aAdd').onclick=function(){
     var t=document.getElementById('aTitle').value.trim(); var dt=document.getElementById('aDate').value;
     if(!t||!dt){alert("Add a title and a date");return;}
