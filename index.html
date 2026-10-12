@@ -123,6 +123,14 @@
   .catpick .chip{transition:background .15s,border-color .15s,box-shadow .15s;}
   .catpick .chip .ci{color:var(--cc);}
   .catpick .chip.sel{border-color:var(--cc);background:color-mix(in srgb,var(--cc) 15%, var(--panel));box-shadow:inset 0 0 0 1px var(--cc);}
+  .dnq{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
+  .dnq .dnlbl{font-weight:700;font-size:13.5px;min-width:70px;color:var(--ink);}
+  .dnq .catpick .chip.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%, var(--panel));box-shadow:inset 0 0 0 1px var(--accent);color:var(--accent);}
+  .dngo{align-self:flex-start;margin-top:4px;background:var(--accent);color:#fff;border:0;font-weight:700;padding:11px 20px;border-radius:11px;cursor:pointer;font-size:14px;}
+  .dnout{margin-top:16px;border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--bg);display:flex;flex-direction:column;gap:12px;}
+  .dnout .dntext{font-family:var(--serif);font-size:18px;line-height:1.35;color:var(--ink);}
+  .dnout .dntags{font-size:12px;color:var(--soft);}
+  .dnout .dnagain{align-self:flex-start;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:10px;padding:8px 14px;font-size:12.5px;cursor:pointer;font-weight:600;}
   .addbar select,.addbar input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:10px 12px;font-size:13.5px;font-family:var(--body);}
   .addbar input[type=text]{flex:1;min-width:160px;}
   .addbar .pbtn{background:var(--accent);color:#fff;border:0;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;letter-spacing:.02em;}
@@ -247,9 +255,10 @@
   <div class="weekbar"><button class="toggle" id="weekToggle">Show this week</button></div>
   <div class="week" id="week" hidden></div>
 
-  <div class="learnbar"><button class="toggle" id="learnToggle">Croatian this weekend</button><button class="toggle" id="engToggle">English for me</button></div>
+  <div class="learnbar"><button class="toggle" id="learnToggle">Croatian this weekend</button><button class="toggle" id="engToggle">English for me</button><button class="toggle" id="dnToggle">Date night idea</button></div>
   <div class="card learn" id="learn" hidden></div>
   <div class="card learn" id="engcard" hidden></div>
+  <div class="card learn" id="dncard" hidden></div>
 
   <h2 class="section">Add a plan</h2>
   <div class="addbar">
@@ -336,9 +345,10 @@
     ticket:'<path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.7 1.7 0 0 0 0 3.1 1.7 1.7 0 0 1 0 3.1 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.7 1.7 0 0 0 0-3.1A1.7 1.7 0 0 0 4 9z"/><path d="M14 7.5l0 1.5M14 11l0 2M14 15l0 1.5"/>',
     flame:'<path d="M12 2.6c2.5 3 4 5 4 8a4 4 0 0 1-8 0c0-1.3.4-2.4 1-3.3.4 1 1.1 1.5 1.1 1.5.3-2.4.9-4.2 1.9-6.2z"/>',
     car:'<path d="M4.2 13.5l1.7-4.6A2 2 0 0 1 7.8 7.5h8.4a2 2 0 0 1 1.9 1.4l1.7 4.6"/><path d="M3.6 13.5h16.8v4.3h-2.3V16H5.9v1.8H3.6z"/><circle cx="7.4" cy="16" r="1.4"/><circle cx="16.6" cy="16" r="1.4"/>',
-    mountain:'<path d="M3 19l5.4-9 3.4 5.1 2.3-3.5L21 19z"/><path d="M8.4 10l1.6 2.6"/>'
+    mountain:'<path d="M3 19l5.4-9 3.4 5.1 2.3-3.5L21 19z"/><path d="M8.4 10l1.6 2.6"/>',
+    plane:'<path d="M21 4.5L3.2 11.2l5.6 2.2 2.1 5.9 2.7-4.2L21 4.5z"/><path d="M8.8 13.4L21 4.5"/>'
   };
-  var BUCKET_ICONS={b1:"bike",b2:"wave",b3:"croissant",b4:"city",b5:"car",b6:"mountain"};
+  var BUCKET_ICONS={b1:"bike",b2:"wave",b3:"croissant",b4:"city",b5:"car",b6:"mountain",b7:"plane"};
   function icon(n){return '<svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[n]||'')+'</svg>';}
   var RECURRING=[
     {cat:"routine",title:"Sauna",weekday:5,time:"10:00"},
@@ -358,7 +368,8 @@
     {id:"b3",cat:"dates",title:"Kalamazoo Bakery Trip + Brunch",icon:"croissant",star:false,done:false},
     {id:"b4",cat:"dates",title:"Detroit Bakery Trip",icon:"city",star:false,done:false},
     {id:"b5",cat:"dates",title:"Route 66 Road Trip",icon:"car",star:true,done:false},
-    {id:"b6",cat:"dates",title:"Vermont Trip",icon:"mountain",star:true,done:false}
+    {id:"b6",cat:"dates",title:"Vermont Trip",icon:"mountain",star:true,done:false},
+    {id:"b7",cat:"dates",title:"Dublin Trip",icon:"plane",color:"#5f9e74",star:true,done:false}
   ];
   var REWARDS=["Home-Cooked Meal","Coffee Made By Anja","Homemade Dessert","Breakfast In Bed","Movie Night Pick","Control Of The Remote","Winner Of Next Argument","No-Questions-Asked Favor"];
   // --- Croatian weekend word sets (rotates weekly) ---
@@ -548,7 +559,7 @@
   function specialFor(d){
     var out=[], mo=d.getMonth(), day=d.getDate(), yr=d.getFullYear();
     if(day===28){
-      if(mo===9){ out.push({cat:"dates",title:(yr-ANNIV_START)+" years together",time:"our anniversary ♥",special:true,sicon:"rings"}); }
+      if(mo===9){ out.push({cat:"dates",title:(yr-ANNIV_START)+" years together",time:"our anniversary ♥",special:true,star:true,sicon:"rings"}); }
       else { out.push({cat:"dates",title:"Anniversary",time:"monthly on the 28th",special:true,sicon:"rings"}); }
     }
     if(mo===11&&day===13){ out.push({cat:"dates",title:"Anja’s birthday",time:"turns "+(yr-2006),special:true,sicon:"cake"}); }
@@ -578,8 +589,11 @@
   function catIcon(cat){var c=CATS[cat]||CATS.dates;
     return '<span class="ic" style="background:color-mix(in srgb,'+c.color+' 15%, transparent);color:'+c.color+'">'+icon(c.svg)+'</span>';}
   function iconName(it){ if(it.icon) return it.icon; if(it.special) return it.sicon||(CATS[it.cat]||CATS.dates).svg; return (CATS[it.cat]||CATS.dates).svg; }
-  function rowIcon(it){var c=(CATS[it.cat]||CATS.dates);
-    return '<span class="ic" style="background:color-mix(in srgb,'+c.color+' 15%, transparent);color:'+c.color+'">'+icon(iconName(it))+'</span>';}
+  // Colour dated activities by what they are, not just the category
+  var ICON_COLORS={bike:"#86b87d",wave:"#6f9fc4",croissant:"#c0895a",city:"#76889a",cake:"#d6a528",rings:"#d6a528",pumpkin:"#e0894a",people:"#5f9e92",heart:"#d87a97",flame:"#d9632f",car:"#8a86c4",mountain:"#6f9a6f",plane:"#5aa0c4"};
+  function itColor(it){return it.color||ICON_COLORS[iconName(it)]||(CATS[it.cat]||CATS.dates).color;}
+  function rowIcon(it){var c=itColor(it);
+    return '<span class="ic" style="background:color-mix(in srgb,'+c+' 15%, transparent);color:'+c+'">'+icon(iconName(it))+'</span>';}
   function starSym(on){return '<span class="star'+(on?' on':'')+'">'+icon('star')+'</span>';}
   function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c];});}
 
@@ -754,6 +768,66 @@
       x.onclick=function(){var i=+x.getAttribute('data-egot');state[i]=!state[i];save("op_eng_"+idx,state);renderEng();};
     });
   }
+
+  // ---- Date night idea generator ----
+  var DATE_IDEAS=[
+    {t:"Build a blanket fort and watch your comfort movie with homemade popcorn.",w:"in",v:"chill",c:"free"},
+    {t:"Couples' cooking challenge with whatever's in the fridge, loser does the dishes.",w:"in",v:"chill",c:"free"},
+    {t:"Give each other a 20-minute massage and take turns playing your favourite songs.",w:"in",v:"chill",c:"free"},
+    {t:"Make a vision board together for your next year of adventures.",w:"in",v:"chill",c:"free"},
+    {t:"Order food from a country you've never tried and eat it picnic-style on the floor.",w:"in",v:"chill",c:"treat"},
+    {t:"At-home spa night: face masks, candles, and a fancy drink.",w:"in",v:"chill",c:"treat"},
+    {t:"Paint the same little scene on two canvases, then compare your masterpieces.",w:"in",v:"chill",c:"treat"},
+    {t:"Learn a TikTok dance together and film the beautiful chaos.",w:"in",v:"adv",c:"free"},
+    {t:"Host your own baking show: two rounds, and you judge each other.",w:"in",v:"adv",c:"free"},
+    {t:"Blindfold taste test with random things from the pantry.",w:"in",v:"adv",c:"free"},
+    {t:"Grab a build-it kit (LEGO, model, puzzle) and race to finish first.",w:"in",v:"adv",c:"treat"},
+    {t:"Do a hot-chocolate or wine tasting flight and rate each one out of ten.",w:"in",v:"adv",c:"treat"},
+    {t:"Golden-hour walk with a coffee and a playlist you take turns adding to.",w:"out",v:"chill",c:"free"},
+    {t:"Stargaze on a blanket and invent your own constellations.",w:"out",v:"chill",c:"free"},
+    {t:"Picnic in the park and people-watch, making up everyone's backstory.",w:"out",v:"chill",c:"free"},
+    {t:"Sunset drive with the windows down and one shared snack.",w:"out",v:"chill",c:"free"},
+    {t:"Find a cozy cafe you've never tried and order each other's drinks.",w:"out",v:"chill",c:"treat"},
+    {t:"Grab bakery treats and eat them somewhere pretty by the water.",w:"out",v:"chill",c:"treat"},
+    {t:"Explore a town you've never walked around and get happily lost.",w:"out",v:"adv",c:"free"},
+    {t:"Bike somewhere new and race to a landmark.",w:"out",v:"adv",c:"free"},
+    {t:"Photo challenge: capture ten beautiful things on a walk, then pick a winner.",w:"out",v:"adv",c:"free"},
+    {t:"Try something new together: bowling, mini-golf, climbing, or ice skating.",w:"out",v:"adv",c:"treat"},
+    {t:"Day trip to a new town and let a coin flip pick left or right at each corner.",w:"out",v:"adv",c:"treat"},
+    {t:"Go kayaking or paddle-boarding and pack a little picnic.",w:"out",v:"adv",c:"treat"},
+    {t:"Visit a farm or orchard and make something with whatever you pick.",w:"out",v:"adv",c:"treat"}
+  ];
+  var dnSel={w:"any",v:"any",c:"any"};
+  var dnPick=null;
+  var DN_Q=[
+    {k:"w",lbl:"Where?",opts:[{v:"any",l:"Either"},{v:"in",l:"Inside"},{v:"out",l:"Outside"}]},
+    {k:"v",lbl:"Vibe?",opts:[{v:"any",l:"Either"},{v:"chill",l:"Chill"},{v:"adv",l:"Adventurous"}]},
+    {k:"c",lbl:"Budget?",opts:[{v:"any",l:"Either"},{v:"free",l:"Free"},{v:"treat",l:"Treat"}]}
+  ];
+  var DN_LABELS={in:"Inside",out:"Outside",chill:"Chill",adv:"Adventurous",free:"Free",treat:"Treat"};
+  function dnMatches(){return DATE_IDEAS.filter(function(d){return (dnSel.w==="any"||d.w===dnSel.w)&&(dnSel.v==="any"||d.v===dnSel.v)&&(dnSel.c==="any"||d.c===dnSel.c);});}
+  function dnRoll(){var m=dnMatches();if(!m.length){dnPick={t:"No idea fits all three, try setting one to Either.",w:"",v:"",c:""};return;}var n;do{n=m[Math.floor(Math.random()*m.length)];}while(m.length>1&&dnPick&&n.t===dnPick.t);dnPick=n;}
+  function renderDn(){
+    var el=document.getElementById('dncard'); if(!el)return;
+    var h='<div class="lhead"><span class="licon" style="color:var(--accent)">'+icon('heart')+'</span><span class="ltitle">Date night idea</span></div>'+
+          '<div class="lsub">Tell me the mood and I’ll surprise you with something to do together.</div>';
+    DN_Q.forEach(function(q){
+      h+='<div class="dnq"><span class="dnlbl">'+q.lbl+'</span><div class="catpick" data-q="'+q.k+'">';
+      q.opts.forEach(function(o){
+        h+='<button type="button" class="chip'+(dnSel[q.k]===o.v?' sel':'')+'" data-dn="'+q.k+'" data-v="'+o.v+'">'+o.l+'</button>';
+      });
+      h+='</div></div>';
+    });
+    h+='<button class="dngo" id="dnGo">Surprise us</button>';
+    if(dnPick){
+      var tags=[dnPick.w,dnPick.v,dnPick.c].filter(function(x){return x;}).map(function(x){return DN_LABELS[x];}).join(" · ");
+      h+='<div class="dnout"><div class="dntext">'+esc(dnPick.t)+'</div>'+(tags?'<div class="dntags">'+tags+'</div>':'')+'<button class="dnagain" id="dnAgain">Pick another</button></div>';
+    }
+    el.innerHTML=h;
+    el.querySelectorAll('[data-dn]').forEach(function(x){x.onclick=function(){dnSel[x.getAttribute('data-dn')]=x.getAttribute('data-v');renderDn();};});
+    var go=document.getElementById('dnGo'); if(go)go.onclick=function(){dnRoll();renderDn();};
+    var ag=document.getElementById('dnAgain'); if(ag)ag.onclick=function(){dnRoll();renderDn();};
+  }
   function loadWeather(){
     try{
       var url="https://api.open-meteo.com/v1/forecast?latitude=42.03&longitude=-85.82&daily=weather_code&timezone=America%2FDetroit&forecast_days=10";
@@ -811,7 +885,7 @@
       if(its.length){
         html+='<div class="evs">';
         its.slice(0,6).forEach(function(it){
-          var c=(CATS[it.cat]||CATS.dates).color;
+          var c=itColor(it);
           var tm=(it.time&&!it.special)?('<span class="etime">'+esc(it.time.split("-")[0])+'</span>'):'';
           var est=it.star?'<span class="evstar">'+icon('star')+'</span>':'';
           html+='<span class="ev'+(it.star?' special':'')+'" style="--c:'+c+'">'+est+'<span class="evic">'+icon(iconName(it))+'</span>'+tm+'<span class="etxt">'+esc(it.title)+'</span></span>';
@@ -827,7 +901,7 @@
   document.getElementById('prevM').onclick=function(){calM--;if(calM<0){calM=11;calY--;}renderCal();};
   document.getElementById('nextM').onclick=function(){calM++;if(calM>11){calM=0;calY++;}renderCal();};
 
-  function bucketMed(b){var n=b.icon||BUCKET_ICONS[b.id]||(CATS[b.cat]||CATS.dates).svg; var c=(CATS[b.cat]||CATS.dates).color;
+  function bucketMed(b){var n=b.icon||BUCKET_ICONS[b.id]||(CATS[b.cat]||CATS.dates).svg; var c=b.color||ICON_COLORS[n]||(CATS[b.cat]||CATS.dates).color;
     return '<span class="bmed" style="background:color-mix(in srgb,'+c+' 16%, transparent);color:'+c+'">'+icon(n)+'</span>';}
   function renderBucket(){
     var el=document.getElementById('bucket'); el.innerHTML="";
@@ -907,6 +981,12 @@
     else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>English for me';}
   };
   document.getElementById('engToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>English for me';
+  document.getElementById('dnToggle').onclick=function(){
+    var w=document.getElementById('dncard');
+    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('heart')+'</span>Hide date ideas';}
+    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('heart')+'</span>Date night idea';}
+  };
+  document.getElementById('dnToggle').innerHTML='<span class="pillicon">'+icon('heart')+'</span>Date night idea';
 
   function loadEvents(){
     try{
@@ -952,7 +1032,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 
   applySeason();
-  renderLegend();renderCatPick();renderWeek();renderLearn();renderEng();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();
+  renderLegend();renderCatPick();renderWeek();renderLearn();renderEng();renderDn();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();
   (function(){var ab=document.getElementById('gAddBtn'); if(ab)ab.onclick=addGrocery;
     var gi=document.getElementById('gInput'); if(gi)gi.addEventListener('keydown',function(e){if(e.key==="Enter"){e.preventDefault();addGrocery();}});})();
 })();
