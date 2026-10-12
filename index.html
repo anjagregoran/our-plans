@@ -45,7 +45,7 @@
   .chip .dot{width:9px;height:9px;border-radius:50%;}
   .chip.off{opacity:.4;}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);}
-  .weekbar{margin-top:42px;}
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px;margin-bottom:4px;}
   .toggle{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:11px 20px;font-size:13px;font-weight:700;letter-spacing:.02em;cursor:pointer;box-shadow:var(--shadow);}
   .toggle:hover{border-color:var(--accent);}
   .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin-top:14px;}
@@ -92,12 +92,30 @@
   .ev .etxt{white-space:normal;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
   .ev.more{background:transparent;color:var(--soft);padding:0 6px;font-weight:600;}
   @media(max-width:600px){
-    .gday{min-height:56px;padding:5px 4px 6px;gap:4px;}
-    .evs{flex-direction:row;flex-wrap:wrap;gap:5px;align-items:center;}
+    .wrap{padding:16px 13px 64px;}
+    header.hero{min-height:380px;padding:22px 20px;background-position:center,center 70%;}
+    header.hero .sub{font-size:13.5px;margin-top:5px;}
+    .hrow{gap:7px;margin-top:12px;}
+    .hrow .today,.hrow .fri{font-size:12px;padding:7px 12px;}
+    .topbar{margin-bottom:8px;}
+    .toolbar{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-top:18px;gap:7px;padding-bottom:2px;}
+    .toolbar::-webkit-scrollbar{display:none;}
+    .toolbar .toggle{flex:1 1 0;min-width:0;text-align:center;padding:9px 6px;font-size:12px;white-space:nowrap;}
+    .toolbar .toggle .pillicon{display:none;}
+    h2.section{margin:20px 0 9px;}
+    .cal{padding:11px;}
+    .grid{gap:4px;}
+    .gday{min-height:40px;padding:4px 3px;gap:3px;border-radius:9px;}
+    .gday .dnum{font-size:11px;}
+    .glabel{font-size:9px;padding:2px 2px;}
+    .evs{flex-direction:row;flex-wrap:wrap;gap:4px;align-items:center;}
     .ev{padding:0;background:transparent;gap:0;}
     .ev .etime,.ev .etxt{display:none;}
-    .ev .evic .sym{width:15px;height:15px;}
-    .ev.more{font-size:9px;color:var(--soft);font-weight:600;}
+    .ev.special{box-shadow:none;}
+    .ev .evic .sym{width:13px;height:13px;}
+    .ev.more{font-size:8.5px;color:var(--soft);font-weight:600;}
+    .addbar{padding:14px;gap:11px;}
+    .bucket{grid-template-columns:1fr;gap:12px;}
   }
   .bucket{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
   .bcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);position:relative;transition:opacity .2s;}
@@ -252,10 +270,13 @@
   </header>
 
 
-  <div class="weekbar"><button class="toggle" id="weekToggle">Show this week</button></div>
+  <div class="toolbar">
+    <button class="toggle" id="weekToggle">This week</button>
+    <button class="toggle" id="learnToggle">Croatian</button>
+    <button class="toggle" id="engToggle">English</button>
+    <button class="toggle" id="dnToggle">Date idea</button>
+  </div>
   <div class="week" id="week" hidden></div>
-
-  <div class="learnbar"><button class="toggle" id="learnToggle">Croatian this weekend</button><button class="toggle" id="engToggle">English for me</button><button class="toggle" id="dnToggle">Date night idea</button></div>
   <div class="card learn" id="learn" hidden></div>
   <div class="card learn" id="engcard" hidden></div>
   <div class="card learn" id="dncard" hidden></div>
@@ -973,28 +994,28 @@
 
   document.getElementById('weekToggle').onclick=function(){
     var w=document.getElementById('week');
-    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Hide this week';}
-    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Show this week';}
+    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Hide week';}
+    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('calendar')+'</span>This week';}
   };
-  document.getElementById('weekToggle').innerHTML='<span class="pillicon">'+icon('calendar')+'</span>Show this week';
+  document.getElementById('weekToggle').innerHTML='<span class="pillicon">'+icon('calendar')+'</span>This week';
   document.getElementById('learnToggle').onclick=function(){
     var w=document.getElementById('learn');
-    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Hide Croatian';}
-    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian this weekend';}
+    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Hide';}
+    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian';}
   };
-  document.getElementById('learnToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian this weekend';
+  document.getElementById('learnToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>Croatian';
   document.getElementById('engToggle').onclick=function(){
     var w=document.getElementById('engcard');
-    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Hide English';}
-    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>English for me';}
+    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>Hide';}
+    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('lang')+'</span>English';}
   };
-  document.getElementById('engToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>English for me';
+  document.getElementById('engToggle').innerHTML='<span class="pillicon">'+icon('lang')+'</span>English';
   document.getElementById('dnToggle').onclick=function(){
     var w=document.getElementById('dncard');
-    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('heart')+'</span>Hide date ideas';}
-    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('heart')+'</span>Date night idea';}
+    if(w.hasAttribute('hidden')){w.removeAttribute('hidden');this.innerHTML='<span class="pillicon">'+icon('heart')+'</span>Hide';}
+    else{w.setAttribute('hidden','');this.innerHTML='<span class="pillicon">'+icon('heart')+'</span>Date idea';}
   };
-  document.getElementById('dnToggle').innerHTML='<span class="pillicon">'+icon('heart')+'</span>Date night idea';
+  document.getElementById('dnToggle').innerHTML='<span class="pillicon">'+icon('heart')+'</span>Date idea';
 
   function loadEvents(){
     try{
