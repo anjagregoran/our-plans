@@ -1,0 +1,23 @@
+[
+  {"m": 12, "d": 13, "label": "Anja’s birthday", "year": 2006, "star": true},
+  {"m": 10, "d": 2, "label": "Drake’s birthday", "year": 2003, "star": true},
+  {"m": 10, "d": 14, "label": "Diana’s birthday", "note": "my mum", "star": true},
+  {"m": 10, "d": 17, "label": "Halee’s birthday", "note": "Drake’s mum", "star": true},
+  {"m": 9, "d": 15, "label": "Drake’s dad’s birthday", "star": true},
+  {"m": 9, "d": 16, "label": "Vid’s birthday", "note": "my cousin", "star": true},
+  {"m": 7, "d": 15, "label": "Gita’s birthday", "note": "my cousin", "star": true},
+  {"m": 12, "d": 4, "label": "Carter’s birthday", "note": "Drake’s brother", "star": true},
+  {"m": 1, "d": 17, "label": "Leti’s birthday", "note": "my friend", "star": true},
+  {"m": 3, "d": 25, "label": "Bernice’s birthday", "note": "my friend", "star": true},
+  {"m": 5, "d": 31, "label": "Nolan’s birthday", "note": "Noli, Bernice’s bf", "star": true},
+  {"m": 5, "d": 4, "label": "Lauren’s birthday", "note": "my friend", "star": true},
+  {"m": 6, "d": 1, "label": "Grandma Ela’s birthday", "star": true},
+  {"m": 6, "d": 9, "label": "Grandma Mirella’s birthday", "star": true},
+  {"m": 8, "d": 9, "label": "Grandpa Igor’s birthday", "star": true},
+  {"m": 8, "d": 11, "label": "Grandpa Dani’s birthday", "star": true},
+  {"m": 11, "d": 10, "label": "Aunt Lara’s birthday", "star": true},
+  {"m": 5, "d": 1, "label": "Ari’s birthday", "note": "my cat", "star": true},
+  {"m": 1, "d": 7, "label": "Ivona’s birthday", "note": "my friend", "star": true},
+  {"m": 12, "d": 25, "label": "Cousin Lara’s birthday", "star": true},
+  {"m": 6, "d": 18, "label": "Karlo’s birthday", "note": "my cousin", "star": true}
+]

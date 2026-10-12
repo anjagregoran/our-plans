@@ -16,6 +16,7 @@ GENERAL = data.get("general", [])
 SEASONAL = data.get("seasonal", {})
 EVENTS = load_json("events.json", [])
 GROCERY = load_json("grocery.json", [])
+BIRTHDAYS = load_json("birthdays.json", [])
 
 VERSES = [
     ("I can do all things through Christ which strengtheneth me.", "Philippians 4:13 (KJV)"),
@@ -116,6 +117,26 @@ def current_set(fc, d):
     idx = week_number(d) % (len(GENERAL) + 1)
     return GENERAL[idx] if idx < len(GENERAL) else SEASONAL[season_key(d)]
 
+def upcoming_birthdays(d, days=7):
+    out = []
+    for b in BIRTHDAYS:
+        m, day = b.get("m"), b.get("d")
+        if not m or not day:
+            continue
+        try:
+            occ = datetime.date(d.year, m, day)
+        except Exception:
+            continue
+        if occ < d:
+            try:
+                occ = datetime.date(d.year + 1, m, day)
+            except Exception:
+                continue
+        if d <= occ <= d + datetime.timedelta(days=days):
+            out.append((occ, b))
+    out.sort(key=lambda x: x[0])
+    return out
+
 def week_events(d):
     out = []
     for e in EVENTS:
@@ -156,6 +177,15 @@ def build_main(d, fc):
         tail = "  (maybe)" if e.get("maybe") else ""
         em = e.get("emoji", "•")
         L.append(f"{em} {label}: {e['title']}{tm}{tail}")
+    bds = upcoming_birthdays(d, 7)
+    if bds:
+        L.append("")
+        L.append("\U0001f382 Birthdays this week:")
+        for occ, b in bds:
+            lbl = DOW[occ.weekday()] + " " + str(occ.day) + " " + MON[occ.month - 1]
+            note = " (" + b["note"] + ")" if b.get("note") else ""
+            tdy = " (today!) \U0001f389" if occ == d else ""
+            L.append("\U0001f382 " + lbl + ": " + b["label"] + note + tdy)
     gl=[g.get("t") for g in GROCERY if g.get("t")]
     if gl:
         L.append("")

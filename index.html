@@ -524,6 +524,7 @@
   function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
   var plans=load("op_plans",[]);
   var fixedPlans=[];
+  var BIRTHDAYS=[];
   var bucket=load("op_bucket",SEED_BUCKET);
   (function(){var have={};bucket.forEach(function(b){have[b.id]=1;});var added=false;SEED_BUCKET.forEach(function(s){if(!have[s.id]){bucket.push(s);added=true;}});if(added)save("op_bucket",bucket);})();
   var SEED_GROCERY=[
@@ -562,12 +563,12 @@
       if(mo===9){ out.push({cat:"dates",title:(yr-ANNIV_START)+" years together",time:"our anniversary ♥",special:true,star:true,sicon:"rings"}); }
       else { out.push({cat:"dates",title:"Anniversary",time:"monthly on the 28th",special:true,sicon:"rings"}); }
     }
-    if(mo===11&&day===13){ out.push({cat:"dates",title:"Anja’s birthday",time:"turns "+(yr-2006),special:true,star:true,sicon:"cake"}); }
-    if(mo===9&&day===2){ out.push({cat:"dates",title:"Drake’s birthday",time:"turns "+(yr-2003),special:true,star:true,sicon:"cake"}); }
-    if(mo===9&&day===14){ out.push({cat:"dates",title:"My mom’s birthday",time:"",special:true,sicon:"cake"}); }
-    if(mo===9&&day===17){ out.push({cat:"dates",title:"Mom’s birthday",time:"",special:true,sicon:"cake"}); }
-    if(mo===8&&day===16){ out.push({cat:"dates",title:"Vid’s birthday",time:"my cousin",special:true,sicon:"cake"}); }
-    if(mo===6&&day===15){ out.push({cat:"dates",title:"Gita’s birthday",time:"my cousin",special:true,sicon:"cake"}); }
+    BIRTHDAYS.forEach(function(b){
+      if(b.m===mo+1 && b.d===day){
+        var t=b.note||""; if(b.year){ t=(t?t+", ":"")+"turns "+(yr-b.year); }
+        out.push({cat:"dates",title:b.label,time:t,special:true,star:b.star!==false,sicon:"cake"});
+      }
+    });
     return out;
   }
   function itemsFor(d){
@@ -999,6 +1000,13 @@
       }).catch(function(){});
     }catch(e){}
   }
+  function loadBirthdays(){
+    try{
+      fetch('scripts/birthdays.json',{cache:'no-store'}).then(function(r){return r.json();}).then(function(arr){
+        BIRTHDAYS=arr||[]; renderWeek();renderCal();
+      }).catch(function(){});
+    }catch(e){}
+  }
   // ---- Day popup: tap a day to see the whole plan ----
   var modalDate=null;
   function openDay(d){
@@ -1035,7 +1043,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
 
   applySeason();
-  renderLegend();renderCatPick();renderWeek();renderLearn();renderEng();renderDn();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();
+  renderLegend();renderCatPick();renderWeek();renderLearn();renderEng();renderDn();renderCal();renderBucket();renderGrocery();loadWeather();loadEvents();loadBirthdays();
   (function(){var ab=document.getElementById('gAddBtn'); if(ab)ab.onclick=addGrocery;
     var gi=document.getElementById('gInput'); if(gi)gi.addEventListener('keydown',function(e){if(e.key==="Enter"){e.preventDefault();addGrocery();}});})();
 })();
