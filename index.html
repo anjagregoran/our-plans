@@ -562,9 +562,12 @@
       if(mo===9){ out.push({cat:"dates",title:(yr-ANNIV_START)+" years together",time:"our anniversary ♥",special:true,star:true,sicon:"rings"}); }
       else { out.push({cat:"dates",title:"Anniversary",time:"monthly on the 28th",special:true,sicon:"rings"}); }
     }
-    if(mo===11&&day===13){ out.push({cat:"dates",title:"Anja’s birthday",time:"turns "+(yr-2006),special:true,sicon:"cake"}); }
-    if(mo===9&&day===2){ out.push({cat:"dates",title:"Drake’s birthday",time:"turns "+(yr-2003),special:true,sicon:"cake"}); }
+    if(mo===11&&day===13){ out.push({cat:"dates",title:"Anja’s birthday",time:"turns "+(yr-2006),special:true,star:true,sicon:"cake"}); }
+    if(mo===9&&day===2){ out.push({cat:"dates",title:"Drake’s birthday",time:"turns "+(yr-2003),special:true,star:true,sicon:"cake"}); }
+    if(mo===9&&day===14){ out.push({cat:"dates",title:"My mom’s birthday",time:"",special:true,sicon:"cake"}); }
     if(mo===9&&day===17){ out.push({cat:"dates",title:"Mom’s birthday",time:"",special:true,sicon:"cake"}); }
+    if(mo===8&&day===16){ out.push({cat:"dates",title:"Vid’s birthday",time:"my cousin",special:true,sicon:"cake"}); }
+    if(mo===6&&day===15){ out.push({cat:"dates",title:"Gita’s birthday",time:"my cousin",special:true,sicon:"cake"}); }
     return out;
   }
   function itemsFor(d){
@@ -902,7 +905,7 @@
   document.getElementById('nextM').onclick=function(){calM++;if(calM>11){calM=0;calY++;}renderCal();};
 
   function bucketMed(b){var n=b.icon||BUCKET_ICONS[b.id]||(CATS[b.cat]||CATS.dates).svg; var c=b.color||ICON_COLORS[n]||(CATS[b.cat]||CATS.dates).color;
-    return '<span class="bmed" style="background:color-mix(in srgb,'+c+' 16%, transparent);color:'+c+'">'+icon(n)+'</span>';}
+    return '<span class="bmed" style="background:color-mix(in srgb,'+c+' 24%, transparent);color:'+c+';box-shadow:inset 0 0 0 1px color-mix(in srgb,'+c+' 42%, transparent)">'+icon(n)+'</span>';}
   function renderBucket(){
     var el=document.getElementById('bucket'); el.innerHTML="";
     bucket.forEach(function(b){
