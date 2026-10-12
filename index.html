@@ -334,9 +334,11 @@
     pumpkin:'<path d="M12 7.3c-3.1 0-5.1 2.3-5.1 5.6S9 20 12 20s5.1-3.8 5.1-7.1S15.1 7.3 12 7.3z"/><path d="M12 7.3c0-1.8 1.1-3 2.9-3.1"/><path d="M9.4 8.7c-.7 1.4-.7 6 0 8.9M14.6 8.7c.7 1.4.7 6 0 8.9"/>',
     people:'<circle cx="9.2" cy="8.6" r="2.5"/><circle cx="16" cy="9.6" r="2"/><path d="M4.6 18.8c0-2.7 2-4.5 4.6-4.5 1.6 0 3 .7 3.8 1.9"/><path d="M14.4 14.4c2.3 0 3.9 1.7 3.9 4.4"/>',
     ticket:'<path d="M4 9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2 1.7 1.7 0 0 0 0 3.1 1.7 1.7 0 0 1 0 3.1 2 2 0 0 1-2 2H6a2 2 0 0 1-2-2 1.7 1.7 0 0 0 0-3.1A1.7 1.7 0 0 0 4 9z"/><path d="M14 7.5l0 1.5M14 11l0 2M14 15l0 1.5"/>',
-    flame:'<path d="M12 2.6c2.5 3 4 5 4 8a4 4 0 0 1-8 0c0-1.3.4-2.4 1-3.3.4 1 1.1 1.5 1.1 1.5.3-2.4.9-4.2 1.9-6.2z"/>'
+    flame:'<path d="M12 2.6c2.5 3 4 5 4 8a4 4 0 0 1-8 0c0-1.3.4-2.4 1-3.3.4 1 1.1 1.5 1.1 1.5.3-2.4.9-4.2 1.9-6.2z"/>',
+    car:'<path d="M4.2 13.5l1.7-4.6A2 2 0 0 1 7.8 7.5h8.4a2 2 0 0 1 1.9 1.4l1.7 4.6"/><path d="M3.6 13.5h16.8v4.3h-2.3V16H5.9v1.8H3.6z"/><circle cx="7.4" cy="16" r="1.4"/><circle cx="16.6" cy="16" r="1.4"/>',
+    mountain:'<path d="M3 19l5.4-9 3.4 5.1 2.3-3.5L21 19z"/><path d="M8.4 10l1.6 2.6"/>'
   };
-  var BUCKET_ICONS={b1:"bike",b2:"wave",b3:"croissant",b4:"city"};
+  var BUCKET_ICONS={b1:"bike",b2:"wave",b3:"croissant",b4:"city",b5:"car",b6:"mountain"};
   function icon(n){return '<svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[n]||'')+'</svg>';}
   var RECURRING=[
     {cat:"routine",title:"Sauna",weekday:5,time:"10:00"},
@@ -354,7 +356,9 @@
     {id:"b1",cat:"dates",title:"Biking Day",icon:"bike",star:true,done:false},
     {id:"b2",cat:"dates",title:"Beach Day At Lake Michigan",icon:"wave",star:true,done:false},
     {id:"b3",cat:"dates",title:"Kalamazoo Bakery Trip + Brunch",icon:"croissant",star:false,done:false},
-    {id:"b4",cat:"dates",title:"Detroit Bakery Trip",icon:"city",star:false,done:false}
+    {id:"b4",cat:"dates",title:"Detroit Bakery Trip",icon:"city",star:false,done:false},
+    {id:"b5",cat:"dates",title:"Route 66 Road Trip",icon:"car",star:true,done:false},
+    {id:"b6",cat:"dates",title:"Vermont Trip",icon:"mountain",star:true,done:false}
   ];
   var REWARDS=["Home-Cooked Meal","Coffee Made By Anja","Homemade Dessert","Breakfast In Bed","Movie Night Pick","Control Of The Remote","Winner Of Next Argument","No-Questions-Asked Favor"];
   // --- Croatian weekend word sets (rotates weekly) ---
@@ -510,6 +514,7 @@
   var plans=load("op_plans",[]);
   var fixedPlans=[];
   var bucket=load("op_bucket",SEED_BUCKET);
+  (function(){var have={};bucket.forEach(function(b){have[b.id]=1;});var added=false;SEED_BUCKET.forEach(function(s){if(!have[s.id]){bucket.push(s);added=true;}});if(added)save("op_bucket",bucket);})();
   var SEED_GROCERY=[
     {id:"g1",t:"Olive oil",done:false},
     {id:"g2",t:"Spinach",done:false},
