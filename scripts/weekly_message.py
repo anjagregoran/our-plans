@@ -149,9 +149,12 @@ def build_main(d, fc):
     L.append("\U0001f4da Mon-Fri: Anja\u2019s school (10:00-14:00)")
     for ed, e in week_events(d):
         label = DOW[ed.weekday()] + " " + str(ed.day) + " " + MON[ed.month - 1]
+        tm = ""
+        if e.get("time"):
+            tm = " (" + e["time"] + ("-" + e["end"] if e.get("end") else "") + ")"
         tail = "  (maybe)" if e.get("maybe") else ""
         em = e.get("emoji", "•")
-        L.append(f"{em} {label}: {e['title']}{tail}")
+        L.append(f"{em} {label}: {e['title']}{tm}{tail}")
     gl=[g.get("t") for g in GROCERY if g.get("t")]
     if gl:
         L.append("")
