@@ -1,7 +1,7 @@
 [
   {"date": "2026-10-16", "cat": "dates", "title": "Hang out with Gavin & Ethan", "maybe": true, "emoji": "🧑‍🤝‍🧑", "icon": "people"},
   {"date": "2026-10-17", "cat": "dates", "title": "Pumpkin picking", "maybe": false, "emoji": "🎃", "icon": "pumpkin"},
-  {"date": "2026-10-20", "cat": "events", "title": "Hair: cut & style with Danielle", "maybe": false, "emoji": "💇‍♀️", "icon": "scissors", "time": "10:15", "end": "11:15"},
+  {"date": "2026-10-20", "cat": "events", "title": "Anja’s haircut", "maybe": false, "emoji": "💇‍♀️", "icon": "scissors", "time": "10:15", "end": "11:15"},
   {"date": "2026-10-20", "cat": "dates", "title": "Beach date", "maybe": false, "emoji": "🏖️", "icon": "wave", "time": "14:30", "end": "20:30"},
   {"date": "2026-10-25", "cat": "events", "title": "Outside BBQ with Gramps", "maybe": false, "emoji": "🔥", "icon": "flame", "time": "12:00", "end": "18:00"}
 ]
