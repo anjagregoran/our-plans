@@ -1,0 +1,28 @@
+name: Weekly Sunday message
+
+on:
+  schedule:
+    # 13:00 and 14:00 UTC on Sundays. One of these is always 9:00am in Marcellus,
+    # Michigan (America/Detroit) whether it is daylight-saving time or not. The
+    # script's GATED check makes sure it only sends at the 9am one.
+    - cron: '0 13 * * 0'
+    - cron: '0 14 * * 0'
+  workflow_dispatch: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Send the weekly WhatsApp
+        env:
+          ANJA_PHONE: ${{ secrets.ANJA_PHONE }}
+          ANJA_KEY: ${{ secrets.ANJA_KEY }}
+          DRAKE_PHONE: ${{ secrets.DRAKE_PHONE }}
+          DRAKE_KEY: ${{ secrets.DRAKE_KEY }}
+          # Gate scheduled runs to 9am Michigan; a manual run (workflow_dispatch) sends right away.
+          GATED: ${{ github.event_name == 'schedule' && '1' || '' }}
+        run: python3 scripts/weekly_message.py
