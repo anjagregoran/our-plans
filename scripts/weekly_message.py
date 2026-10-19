@@ -223,12 +223,30 @@ def build_english(d):
     return "\n".join(L)
 
 def chunks(text, enc_limit=1000):
-    # Split into parts at line breaks so each part's URL-encoded length stays
-    # under CallMeBot's ~1300 limit (keeps messages from being truncated).
-    parts, cur = [], ""
+    # Split into parts so each part's URL-encoded length stays safely under
+    # CallMeBot's ~1300 limit (keeps messages from ever being truncated).
+    def enc(s):
+        return len(urllib.parse.quote(s))
+    # 1) make sure no single line is itself too long (word-wrap if it is)
+    lines = []
     for line in text.split("\n"):
+        if enc(line) <= enc_limit:
+            lines.append(line)
+            continue
+        cur = ""
+        for word in line.split(" "):
+            trial = (cur + " " + word) if cur else word
+            if cur and enc(trial) > enc_limit:
+                lines.append(cur); cur = word
+            else:
+                cur = trial
+        if cur:
+            lines.append(cur)
+    # 2) group whole lines into parts under the limit
+    parts, cur = [], ""
+    for line in lines:
         trial = (cur + "\n" + line) if cur else line
-        if cur and len(urllib.parse.quote(trial)) > enc_limit:
+        if cur and enc(trial) > enc_limit:
             parts.append(cur); cur = line
         else:
             cur = trial
