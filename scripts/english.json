@@ -1,0 +1,58 @@
+[
+  {"theme": "Sophisticated words", "words": [
+    {"term": "ubiquitous", "say": "yoo-BIK-wi-tus", "mean": "found everywhere", "ex": "Smartphones have become ubiquitous in daily life."},
+    {"term": "meticulous", "say": "muh-TIK-yuh-lus", "mean": "very careful and precise", "ex": "She is meticulous about her planning."},
+    {"term": "nuance", "say": "NOO-ahns", "mean": "a subtle difference in meaning", "ex": "He understood the nuances of the argument."},
+    {"term": "pragmatic", "say": "prag-MAT-ik", "mean": "practical and sensible", "ex": "Let's take a pragmatic approach to this."},
+    {"term": "candid", "say": "KAN-did", "mean": "honest and direct", "ex": "I'll be candid with you about the cost."}
+  ]},
+  {"theme": "Everyday idioms", "words": [
+    {"term": "to bite the bullet", "say": "", "mean": "to force yourself to do something hard", "ex": "I finally bit the bullet and booked the flight."},
+    {"term": "the ball is in your court", "say": "", "mean": "it is now your turn to act or decide", "ex": "I've done my part, so the ball is in your court."},
+    {"term": "to cut corners", "say": "", "mean": "to do something cheaply or carelessly", "ex": "They cut corners to finish on time."},
+    {"term": "under the weather", "say": "", "mean": "feeling slightly ill", "ex": "I'm a little under the weather today."},
+    {"term": "once in a blue moon", "say": "", "mean": "very rarely", "ex": "We eat out once in a blue moon."}
+  ]},
+  {"theme": "Expressing opinions", "words": [
+    {"term": "I'm inclined to think", "say": "", "mean": "I tend to believe (softly)", "ex": "I'm inclined to think she's right about this."},
+    {"term": "to play devil's advocate", "say": "", "mean": "to argue the opposite to test an idea", "ex": "Let me play devil's advocate for a second."},
+    {"term": "it goes without saying", "say": "", "mean": "it is so obvious it need not be said", "ex": "It goes without saying that safety comes first."},
+    {"term": "take it with a grain of salt", "say": "", "mean": "treat it with healthy doubt", "ex": "Take online reviews with a grain of salt."},
+    {"term": "that's a slippery slope", "say": "", "mean": "a small step leading to something bad", "ex": "Skipping class is a slippery slope."}
+  ]},
+  {"theme": "Advanced adjectives", "words": [
+    {"term": "eloquent", "say": "EL-uh-kwuhnt", "mean": "fluent and persuasive in speech", "ex": "She gave an eloquent, moving speech."},
+    {"term": "resilient", "say": "ri-ZIL-yuhnt", "mean": "able to recover quickly", "ex": "Children are remarkably resilient."},
+    {"term": "ambivalent", "say": "am-BIV-uh-luhnt", "mean": "having mixed feelings", "ex": "I'm ambivalent about moving away."},
+    {"term": "immaculate", "say": "i-MAK-yuh-lit", "mean": "perfectly clean or flawless", "ex": "Her apartment is always immaculate."},
+    {"term": "profound", "say": "pruh-FOWND", "mean": "very deep or intense", "ex": "The book had a profound effect on me."}
+  ]},
+  {"theme": "Feelings & life idioms", "words": [
+    {"term": "to be over the moon", "say": "", "mean": "extremely happy", "ex": "She was over the moon about the news."},
+    {"term": "to have a lot on your plate", "say": "", "mean": "to be very busy", "ex": "I have a lot on my plate this week."},
+    {"term": "to hit the nail on the head", "say": "", "mean": "to be exactly right", "ex": "You hit the nail on the head there."},
+    {"term": "to let the cat out of the bag", "say": "", "mean": "to reveal a secret by accident", "ex": "He let the cat out of the bag about the party."},
+    {"term": "a blessing in disguise", "say": "", "mean": "a good thing that first seemed bad", "ex": "Losing that job was a blessing in disguise."}
+  ]},
+  {"theme": "Academic & precise", "words": [
+    {"term": "cogent", "say": "KOH-juhnt", "mean": "clear, logical and convincing", "ex": "She made a cogent argument for change."},
+    {"term": "scrutinize", "say": "SKROO-tn-ize", "mean": "to examine very closely", "ex": "They scrutinized every line of the contract."},
+    {"term": "discern", "say": "di-SURN", "mean": "to perceive or make out", "ex": "It's hard to discern his true motives."},
+    {"term": "compelling", "say": "kuhm-PEL-ing", "mean": "convincing and captivating", "ex": "It's a compelling, hard-to-put-down story."},
+    {"term": "intricate", "say": "IN-tri-kit", "mean": "very detailed and complex", "ex": "The design is beautifully intricate."}
+  ]},
+  {"theme": "Communication idioms", "words": [
+    {"term": "to beat around the bush", "say": "", "mean": "to avoid the main point", "ex": "Stop beating around the bush and tell me."},
+    {"term": "to get it off your chest", "say": "", "mean": "to share a worry and feel relief", "ex": "I needed to get it off my chest."},
+    {"term": "to see eye to eye", "say": "", "mean": "to agree completely", "ex": "We don't always see eye to eye."},
+    {"term": "to read between the lines", "say": "", "mean": "to understand the hidden meaning", "ex": "Read between the lines of her message."},
+    {"term": "to call it a day", "say": "", "mean": "to stop working for now", "ex": "We're tired, let's call it a day."}
+  ]},
+  {"theme": "C2 nuance words", "words": [
+    {"term": "quintessential", "say": "kwin-tuh-SEN-shuhl", "mean": "the most perfect example of", "ex": "It was the quintessential summer day."},
+    {"term": "juxtaposition", "say": "juhk-stuh-puh-ZISH-uhn", "mean": "two things placed side by side for contrast", "ex": "I love the juxtaposition of old and new."},
+    {"term": "serendipity", "say": "ser-uhn-DIP-i-tee", "mean": "a happy chance discovery", "ex": "We met by pure serendipity."},
+    {"term": "ephemeral", "say": "ih-FEM-er-uhl", "mean": "lasting a very short time", "ex": "Fame can be ephemeral."},
+    {"term": "notwithstanding", "say": "not-with-STAN-ding", "mean": "in spite of", "ex": "Notwithstanding the rain, we went for a walk."}
+  ]}
+]

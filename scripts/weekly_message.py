@@ -17,6 +17,7 @@ SEASONAL = data.get("seasonal", {})
 EVENTS = load_json("events.json", [])
 GROCERY = load_json("grocery.json", [])
 BIRTHDAYS = load_json("birthdays.json", [])
+ENGLISH = load_json("english.json", [])
 
 VERSES = [
     ("I can do all things through Christ which strengtheneth me.", "Philippians 4:13 (KJV)"),
@@ -189,7 +190,7 @@ def build_main(d, fc):
     gl=[g.get("t") for g in GROCERY if g.get("t")]
     if gl:
         L.append("")
-        L.append("\U0001f6d2 Grocery list (Fresh Thyme or Sawall’s):")
+        L.append("\U0001f6d2 Grocery list, from Fresh Thyme or Sawall’s:")
         for it in gl:
             L.append("• " + it)
     L.append("")
@@ -205,6 +206,20 @@ def build_croatian(d, fc):
         L.append("")
         L.append(f"{i}. {w['hr']} = {w['en']}  ({w['say']})")
         L.append(f"   {w['exHr']}  /  {w['exEn']}")
+    return "\n".join(L)
+
+def build_english(d):
+    if not ENGLISH:
+        return ""
+    st = ENGLISH[week_number(d) % len(ENGLISH)]
+    L = []
+    L.append("\U0001f1ec\U0001f1e7 English for Anja (" + st["theme"] + "):")
+    L.append("Five words to level up \U0001f4aa")
+    for i, w in enumerate(st["words"], 1):
+        L.append("")
+        say = " (" + w["say"] + ")" if w.get("say") else ""
+        L.append(str(i) + ". " + w["term"] + say + " = " + w["mean"])
+        L.append("   “" + w["ex"] + "”")
     return "\n".join(L)
 
 def send(phone, key, text):
@@ -227,17 +242,20 @@ def main():
     d = michigan_today()
     fc = fetch_forecast(d)
     m1 = build_main(d, fc)
-    m2 = build_croatian(d, fc)
-    print("----- message 1 -----\n" + m1 + "\n----- message 2 -----\n" + m2 + "\n---------------------")
-    recipients = [
-        (os.environ.get("ANJA_PHONE"), os.environ.get("ANJA_KEY")),
-        (os.environ.get("DRAKE_PHONE"), os.environ.get("DRAKE_KEY")),
-    ]
-    for phone, key in recipients:
-        send(phone, key, m1)
-        time.sleep(6)
-        send(phone, key, m2)
-        time.sleep(6)
+    en = build_english(d)        # Anja's English words
+    hr = build_croatian(d, fc)   # Drake's Croatian words
+    print("----- shared plans -----\n" + m1 +
+          "\n----- Anja: English -----\n" + en +
+          "\n----- Drake: Croatian -----\n" + hr + "\n---------------------")
+    ap, ak = os.environ.get("ANJA_PHONE"), os.environ.get("ANJA_KEY")
+    dp, dk = os.environ.get("DRAKE_PHONE"), os.environ.get("DRAKE_KEY")
+    # Anja: the week's plans, then her English words
+    send(ap, ak, m1); time.sleep(6)
+    if en:
+        send(ap, ak, en); time.sleep(6)
+    # Drake: the same plans, then his Croatian words
+    send(dp, dk, m1); time.sleep(6)
+    send(dp, dk, hr); time.sleep(6)
 
 if __name__ == "__main__":
     main()
