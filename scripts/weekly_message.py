@@ -222,6 +222,20 @@ def build_english(d):
         L.append("   “" + w["ex"] + "”")
     return "\n".join(L)
 
+def chunks(text, enc_limit=1000):
+    # Split into parts at line breaks so each part's URL-encoded length stays
+    # under CallMeBot's ~1300 limit (keeps messages from being truncated).
+    parts, cur = [], ""
+    for line in text.split("\n"):
+        trial = (cur + "\n" + line) if cur else line
+        if cur and len(urllib.parse.quote(trial)) > enc_limit:
+            parts.append(cur); cur = line
+        else:
+            cur = trial
+    if cur:
+        parts.append(cur)
+    return parts
+
 def send(phone, key, text):
     if not phone or not key:
         print("skip: missing phone/key"); return
@@ -249,13 +263,17 @@ def main():
           "\n----- Drake: Croatian -----\n" + hr + "\n---------------------")
     ap, ak = os.environ.get("ANJA_PHONE"), os.environ.get("ANJA_KEY")
     dp, dk = os.environ.get("DRAKE_PHONE"), os.environ.get("DRAKE_KEY")
-    # Anja: the week's plans, then her English words
-    send(ap, ak, m1); time.sleep(6)
-    if en:
-        send(ap, ak, en); time.sleep(6)
-    # Drake: the same plans, then his Croatian words
-    send(dp, dk, m1); time.sleep(6)
-    send(dp, dk, hr); time.sleep(6)
+    def send_all(phone, key, *texts):
+        for t in texts:
+            if not t:
+                continue
+            for part in chunks(t):
+                send(phone, key, part)
+                time.sleep(6)
+    # Anja: the week's plans, then HER English words (no Croatian)
+    send_all(ap, ak, m1, en)
+    # Drake: the same plans, then HIS Croatian words
+    send_all(dp, dk, m1, hr)
 
 if __name__ == "__main__":
     main()
